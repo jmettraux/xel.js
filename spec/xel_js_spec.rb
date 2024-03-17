@@ -102,7 +102,7 @@ describe 'xel_js' do
 
           r = @bro.eval(%{
             Xel.seval(
-              "VLOOKUP('funds - income', table0, 2)",
+              "VLOOKUP('finds - income', table0, 2)",
               #{JSON.dump(@ctx)}); })
 
           expect(r).to eq(1.2)
