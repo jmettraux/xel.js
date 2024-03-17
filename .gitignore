@@ -11,5 +11,6 @@
 .chat.md
 .openai*
 
+pkg/*.js
 spec/www/
 

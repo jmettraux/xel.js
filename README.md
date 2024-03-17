@@ -4,6 +4,9 @@
 Interpreting expressions built out of a subset of spreadsheet functions.
 
 ```js
+// Xel.seval(code, context)
+//   where context is a mapping var_name -> var_value
+
 Xel.seval("	= CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45)", { a: 10000 })
 // --> 0.6
 
