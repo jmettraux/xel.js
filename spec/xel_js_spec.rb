@@ -13,10 +13,8 @@ describe 'xel_js' do
   before :all do
     @bro =
       make_browser(%w[
-        spec/javascripts/_spec_polyfill.js
-        public/scripts/jaabro.js
-        scripts/_extensions.js
-        scripts/xel.js
+        spec/www/jaabro-1.4.0.js
+        src/xel.js
       ])
   end
 
@@ -26,7 +24,7 @@ describe 'xel_js' do
 
       #it 'returns null when it cannot parse'
 
-      Kernel.eval(File.read('spec/javascripts/_xel_parse.rb'))
+      Kernel.eval(File.read('spec/_xel_parse.rb'))
         .each_slice(2) do |code, tree|
 
           it "parses successfully #{JSON.dump(code)}" do
@@ -42,74 +40,35 @@ describe 'xel_js' do
 
     describe '.eval' do
 
-      context 'rb parsed' do
+      Kernel.eval(File.read('spec/_xel_eval.rb')).each do |code, ctx, result|
 
-        Kernel.eval(File.read('spec/javascripts/_xel_eval.rb'))
-          .each do |code, ctx, result|
+        t =
+          "evals #{code.inspect} to #{result.inspect}" +
+          (ctx.any? ? ' when ' + ctx.inspect : '')
 
-            t =
-              "evals #{code.inspect} to #{result.inspect}" +
-              (ctx.any? ? ' when ' + ctx.inspect : '')
+        it(t) do
 
-            it(t) do
+          r = @bro.eval(%{
+            Xel.eval(
+              XelParser.parse(#{JSON.dump(code)}),
+              #{JSON.dump(ctx)}); })
 
-              tree = Sg::Xel::Parser.parse(code)
-
-              r = @bro.eval(
-                %{ Xel.eval(#{JSON.dump(tree)}, #{JSON.dump(ctx)}) })
-
-              if result.is_a?(Float)
-                expect('%0.2f' % r).to eq('%0.2f' % result)
-              elsif result.is_a?(Array)
-                expect(r.size).to eq(result.size)
-                result.zip(r).each do |rese, re|
-                  #expect(re.class).to eq(rese.class)
-                  if rese.is_a?(Float)
-                    expect('%0.2f' % re).to eq('%0.2f' % rese)
-                  else
-                    expect(re).to eq(rese)
-                  end
-                end
+          if result.is_a?(Float)
+            expect('%0.2f' % r).to eq('%0.2f' % result)
+          elsif result.is_a?(Array)
+            expect(r.size).to eq(result.size)
+            result.zip(r).each do |rese, re|
+              #expect(re.class).to eq(rese.class)
+              if rese.is_a?(Float)
+                expect('%0.2f' % re).to eq('%0.2f' % rese)
               else
-                expect(r).to eq(result)
+                expect(re).to eq(rese)
               end
             end
+          else
+            expect(r).to eq(result)
           end
-      end
-
-      context 'js parsed' do
-
-        Kernel.eval(File.read('spec/javascripts/_xel_eval.rb'))
-          .each do |code, ctx, result|
-
-            t =
-              "evals #{code.inspect} to #{result.inspect}" +
-              (ctx.any? ? ' when ' + ctx.inspect : '')
-
-            it(t) do
-
-              r = @bro.eval(%{
-                Xel.eval(
-                  XelParser.parse(#{JSON.dump(code)}),
-                  #{JSON.dump(ctx)}); })
-
-              if result.is_a?(Float)
-                expect('%0.2f' % r).to eq('%0.2f' % result)
-              elsif result.is_a?(Array)
-                expect(r.size).to eq(result.size)
-                result.zip(r).each do |rese, re|
-                  #expect(re.class).to eq(rese.class)
-                  if rese.is_a?(Float)
-                    expect('%0.2f' % re).to eq('%0.2f' % rese)
-                  else
-                    expect(re).to eq(rese)
-                  end
-                end
-              else
-                expect(r).to eq(result)
-              end
-            end
-          end
+        end
       end
 
       context 'custom functions' do
@@ -189,23 +148,22 @@ describe 'xel_js' do
 
     describe '.peval' do
 
-      Kernel.eval(File.read('spec/javascripts/_xel_peval.rb'))
-        .each do |code, ctx, result|
+      Kernel.eval(File.read('spec/_xel_peval.rb')).each do |code, ctx, result|
 
-          t =
-            "evals #{code.inspect} to #{result.inspect}" +
-            (ctx.any? ? ' when ' + ctx.inspect : '')
+        t =
+          "evals #{code.inspect} to #{result.inspect}" +
+          (ctx.any? ? ' when ' + ctx.inspect : '')
 
-          it(t) do
+        it(t) do
 
-            r = @bro.eval(%{
-              Xel.peval(
-                XelParser.parse(#{JSON.dump(code)}),
-                #{JSON.dump(ctx)}); })
+          r = @bro.eval(%{
+            Xel.peval(
+              XelParser.parse(#{JSON.dump(code)}),
+              #{JSON.dump(ctx)}); })
 
-            expect(r).to eq(result)
-          end
+          expect(r).to eq(result)
         end
+      end
     end
   end
 end

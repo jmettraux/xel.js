@@ -1,7 +1,8 @@
 
 # xel.js
 
-An interpreter of spreadsheet expressions.
+Interpreting expressions built out of a subset of spreadsheet functions.
+
 
 ## License
 

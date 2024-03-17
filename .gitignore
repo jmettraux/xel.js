@@ -1,6 +1,15 @@
 
+# .gitignore
+
 .vim*
+
+.bxsinfo.yaml
+.errors
+.rspec.out
+.ruby-version
 
 .chat.md
 .openai*
+
+spec/www/
 
