@@ -132,7 +132,7 @@ var Xel = (function() {
       return '-';
     if (Array.isArray(v))
       return '{' + v.map(function(e) { return toS(e); }).join(',') + '}';
-    if (typeof v === 'number') {
+    if (typeof v == 'number') {
       var s = v.toFixed(2); if (s.match(/\.00$/)) s = v.toFixed(0);
       return s; }
     return JSON.stringify(v);
@@ -270,7 +270,7 @@ var Xel = (function() {
 
     var elts = tree.slice(1).map(function(t) { return self.eval(t, context); });
 
-    if (typeof elts[0] === 'number')
+    if (typeof elts[0] == 'number')
       return elts.reduce(function(r, e) { return r + e; }, 0);
     if (Array.isArray(elts[0]))
       return elts.reduce(function(r, e) { return r.concat(e); }, []);
@@ -286,7 +286,7 @@ var Xel = (function() {
   evals.PRODUCT = function(tree, context) {
 
     var f = function(r, e) {
-      if (typeof e === 'number') return r * e;
+      if (typeof e == 'number') return r * e;
       if (Array.isArray(e)) return e.reduce(f, r);
       return r;
     };
@@ -300,7 +300,7 @@ var Xel = (function() {
 
     var es = tree.slice(1).map(function(t) { return self.eval(t, context); });
 
-    if (es.find(function(e) { return (typeof e) !== 'number'; })) return es[0];
+    if (es.find(function(e) { return (typeof e != 'number'); })) return es[0];
     return Math.min.apply(null, es);
   };
 
@@ -308,7 +308,7 @@ var Xel = (function() {
 
     var es = tree.slice(1).map(function(t) { return self.eval(t, context); });
 
-    if (es.find(function(e) { return (typeof e) !== 'number'; })) return es[0];
+    if (es.find(function(e) { return (typeof e != 'number'); })) return es[0];
     return Math.max.apply(null, es);
   };
 
@@ -322,7 +322,7 @@ var Xel = (function() {
 
       var f = function(x) {
         if (x === null || x === undefined) return '';
-        if (typeof x === 'string') return x;
+        if (typeof x == 'string') return x;
         return JSON.stringify(x); };
       a = f(a);
       b = f(b);
@@ -351,7 +351,7 @@ var Xel = (function() {
     var ctl = self.eval(tree[1], context);
     var args = tree.slice(2);
 
-    if ((typeof ctl) === 'boolean') { args.unshift(ctl); ctl = true; }
+    if (typeof ctl == 'boolean') { args.unshift(ctl); ctl = true; }
 
     var def = args.length % 2 == 1 ? args.pop() : null;
 
@@ -398,7 +398,7 @@ var Xel = (function() {
     var elt = self.eval(tree[2], context);
 
     if (Array.isArray(col)) return col.indexOf(elt) > -1;
-    if ((typeof col) === 'object') return col.hasOwnProperty(elt);
+    if (typeof col == 'object') return col.hasOwnProperty(elt);
       //var v = col[elt]; return v !== undefined && v !== null && v !== false;
     return false;
   };
@@ -409,7 +409,7 @@ var Xel = (function() {
     var i = self.eval(tree[2], context);
 
     if ( ! Array.isArray(col)) return 0;
-    if (typeof i !== 'number') return 0;
+    if (typeof i != 'number') return 0;
 
     return (i < 0) ?
       col[col.length + i] :
@@ -458,7 +458,7 @@ var Xel = (function() {
 
   evals.ISNUMBER = function(tree, context) {
 
-    return (typeof self.eval(tree[1], context) === 'number');
+    return (typeof self.eval(tree[1], context) == 'number');
   };
 
   evals.PROPER = function(tree, context) {
@@ -504,7 +504,7 @@ var Xel = (function() {
     var t = self.eval(tree[2], context);
     var i = self.eval(tree[3], context);
 
-    if (typeof i !== 'number') throw new Error(
+    if (typeof i != 'number') throw new Error(
       `VLOOKUP() arg 3 '${tree[3]}' is not a number`);
     if ( ! Array.isArray(t)) throw new Error(
       `VLOOKUP() arg 2 '${tree[2]}' does not point to an array of array`);
@@ -524,7 +524,7 @@ var Xel = (function() {
 
   this.peval = function(tree, context) {
 
-    if (typeof tree === 'string') tree = Xel.parse(tree);
+    if (typeof tree == 'string') tree = Xel.parse(tree);
 
     var t0 = tree[0];
     var e = pevals[t0];
@@ -542,7 +542,7 @@ var Xel = (function() {
 
   this.eval = function(tree, context) {
 
-    if ( ! Array.isArray(tree) || ! (typeof tree[0]) === 'string') return tree;
+    if ( ! Array.isArray(tree) || (typeof tree[0] != 'string')) return tree;
 
     var t0 = tree[0];
     var e = evals[t0];
@@ -572,12 +572,12 @@ var Xel = (function() {
 
   this.s_eval = function(s, context) {
 
-    return ((typeof s) === 'string') ? self.seval(s, context) : s;
+    return (typeof s == 'string') ? self.seval(s, context) : s;
   };
 
   this.neval = function(x, context) {
 
-    if ((typeof x) !== 'string') return x;
+    if (typeof x != 'string') return x;
 
     var s = x.trim(); if (s.match(/^=/)) s = s.slice(1).trim();
 
@@ -590,7 +590,7 @@ var Xel = (function() {
   //  var t = o[ukey];
   //  if (t) return self.eval(t, context);
   //  var v = o[key];
-  //  if ((typeof v) === 'string' && v.trim()[0] === '=') {
+  //  if ((typeof v == 'string') && v.trim()[0] === '=') {
   //    o[ukey] = self.parse(v.trim().slice(1).trim());
   //    return self.eval(o[ukey], context);
   //  }
