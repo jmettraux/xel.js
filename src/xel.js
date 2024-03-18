@@ -63,7 +63,7 @@ var XelParser = Jaabro.makeParser(function() {
     if (t.children.length === 1) return rewrite(t.children[0]);
 
     var cn = t.children.slice(); // dup array
-    var a = [ t.name === 'add' ? 'SUM' : 'MUL' ];
+    var a = [ t.name === 'add' ? 'plus' : 'MUL' ];
     var mod = null;
     var c = null;
 
@@ -140,19 +140,20 @@ var Xel = (function() {
 
   var pevals = {};
 
-  pevals.SUM = function(tree, context) {
+  pevals.plus = function(tree, context) {
     var es = tree.slice(1).map(function(t) { return self.peval(t, context); });
     return '(' + es.join(' + ') + ')';
-  };
-  pevals.MUL = function(tree, context) {
-    var es = tree.slice(1).map(function(t) { return self.peval(t, context); });
-    return '(' + es.join(' * ') + ')';
   };
   pevals.num = function(tree, context) {
     return '' + tree[1];
   };
   pevals.var = function(tree, context) {
     return tree[1] + ':' + toS(evals.var(tree, context));
+  };
+
+  pevals.MUL = function(tree, context) {
+    var es = tree.slice(1).map(function(t) { return self.peval(t, context); });
+    return '(' + es.join(' * ') + ')';
   };
 
   pevals.inv = function(tree, context) {
@@ -266,7 +267,7 @@ var Xel = (function() {
     return tree.slice(1).map(function(c) { return self.eval(c, context); });
   };
 
-  evals.SUM = function(tree, context) {
+  evals.plus = function(tree, context) {
 
     var elts = tree.slice(1).map(function(t) { return self.eval(t, context); });
 
@@ -283,13 +284,24 @@ var Xel = (function() {
       .reduce(function(r, t) { return r * self.eval(t, context); }, 1);
   };
 
+  evals.SUM = function(tree, context) {
+
+    var f = function(r, e) {
+      if (typeof e == 'number') return r + e;
+      if (Array.isArray(e)) return e.reduce(f, r);
+      return r; };
+
+    return(
+      tree.slice(1).map(function(t) { return self.eval(t, context); })
+        .reduce(f, 0));
+  };
+
   evals.PRODUCT = function(tree, context) {
 
     var f = function(r, e) {
       if (typeof e == 'number') return r * e;
       if (Array.isArray(e)) return e.reduce(f, r);
-      return r;
-    };
+      return r; };
 
     return(
       tree.slice(1).map(function(t) { return self.eval(t, context); })
