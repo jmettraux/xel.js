@@ -205,6 +205,9 @@ var Xel = (function() {
   pevals.ISBLANK = pevals._fun;
   pevals.ISNUMBER = pevals._fun;
 
+  pevals.UNIQUE = pevals._fun;
+  pevals.SORT = pevals._fun;
+
   pevals.PROPER = pevals._fun;
 
   pevals.LOWER = pevals._fun;
@@ -213,6 +216,9 @@ var Xel = (function() {
   pevals.LN = pevals._fun;
   pevals.SQRT = pevals._fun;
   pevals.STDEV = pevals._fun;
+
+  pevals.SUM = pevals._fun;
+  pevals.PRODUCT = pevals._fun;
 
   // --- EVALS
 
@@ -546,7 +552,7 @@ var Xel = (function() {
       e = context._custom_functions[t0];
     }
     if ( ! e) {
-      throw new Error("no evals." + tree[0] + " method");
+      throw new Error("no pevals." + tree[0] + " method");
     }
 
     return e(tree, context);
