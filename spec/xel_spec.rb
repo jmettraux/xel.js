@@ -8,9 +8,23 @@
 require 'spec/spec_helper'
 
 
+XEL_CASES = File.read('spec/_xel.rb')
+  .split("\n## ")
+  .reject { |e|
+    e == '' }
+  .collect { |s|
+    c, h = s.split("<\n{\n")
+    c = c[1..-1]
+    h = Kernel.eval('{' + h)
+    h[:code] = c
+    h }
+
+def trunc(s, max); s[0..max] + (s.length > max ? '…' : ''); end
+
 describe 'xel_js' do
 
   before :all do
+
     @bro =
       make_browser(%w[
         spec/www/jaabro-1.4.0.js
@@ -22,17 +36,19 @@ describe 'xel_js' do
 
     describe '.parse' do
 
-      #it 'returns null when it cannot parse'
+      XEL_CASES.each do |k|
 
-      Kernel.eval(File.read('spec/_xel_parse.rb'))
-        .each_slice(2) do |code, tree|
+        code = k[:code]
+        tree = k[:tree]; next unless tree
 
-          it "parses successfully #{JSON.dump(code)}" do
+        it "parses successfully #{JSON.dump(code)}" do
 
-            expect(@bro.eval(%{ XelParser.parse(#{JSON.dump(code)}); })
-              ).to eq(tree)
-          end
+          expect(@bro.eval(%{ XelParser.parse(#{JSON.dump(code)}); })
+            ).to eq(tree)
         end
+      end
+
+      it 'returns null when it cannot parse'
     end
   end
 
@@ -40,11 +56,18 @@ describe 'xel_js' do
 
     describe '.eval' do
 
-      Kernel.eval(File.read('spec/_xel_eval.rb')).each do |code, ctx, result|
+      XEL_CASES.each do |k|
 
+        next unless k.has_key?(:out)
+        code = k[:code]
+        ctx = k[:ctx]
+        out = k[:out]
+
+        l =
+          ctx.any? ? 29 : 56
         t =
-          "evals #{code.inspect} to #{result.inspect}" +
-          (ctx.any? ? ' when ' + ctx.inspect : '')
+          "evals #{trunc(code.inspect, l)} to #{trunc(out.inspect, l)}" +
+          (ctx.any? ? ' when ' + trunc(ctx.inspect, l) : '')
 
         it(t) do
 
@@ -52,12 +75,11 @@ describe 'xel_js' do
             Xel.eval(
               XelParser.parse(#{JSON.dump(code)}),
               #{JSON.dump(ctx)}); })
-
-          if result.is_a?(Float)
-            expect('%0.2f' % r).to eq('%0.2f' % result)
-          elsif result.is_a?(Array)
-            expect(r.size).to eq(result.size)
-            result.zip(r).each do |rese, re|
+          if out.is_a?(Float)
+            expect('%0.2f' % r).to eq('%0.2f' % out)
+          elsif out.is_a?(Array)
+            expect(r.size).to eq(out.size)
+            out.zip(r).each do |rese, re|
               #expect(re.class).to eq(rese.class)
               if rese.is_a?(Float)
                 expect('%0.2f' % re).to eq('%0.2f' % rese)
@@ -66,7 +88,7 @@ describe 'xel_js' do
               end
             end
           else
-            expect(r).to eq(result)
+            expect(r).to eq(out)
           end
         end
       end
@@ -148,11 +170,17 @@ describe 'xel_js' do
 
     describe '.peval' do
 
-      Kernel.eval(File.read('spec/_xel_peval.rb')).each do |code, ctx, result|
+      XEL_CASES.each do |k|
 
+        ctx = k[:ctx]
+        code = k[:code]
+        peval = k[:peval]; next unless peval
+
+        l =
+          ctx.any? ? 31 : 56
         t =
-          "evals #{code.inspect} to #{result.inspect}" +
-          (ctx.any? ? ' when ' + ctx.inspect : '')
+          "pevals #{trunc(code.inspect, l)} to #{trunc(peval.inspect, l)}" +
+          (ctx.any? ? ' when ' + trunc(ctx.inspect, l) : '')
 
         it(t) do
 
@@ -161,7 +189,7 @@ describe 'xel_js' do
               XelParser.parse(#{JSON.dump(code)}),
               #{JSON.dump(ctx)}); })
 
-          expect(r).to eq(result)
+          expect(r).to eq(peval)
         end
       end
     end
