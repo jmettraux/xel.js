@@ -283,6 +283,19 @@ var Xel = (function() {
       .reduce(function(r, t) { return r * self.eval(t, context); }, 1);
   };
 
+  evals.PRODUCT = function(tree, context) {
+
+    var f = function(r, e) {
+      if (typeof e === 'number') return r * e;
+      if (Array.isArray(e)) return e.reduce(f, r);
+      return r;
+    };
+
+    return(
+      tree.slice(1).map(function(t) { return self.eval(t, context); })
+        .reduce(f, 1));
+  };
+
   evals.MIN = function(tree, context) {
 
     var es = tree.slice(1).map(function(t) { return self.eval(t, context); });
