@@ -22,7 +22,7 @@ module Helpers
     system('rm spec/www/*.html')
 
     ts = Time.now.strftime('%Y%m%dT%H%M%S')
-    test_file = "sg_test_#{ts}.html"
+    test_file = "xel_test_#{ts}.html"
     test_path = File.join(Dir.pwd, 'spec/www', test_file)
 
     File.open(test_path, 'wb') do |f|
