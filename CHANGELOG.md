@@ -2,6 +2,9 @@
 # xel.js
 
 
+## xel.js 1.1.1  not yet released
+
+
 ## xel.js 1.1.0  released 2024-03-18
 
 * Differentiate + from SUM()
