@@ -14,3 +14,5 @@
 pkg/*.js
 spec/www/
 
+chrome.core
+
