@@ -12,7 +12,8 @@ var XelParser = Jaabro.makeParser(function() {
   function com(i) { return rex(null, i, /,\s*/); }
 
   function number(i) {
-    return rex('number', i, /-?([0-9]*\.[0-9]+|[0-9][,0-9]*[0-9]|[0-9]+)\s*/); }
+    return rex('number', i,
+      /-?(\.[0-9]+|[0-9][,0-9]*[0-9](\.[0-9]+)?|[0-9]+(\.[0-9]+)?)\s*/); }
 
   function va(i) { return rex('var', i, /[a-z_][A-Za-z0-9_.]*\s*/); }
 
