@@ -60,7 +60,7 @@ describe 'xel_js' do
 
         next unless k.has_key?(:out)
         code = k[:code]
-        ctx = k[:ctx]
+        ctx = k[:ctx] || {}
         out = k[:out]
 
         l =
@@ -172,7 +172,7 @@ describe 'xel_js' do
 
       XEL_CASES.each do |k|
 
-        ctx = k[:ctx]
+        ctx = k[:ctx] || {}
         code = k[:code]
         peval = k[:peval]; next unless peval
 

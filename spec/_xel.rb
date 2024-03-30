@@ -1,33 +1,28 @@
 
 ## >"12" =~ "[a-z]"<
 {
-  ctx:    {},
   out:    false,
   peval:  "(\"12\" =~ \"[a-z]\")",
 }
 
 ## >"a" != "a"<
 {
-  ctx:    {},
   out:    false,
 }
 
 ## >"a" != "b"<
 {
-  ctx:    {},
   out:    true,
   peval:  "(\"a\" != \"b\")",
 }
 
 ## >"a" = "a"<
 {
-  ctx:    {},
   out:    true,
 }
 
 ## >"a" = "b"<
 {
-  ctx:    {},
   out:    false,
   peval:  "(\"a\" = \"b\")",
 }
@@ -39,34 +34,29 @@
 
 ## >"a" IN { 0, "a", 2 }<
 {
-  ctx:    {},
   out:    true,
   peval:  "(\"a\" IN {0,\"a\",2})",
 }
 
 ## >"a" IN { 0, "b", 2 }<
 {
-  ctx:    {},
   out:    false,
 }
 
 ## >"a" IN {}<
 {
-  ctx:    {},
   out:    false,
   peval:  "(\"a\" IN {})",
 }
 
 ## >"ab" =~ "[a-z]"<
 {
-  ctx:    {},
   out:    true,
   peval:  "(\"ab\" =~ \"[a-z]\")",
 }
 
 ## >"ab\"cd'ef"<
 {
-  ctx:    {},
   out:    "ab\"cd'ef",
   peval:  "\"ab\\\"cd'ef\"",
   tree:   ["str", "ab\"cd'ef"],
@@ -87,7 +77,6 @@
 
 ## >'ab"cd\'ef'<
 {
-  ctx:    {},
   out:    "ab\"cd'ef",
   peval:  "\"ab\\\"cd'ef\"",
   tree:   ["str", "ab\"cd'ef"],
@@ -118,14 +107,12 @@
 
 ## >1 + "a"<
 {
-  ctx:    {},
   out:    "1a",
   peval:  "(1 + \"a\")",
 }
 
 ## >1 + 2<
 {
-  ctx:    {},
   out:    3,
   peval:  "(1 + 2)",
 }
@@ -162,42 +149,36 @@
 
 ## >1 - -2<
 {
-  ctx:    {},
   out:    3,
   peval:  "(1 + 2)",
 }
 
 ## >1 - 2<
 {
-  ctx:    {},
   out:    -1,
   peval:  "(1 + (- 2))",
 }
 
 ## >1 / 5<
 {
-  ctx:    {},
   out:    0.2,
   peval:  "(1 * (1 / 5))",
 }
 
 ## >1 < 2<
 {
-  ctx:    {},
   out:    true,
   peval:  "(1 < 2)",
 }
 
 ## >1 <= 2<
 {
-  ctx:    {},
   out:    true,
   peval:  "(1 <= 2)",
 }
 
 ## >1 > 2<
 {
-  ctx:    {},
   out:    false,
   peval:  "(1 > 2)",
 }
@@ -211,14 +192,12 @@
 
 ## >1 IN { 0, 1 }<
 {
-  ctx:    {},
   out:    true,
   peval:  "(1 IN {0,1})",
 }
 
 ## >1.0 / 5<
 {
-  ctx:    {},
   out:    0.2,
   peval:  "(1.0 * (1 / 5))",
 }
@@ -265,58 +244,49 @@
 
 ## >2 != 3<
 {
-  ctx:    {},
   out:    true,
 }
 
 ## >2 <= 2<
 {
-  ctx:    {},
   out:    true,
 }
 
 ## >2 = 3<
 {
-  ctx:    {},
   out:    false,
   peval:  "(2 = 3)",
 }
 
 ## >2 >= 2<
 {
-  ctx:    {},
   out:    true,
   peval:  "(2 >= 2)",
 }
 
 ## >2 >= 3<
 {
-  ctx:    {},
   out:    false,
 }
 
 ## >3 != 3<
 {
-  ctx:    {},
   out:    false,
   peval:  "(3 != 3)",
 }
 
 ## >3 <= 2<
 {
-  ctx:    {},
   out:    false,
 }
 
 ## >3 = 3<
 {
-  ctx:    {},
   out:    true,
 }
 
 ## >3 >= 2<
 {
-  ctx:    {},
   out:    true,
 }
 
@@ -356,28 +326,24 @@
 
 ## >AND(FALSE())<
 {
-  ctx:    {},
   out:    false,
   peval:  "AND(FALSE())",
 }
 
 ## >AND(TRUE())<
 {
-  ctx:    {},
   out:    true,
   peval:  "AND(TRUE())",
 }
 
 ## >AND(TRUE(), FALSE())<
 {
-  ctx:    {},
   out:    false,
   peval:  "AND(TRUE(), FALSE())",
 }
 
 ## >AND(TRUE(), TRUE())<
 {
-  ctx:    {},
   out:    true,
   peval:  "AND(TRUE(), TRUE())",
 }
@@ -432,7 +398,6 @@
 
 ## >FALSE()<
 {
-  ctx:    {},
   out:    false,
   peval:  "FALSE()",
 }
@@ -459,14 +424,12 @@
 
 ## >IF(FALSE(), 1, 2)<
 {
-  ctx:    {},
   out:    2,
   peval:  "IF(FALSE(), 1, 2)",
 }
 
 ## >IF(TRUE(), 1, 2)<
 {
-  ctx:    {},
   out:    1,
   peval:  "IF(TRUE(), 1, 2)",
 }
@@ -532,35 +495,30 @@
 
 ## >ISNUMBER("nada")<
 {
-  ctx:    {},
   out:    false,
   peval:  "ISNUMBER(\"nada\")",
 }
 
 ## >ISNUMBER(123)<
 {
-  ctx:    {},
   out:    true,
   peval:  "ISNUMBER(123)",
 }
 
 ## >ISNUMBER(123.12)<
 {
-  ctx:    {},
   out:    true,
   peval:  "ISNUMBER(123.12)",
 }
 
 ## >ISNUMBER(FALSE())<
 {
-  ctx:    {},
   out:    false,
   peval:  "ISNUMBER(FALSE())",
 }
 
 ## >ISNUMBER(TRUE())<
 {
-  ctx:    {},
   out:    false,
   peval:  "ISNUMBER(TRUE())",
 }
@@ -574,7 +532,6 @@
 
 ## >LN(3044.31)<
 {
-  ctx:    {},
   out:    8.02,
   peval:  "LN(3044.31)",
 }
@@ -587,13 +544,11 @@
 
 ## >LN({ 3044.31, 3047.12 })<
 {
-  ctx:    {},
   out:    [8.02, 8.02],
 }
 
 ## >LOWER("ALPHA BRAVO Charly")<
 {
-  ctx:    {},
   out:    "alpha bravo charly",
   peval:  "LOWER(\"ALPHA BRAVO Charly\")",
 }
@@ -620,92 +575,78 @@
 
 ## >MAX(-1, -2, "a", -3)<
 {
-  ctx:    {},
   out:    -1,
 }
 
 ## >MAX(-1, -2, -3)<
 {
-  ctx:    {},
   out:    -1,
 }
 
 ## >MAX(1, 2, 3)<
 {
-  ctx:    {},
   out:    3,
 }
 
 ## >MIN(-1, -2, "a", -3)<
 {
-  ctx:    {},
   out:    -1,
 }
 
 ## >MIN(-1, -2, -3)<
 {
-  ctx:    {},
   out:    -3,
 }
 
 ## >MIN(1, 2, 3)<
 {
-  ctx:    {},
   out:    1,
 }
 
 ## >NOT(FALSE())<
 {
-  ctx:    {},
   out:    true,
   peval:  "NOT(FALSE())",
 }
 
 ## >NOT(TRUE())<
 {
-  ctx:    {},
   out:    false,
   peval:  "NOT(TRUE())",
 }
 
 ## >OR(1 = 2, 2 = 2)<
 {
-  ctx:    {},
   out:    true,
   peval:  "OR((1 = 2), (2 = 2))",
 }
 
 ## >OR(1 = 2, 2 = 3)<
 {
-  ctx:    {},
   out:    false,
   peval:  "OR((1 = 2), (2 = 3))",
 }
 
 ## >OR(TRUE(), FALSE())<
 {
-  ctx:    {},
   out:    true,
   peval:  "OR(TRUE(), FALSE())",
 }
 
 ## >PRODUCT(2, 3, 4)<
 {
-  ctx:    {},
   out:    24,
   peval:  "PRODUCT(2, 3, 4)",
 }
 
 ## >PRODUCT({ 2, 3, 4 })<
 {
-  ctx:    {},
   out:    24,
   peval:  "PRODUCT({2,3,4})",
 }
 
 ## >PRODUCT({ 2, 3, 4 }, 2)<
 {
-  ctx:    {},
   out:    48,
   peval:  "PRODUCT({2,3,4}, 2)",
 }
@@ -719,35 +660,30 @@
 
 ## >PROPER("alpha bravo charly")<
 {
-  ctx:    {},
   out:    "Alpha Bravo Charly",
   peval:  "PROPER(\"alpha bravo charly\")",
 }
 
 ## >SORT({ 1, "aa", 7, 2 }, 1, -1)<
 {
-  ctx:    {},
   out:    ["aa", 7, 2, 1],
   peval:  "SORT({1,\"aa\",7,2}, 1, -1)",
 }
 
 ## >SORT({ 1, 3, 2 })<
 {
-  ctx:    {},
   out:    [1, 2, 3],
   peval:  "SORT({1,3,2})",
 }
 
 ## >SORT({ 1, 3, 2 }, 1, -1)<
 {
-  ctx:    {},
   out:    [3, 2, 1],
   peval:  "SORT({1,3,2}, 1, -1)",
 }
 
 ## >SQRT(260)<
 {
-  ctx:    {},
   out:    16.1245,
   peval:  "SQRT(260)",
 }
@@ -760,7 +696,6 @@
 
 ## >SQRT({ 260, 81 })<
 {
-  ctx:    {},
   out:    [16.1245, 9],
   peval:  "SQRT({260,81})",
 }
@@ -779,7 +714,6 @@
 
 ## >SUM(2, 3, 4)<
 {
-  ctx:    {},
   out:    9,
   peval:  "SUM(2, 3, 4)",
 }
@@ -791,14 +725,12 @@
 
 ## >SUM({ 2, 3, 4 })<
 {
-  ctx:    {},
   out:    9,
   peval:  "SUM({2,3,4})",
 }
 
 ## >SUM({ 2, 3, 4 }, 2)<
 {
-  ctx:    {},
   out:    11,
   peval:  "SUM({2,3,4}, 2)",
 }
@@ -818,7 +750,6 @@
 
 ## >TRUE()<
 {
-  ctx:    {},
   out:    true,
   peval:  "TRUE()",
 }
@@ -832,14 +763,12 @@
 
 ## >UNIQUE({ 1, 1 })<
 {
-  ctx:    {},
   out:    [1],
   peval:  "UNIQUE({1,1})",
 }
 
 ## >UPPER("alpha bravo charly")<
 {
-  ctx:    {},
   out:    "ALPHA BRAVO CHARLY",
   peval:  "UPPER(\"alpha bravo charly\")",
 }
@@ -872,62 +801,52 @@
 
 ## >{ "a" } != { "a" }<
 {
-  ctx:    {},
   out:    false,
 }
 
 ## >{ "a" } != { "b" }<
 {
-  ctx:    {},
   out:    true,
 }
 
 ## >{ "a" } = { "a" }<
 {
-  ctx:    {},
   out:    true,
 }
 
 ## >{ "a" } = { "b" }<
 {
-  ctx:    {},
   out:    false,
 }
 
 ## >{ "a", "b" } != { "a" }<
 {
-  ctx:    {},
   out:    true,
 }
 
 ## >{ "a", "b" } != { "a", "b" }<
 {
-  ctx:    {},
   out:    false,
 }
 
 ## >{ "a", "b" } = { "a" }<
 {
-  ctx:    {},
   out:    false,
 }
 
 ## >{ "a", "b" } = { "a", "b" }<
 {
-  ctx:    {},
   out:    true,
 }
 
 ## >{ 1, "a", "b", "c" } <
 {
-  ctx:    {},
   out:    [1, "a", "b", "c"],
   peval:  "{1,\"a\",\"b\",\"c\"}",
 }
 
 ## >{ 1, 2 } + { "a", "b" }<
 {
-  ctx:    {},
   out:    [1, 2, "a", "b"],
   peval:  "({1,2} + {\"a\",\"b\"})",
 }
@@ -939,25 +858,21 @@
 
 ## >{ { "a", "b" }, { "c", "de" } }<
 {
-  ctx:    {},
   out:    [["a", "b"], ["c", "de"]],
 }
 
 ## >{ { "a", 1 }, { "c", 2 } }<
 {
-  ctx:    {},
   out:    [["a", 1], ["c", 2]],
 }
 
 ## >{"a", "b", "c" } <
 {
-  ctx:    {},
   out:    ["a", "b", "c"],
 }
 
 ## >{"a","b"}<
 {
-  ctx:    {},
   out:    ["a", "b"],
 }
 
