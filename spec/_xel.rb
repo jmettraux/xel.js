@@ -959,3 +959,13 @@
   out: [ 4, 6, 8 ]
 }
 
+## >REDUCE(0, { 2, 3, 4 }, LAMBDA(a, e, a + e))<
+{
+  out: 9
+}
+
+## >REDUCE({ 2, 3, 5 }, LAMBDA(a, e, a + e))<
+{
+  out: 10
+}
+

@@ -224,6 +224,7 @@ var Xel = (function() {
   pevals.LAMBDA = pevals._fun;
   pevals.KALL = pevals._fun;
   pevals.MAP = pevals._fun;
+  pevals.REDUCE = pevals._fun;
 
   // --- EVALS
 
@@ -577,6 +578,25 @@ var Xel = (function() {
     var fun = self.eval(tree[2], context);
 
     return arr.map(function(e) { return fun.apply(null, [ e, context ]); });
+  };
+
+  evals.REDUCE = function(tree, context) {
+
+    var t = tree.slice(1);
+
+    var fun = self.eval(t.pop(), context);
+
+    var acc, arr;
+      if (t.length === 1) {
+        arr = self.eval(t[0], context);
+        acc = arr.shift();
+      }
+      else {
+        acc = self.eval(t[0], context);
+        arr = self.eval(t[1], context);
+      }
+
+    return arr.reduce(fun, acc);
   };
 
   //
