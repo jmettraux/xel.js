@@ -548,6 +548,18 @@
   peval:  "ISBLANK(a:\"abc\")",
 }
 
+## >ISBLANK(a)<
+{
+  ctx:    {"a"=>""},
+  out:    true,
+}
+
+## >ISBLANK(a)<
+{
+  ctx:    {},
+  out:    true,
+}
+
 ## >ISNUMBER("nada")<
 {
   out:    false,
