@@ -614,12 +614,6 @@
   out:    [8.02, 8.02],
 }
 
-## >LOWER("ALPHA BRAVO Charly")<
-{
-  out:    "alpha bravo charly",
-  peval:  "LOWER(\"ALPHA BRAVO Charly\")",
-}
-
 ## >MATCH("b", a, 0)<
 {
   ctx:    {"a"=>["a", "b", "c"]},
@@ -838,6 +832,12 @@
 {
   out:    "ALPHA BRAVO CHARLY",
   peval:  "UPPER(\"alpha bravo charly\")",
+}
+
+## >LOWER("ALPHA BRAVO Charly")<
+{
+  out:    "alpha bravo charly",
+  peval:  "LOWER(\"ALPHA BRAVO Charly\")",
 }
 
 ## >a != ""<
