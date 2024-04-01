@@ -227,6 +227,8 @@ var Xel = (function() {
   pevals.MAP = pevals._fun;
   pevals.REDUCE = pevals._fun;
 
+  pevals.TEXTJOIN = pevals._fun;
+
   // --- EVALS
 
   var xtype = function(x) {
@@ -607,6 +609,26 @@ var Xel = (function() {
       }
 
     return arr.reduce(fun, acc);
+  };
+
+  evals.TEXTJOIN = function(tree, context) {
+
+    var agg = function(acc, x) {
+      if (typeof x === 'string') { acc.push(x.trim()); }
+      else if (Array.isArray(x)) { x.forEach(function(xx) { agg(acc, xx); }); }
+      else if (x === null || x === undefined) { acc.push(''); }
+      else { acc.push(JSON.stringify(x)); }
+      return acc; };
+
+    var del = self.eval(tree[1], context);
+    var ign = self.eval(tree[2], context);
+
+    var txs = [];
+    tree.slice(3).forEach(function(tt) { agg(txs, self.eval(tt, context)); });
+
+    if (ign) txs = txs.filter(function(t) { return t.length > 0; });
+
+    return txs.join(del);
   };
 
   //

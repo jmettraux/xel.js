@@ -998,3 +998,26 @@
   out: nil
 }
 
+## >TEXTJOIN("/", TRUE(), "a", "b")<
+{
+  out: 'a/b'
+}
+
+## >TEXTJOIN(", ", TRUE(), a, "zz")<
+{
+  ctx: { a: [ 'ab', 'cd', 'ef1' ] },
+  out: 'ab, cd, ef1, zz'
+}
+
+## >TEXTJOIN(", ", TRUE(), a, "zz")<
+{
+  ctx: { a: [ 'ab', '', 'ef1' ] },
+  out: 'ab, ef1, zz'
+}
+
+## >TEXTJOIN(", ", FALSE(), a, "zz")<
+{
+  ctx: { a: [ 'ab', '', 'ef1' ] },
+  out: 'ab, , ef1, zz'
+}
+
