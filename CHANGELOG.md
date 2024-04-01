@@ -2,6 +2,9 @@
 # xel.js
 
 
+## xel.js 1.2.0  not yet released
+
+
 ## xel.js 1.1.1  released 2024-03-30  (Nami)
 
 * Fix numbers with separators and a fractional part
