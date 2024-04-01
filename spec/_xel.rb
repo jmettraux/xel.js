@@ -935,3 +935,22 @@
 {
   tree:   ["arr", ["num", "1"], ["str", "a"], ["str", "b"], ["num", "2"], ["num", "0"], ["str", "d"]],
 }
+
+## >LAMBDA(a, b, a + b)<
+{
+  out:  {},
+  tree: ["LAMBDA",
+    ["var", "a"], ["var", "b"],
+    ["plus", ["var", "a"], ["var", "b"]]]
+}
+
+## >KALL(LAMBDA(a, b, a + b), 7, -3)<
+{
+  out: 4
+}
+
+## >KALL(LAMBDA(a, b, a + b), 7, -2, 1)<
+{
+  out: 5
+}
+

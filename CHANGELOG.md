@@ -4,6 +4,8 @@
 
 ## xel.js 1.2.0  not yet released
 
+* Implement LAMBDA() and KALL()
+
 
 ## xel.js 1.1.1  released 2024-03-30  (Nami)
 

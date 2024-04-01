@@ -221,6 +221,9 @@ var Xel = (function() {
   pevals.SUM = pevals._fun;
   pevals.PRODUCT = pevals._fun;
 
+  pevals.LAMBDA = pevals._fun;
+  pevals.KALL = pevals._fun;
+
   // --- EVALS
 
   var xtype = function(x) {
@@ -536,6 +539,35 @@ var Xel = (function() {
     }
 
     return null;
+  };
+
+  evals.KALL = function(tree, context) {
+
+    var args = []; for (var i = 1, l = tree.length; i < l; i++) {
+      args.push(self.eval(tree[i], context)); }
+    args.push(context);
+
+    var fun = args.shift();
+
+    return fun.apply(null, args);
+  };
+
+  evals.LAMBDA = function(tree, context) {
+
+    var args = []; for (var i = 1, l = tree.length - 1; i < l; i++) {
+      args.push(tree[i][1]); }
+
+    var code = tree[tree.length - 1];
+
+    return function() {
+
+      var as = Array.from(arguments);
+
+      var ctx1 = Object.assign({}, context, as.pop());
+      for (var i = 0, l = args.length; i < l; i++) { ctx1[args[i]] = as[i]; }
+
+      return self.eval(code, ctx1);
+    };
   };
 
   //
