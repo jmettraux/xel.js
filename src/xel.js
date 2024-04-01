@@ -223,6 +223,7 @@ var Xel = (function() {
 
   pevals.LAMBDA = pevals._fun;
   pevals.KALL = pevals._fun;
+  pevals.MAP = pevals._fun;
 
   // --- EVALS
 
@@ -541,17 +542,6 @@ var Xel = (function() {
     return null;
   };
 
-  evals.KALL = function(tree, context) {
-
-    var args = []; for (var i = 1, l = tree.length; i < l; i++) {
-      args.push(self.eval(tree[i], context)); }
-    args.push(context);
-
-    var fun = args.shift();
-
-    return fun.apply(null, args);
-  };
-
   evals.LAMBDA = function(tree, context) {
 
     var args = []; for (var i = 1, l = tree.length - 1; i < l; i++) {
@@ -568,6 +558,25 @@ var Xel = (function() {
 
       return self.eval(code, ctx1);
     };
+  };
+
+  evals.KALL = function(tree, context) {
+
+    var args = []; for (var i = 1, l = tree.length; i < l; i++) {
+      args.push(self.eval(tree[i], context)); }
+    args.push(context);
+
+    var fun = args.shift();
+
+    return fun.apply(null, args);
+  };
+
+  evals.MAP = function(tree, context) {
+
+    var arr = self.eval(tree[1], context);
+    var fun = self.eval(tree[2], context);
+
+    return arr.map(function(e) { return fun.apply(null, [ e, context ]); });
   };
 
   //
