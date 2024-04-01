@@ -7,6 +7,7 @@
 * Implement LAMBDA() and KALL()
 * Implement MAP()
 * Implement REDUCE()
+* Implement ORV()
 
 
 ## xel.js 1.1.1  released 2024-03-30  (Nami)

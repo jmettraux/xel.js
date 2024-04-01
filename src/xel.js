@@ -198,6 +198,7 @@ var Xel = (function() {
   pevals.AND = pevals._fun;
   pevals.OR = pevals._fun;
   pevals.NOT = pevals._fun;
+  pevals.ORV = pevals._fun;
 
   pevals.MATCH = pevals._fun;
   pevals.HAS = pevals._fun;
@@ -406,6 +407,15 @@ var Xel = (function() {
   };
 
   evals.NOT = function(tree, context) { return ! self.eval(tree[1], context); };
+
+  evals.ORV = function(tree, context) {
+
+    for (var i = 1, l = tree.length; i < l; i++) {
+      var v = self.eval(tree[i], context);
+      if (v !== '' && v !== undefined && v !== null) return v;
+    }
+    return undefined;
+  };
 
   evals.MATCH = function(tree, context) {
 
