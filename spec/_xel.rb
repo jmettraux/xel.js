@@ -686,3 +686,13 @@
 ## >LET(price, 13, LOWER("COUNT"), 3, count * price)<
 { out: 39 }
 
+## >LET(l, LAMBDA(a, b, a + b), l(2, 3))<
+{ tree:
+    ["LET",
+      ["var", "l"],
+        ["LAMBDA", ["var", "a"], ["var", "b"],
+          ["plus", ["var", "a"], ["var", "b"]]],
+      ["l", ["num", "2"], ["num", "3"]]],
+  out: 5,
+  peval: "LET(l:-, LAMBDA(a:-, b:-, (a:- + b:-)), l(2, 3))" }
+

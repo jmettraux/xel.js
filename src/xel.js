@@ -15,7 +15,7 @@ var XelParser = Jaabro.makeParser(function() {
     return rex('number', i,
       /-?(\.[0-9]+|([0-9][,0-9]*[0-9]|[0-9]+)(\.[0-9]+)?)\s*/); }
 
-  function va(i) { return rex('var', i, /[a-z_][A-Za-z0-9_.]*\s*/); }
+  function vra(i) { return rex('var', i, /[a-z_][A-Za-z0-9_.]*\s*/); }
 
   function arr(i) { return eseq('arr', i, aa, cmp, com, az); }
 
@@ -24,7 +24,7 @@ var XelParser = Jaabro.makeParser(function() {
   function string(i) { return alt('string', i, dqstring, qstring); }
 
   function funargs(i) { return eseq('funargs', i, pa, cmp, com, pz); }
-  function funname(i) { return rex('funname', i, /[A-Z][_a-zA-Z0-9]*/); }
+  function funname(i) { return rex('funname', i, /[a-zA-Z][_a-zA-Z0-9]*/); }
   function fun(i) { return seq('fun', i, funname, funargs); }
 
   function comparator(i) {
@@ -35,7 +35,7 @@ var XelParser = Jaabro.makeParser(function() {
     return rex('adder', i, /[+\-]\s*/); }
 
   function par(i) { return seq('par', i, pa, cmp, pz); }
-  function exp(i) { return alt('exp', i, par, fun, number, string, arr, va); }
+  function exp(i) { return alt('exp', i, par, fun, number, string, arr, vra); }
 
   function mul(i) { return jseq('mul', i, exp, multiplier); }
   function add(i) { return jseq('add', i, mul, adder); }
@@ -641,8 +641,8 @@ var Xel = (function() {
     var key = null;
     for (var i = 1, l = tl - 1; i < l; i++) {
       var t = tree[i];
-      if (i % 2 === 1) { key = t[0] === 'var' ? t[1] : self.eval(t, ctx); }
-      else { ctx[key] = '' + self.eval(t, ctx); }
+      if (i % 2 === 1) { key = t[0] === 'var' ? t[1] : '' + self.eval(t, ctx); }
+      else { ctx[key] = self.eval(t, ctx); }
     }
 
     return self.eval(tree[tl - 1], ctx);
@@ -657,13 +657,17 @@ var Xel = (function() {
 
     var t0 = tree[0];
     var e = pevals[t0];
+    var v = context[t0];
 
     if ( ! e && context._custom_functions) {
       context._eval = self.peval;
       e = context._custom_functions[t0];
     }
+    //if ( ! e) {
+    //  throw new Error("no pevals." + tree[0] + " method");
+    //}
     if ( ! e) {
-      throw new Error("no pevals." + tree[0] + " method");
+      e = pevals._fun;
     }
 
     return e(tree, context);
@@ -675,10 +679,17 @@ var Xel = (function() {
 
     var t0 = tree[0];
     var e = evals[t0];
+    var v = context[t0];
 
     if ( ! e && context._custom_functions) {
       context._eval = self.eval;
       e = context._custom_functions[t0];
+    }
+    if ( ! e && (typeof v === 'function')) {
+      var args = tree.slice(1)
+        .map(function(t) { return self.eval(t, context); });
+      args.push(context);
+      return v.apply(null, args);
     }
     if ( ! e) {
       throw new Error("no evals." + tree[0] + " method");
