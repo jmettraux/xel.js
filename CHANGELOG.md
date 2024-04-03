@@ -2,6 +2,9 @@
 # xel.js
 
 
+## xel.js 1.3.0  not yet released
+
+
 ## xel.js 1.2.0  released 2024-04-03
 
 * Implement LAMBDA() and KALL()

@@ -119,7 +119,7 @@ var Xel = (function() {
 
   "use strict";
 
-  this.VERSION = '1.2.0';
+  this.VERSION = '1.3.0';
 
   var self = this;
 
