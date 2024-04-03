@@ -677,3 +677,9 @@
 { ctx: { a: [ 'ab', '', 'ef1' ] },
   out: 'ab, , ef1, zz' }
 
+## >LET(price, 100, count, 3, count * price)<
+{ out: 300 }
+
+## >LET(price, 95, count, 3, 12, count * price)<
+{ out: 285 } # fluff is discarded
+

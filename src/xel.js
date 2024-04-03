@@ -229,6 +229,8 @@ var Xel = (function() {
 
   pevals.TEXTJOIN = pevals._fun;
 
+  pevals.LET = pevals._fun;
+
   // --- EVALS
 
   var xtype = function(x) {
@@ -629,6 +631,21 @@ var Xel = (function() {
     if (ign) txs = txs.filter(function(t) { return t.length > 0; });
 
     return txs.join(del);
+  };
+
+  evals.LET = function(tree, context) {
+
+    var ctx = Object.assign({}, context);
+    var tl = tree.length;
+
+    var key = null;
+    for (var i = 1, l = tl - 1; i < l; i++) {
+      var t = tree[i];
+      if (i % 2 === 1) { key = t[1]; }
+      else { ctx[key] = self.eval(t, ctx); }
+    }
+
+    return self.eval(tree[tl - 1], ctx);
   };
 
   //
