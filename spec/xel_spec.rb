@@ -13,7 +13,7 @@ XEL_CASES = File.read('spec/_xel.rb')
   .reject { |e|
     e == '' }
   .collect { |s|
-    c, h = s.split("<\n{\n")
+    c, h = s.split("<\n{")
     c = c[1..-1]
     h = Kernel.eval('{' + h)
     h[:code] = c
