@@ -683,3 +683,6 @@
 ## >LET(price, 95, count, 3, 12, count * price)<
 { out: 285 } # fluff is discarded
 
+## >LET(price, 13, LOWER("COUNT"), 3, count * price)<
+{ out: 39 }
+

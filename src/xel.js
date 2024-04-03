@@ -641,8 +641,8 @@ var Xel = (function() {
     var key = null;
     for (var i = 1, l = tl - 1; i < l; i++) {
       var t = tree[i];
-      if (i % 2 === 1) { key = t[1]; }
-      else { ctx[key] = self.eval(t, ctx); }
+      if (i % 2 === 1) { key = t[0] === 'var' ? t[1] : self.eval(t, ctx); }
+      else { ctx[key] = '' + self.eval(t, ctx); }
     }
 
     return self.eval(tree[tl - 1], ctx);
