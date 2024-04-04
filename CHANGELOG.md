@@ -7,6 +7,7 @@
 * Implement LET()
 * Implement &
 * Drop Xel.peval()
+* Introduce Xel.callbacks [] fun(tree, context, ret)
 
 
 ## xel.js 1.2.0  released 2024-04-03

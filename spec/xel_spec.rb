@@ -166,6 +166,36 @@ describe 'xel_js' do
           )
         end
       end
+
+      context 'callbacks' do
+
+        they 'are called twice per each `eval` step' do
+
+          r = @bro.eval(%{
+            (function() {
+              var a = [];
+              Xel.callbacks.push(function(tree, context, ret) {
+                a.push([ tree, context, ret ]);
+              });
+              Xel.seval("12 + a", { a: 34 });
+              Xel.callbacks.pop();
+              return a;
+            }());
+          })
+
+#pp r
+          expect(
+            r
+          ).to eq([
+            [["plus", ["num", "12"], ["var", "a"]], {"a"=>34}],
+            [["num", "12"], {"a"=>34}],
+            [["num", "12"], {"a"=>34}, 12],
+            [["var", "a"], {"a"=>34}],
+            [["var", "a"], {"a"=>34}, 34],
+            [["plus", ["num", "12"], ["var", "a"]], {"a"=>34}, 46]
+          ])
+        end
+      end
     end
   end
 end

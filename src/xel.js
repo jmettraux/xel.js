@@ -557,7 +557,11 @@ var Xel = (function() {
   //
   // public functions
 
+  this.callbacks = [];
+
   this.eval = function(tree, context) {
+
+    self.callbacks.forEach(function(f) { f(tree, context); });
 
     if ( ! Array.isArray(tree) || (typeof tree[0] != 'string')) return tree;
 
@@ -565,21 +569,29 @@ var Xel = (function() {
     var e = evals[t0];
     var v = context[t0];
 
+    var ret = undefined;
+
     if ( ! e && context._custom_functions) {
       context._eval = self.eval;
       e = context._custom_functions[t0];
     }
+
     if ( ! e && (typeof v === 'function')) {
       var args = tree.slice(1)
         .map(function(t) { return self.eval(t, context); });
       args.push(context);
-      return v.apply(null, args);
+      ret = v.apply(null, args);
     }
-    if ( ! e) {
+    else if ( ! e) {
       throw new Error("no evals." + tree[0] + " method");
     }
+    else {
+      ret = e(tree, context);
+    }
 
-    return e(tree, context);
+    self.callbacks.forEach(function(f) { f(tree, context, ret); });
+
+    return ret;
   };
 
   this.parse = function(s) {
