@@ -67,7 +67,7 @@ var XelParser = Jaabro.makeParser(function() {
 
     var cn = t.children.slice(); // dup array
     var a = [ t.name === 'add' ? 'plus' : 'MUL' ];
-    if (cn[1].strinp() === '&') a = [ 'amp' ]
+    if (cn[1] && cn[1].strinp() === '&') a = [ 'amp' ]
     var mod = null;
     var c = null;
 
