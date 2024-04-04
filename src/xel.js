@@ -86,10 +86,12 @@ var XelParser = Jaabro.makeParser(function() {
 
   function rewrite_fun(t) {
 
-    var a = [ t.children[0].string() ];
+    var a = [ t.children[0].strinp() ];
     t.children[1].children.forEach(function(c) {
       if (c.name) a.push(rewrite(c));
     });
+
+    a._source = t.strinp();
 
     return a;
   }
@@ -470,7 +472,7 @@ var Xel = (function() {
 
     var code = tree[tree.length - 1];
 
-    return function() {
+    var l = function() {
 
       var as = Array.from(arguments);
 
@@ -479,6 +481,10 @@ var Xel = (function() {
 
       return self.eval(code, ctx1);
     };
+
+    l._source = tree._source;
+
+    return l;
   };
 
   evals.KALL = function(tree, context) {

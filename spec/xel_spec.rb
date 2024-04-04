@@ -167,6 +167,16 @@ describe 'xel_js' do
         end
       end
 
+      context 'lambdas' do
+
+        they 'have a _source' do
+
+          r = @bro.eval(%{ Xel.seval("LAMBDA(a, b, a + b)", {})._source })
+
+          expect(r).to eq('LAMBDA(a, b, a + b)')
+        end
+      end
+
       context 'callbacks' do
 
         they 'are called twice per each `eval` step' do
@@ -180,8 +190,7 @@ describe 'xel_js' do
               Xel.seval("12 + a", { a: 34 });
               Xel.callbacks.pop();
               return a;
-            }());
-          })
+            }()); })
 
 #pp r
           expect(

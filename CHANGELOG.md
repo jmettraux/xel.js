@@ -8,6 +8,7 @@
 * Implement &
 * Drop Xel.peval()
 * Introduce Xel.callbacks [] fun(tree, context, ret)
+* Give the function returned by LAMBDA a `_source` string
 
 
 ## xel.js 1.2.0  released 2024-04-03
