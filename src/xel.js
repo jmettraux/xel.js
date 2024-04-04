@@ -53,11 +53,13 @@ var XelParser = Jaabro.makeParser(function() {
 
     return [
       'cmp',
-      t.children[1].children[0].string().trim(),
+      t.children[1].children[0].strinp(),
       rewrite(t.children[0]),
       rewrite(t.children[1].children[1])
     ];
   }
+
+  const MODS = { '-': 'opp', '/': 'inv' };
 
   function rewrite_add(t) {
 
@@ -75,7 +77,7 @@ var XelParser = Jaabro.makeParser(function() {
       a.push(v);
       c = cn.shift();
       if ( ! c) break;
-      mod = { '-': 'opp', '/': 'inv' }[c.string().trim()];
+      mod = MODS[c.strinp()];
     }
 
     return a;
@@ -101,12 +103,12 @@ var XelParser = Jaabro.makeParser(function() {
     t.children.forEach(function(c) { if (c.name) a.push(rewrite(c)); });
     return a; }
 
-  function rewrite_var(t) { return [ 'var', t.string().trim() ]; }
-  function rewrite_number(t) { return [ 'num', t.string().trim() ]; }
+  function rewrite_var(t) { return [ 'var', t.strinp() ]; }
+  function rewrite_number(t) { return [ 'num', t.strinp() ]; }
 
   function rewrite_string(t) {
 
-    var s = t.children[0].string().trim();
+    var s = t.children[0].strinp();
     var q = s[0];
     var s = s.slice(1, -1);
 
