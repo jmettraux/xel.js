@@ -54,32 +54,6 @@ describe 'xel_js' do
 
   describe 'Xel' do
 
-    describe '.peval' do
-
-      XEL_CASES.each do |k|
-
-        ctx = k[:ctx] || {}
-        code = k[:code]
-        peval = k[:peval]; next unless peval
-
-        l =
-          ctx.any? ? 31 : 56
-        t =
-          "pevals #{trunc(code.inspect, l)} to #{trunc(peval.inspect, l)}" +
-          (ctx.any? ? ' when ' + trunc(ctx.inspect, l) : '')
-
-        it(t) do
-
-          r = @bro.eval(%{
-            Xel.peval(
-              XelParser.parse(#{JSON.dump(code)}),
-              #{JSON.dump(ctx)}); })
-
-          expect(r).to eq(peval)
-        end
-      end
-    end
-
     describe '.eval' do
 
       XEL_CASES.each do |k|

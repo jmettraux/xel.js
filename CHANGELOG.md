@@ -6,6 +6,7 @@
 
 * Implement LET()
 * Implement &
+* Drop Xel.peval()
 
 
 ## xel.js 1.2.0  released 2024-04-03

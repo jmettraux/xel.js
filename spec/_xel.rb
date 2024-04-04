@@ -40,59 +40,50 @@
   out:    -0.123 }
 
 ## >"12" =~ "[a-z]"<
-{ out:    false,
-  peval:  "(\"12\" =~ \"[a-z]\")" }
+{ out: false }
 
 ## >"a" != "a"<
-{ out:    false }
+{ out: false }
 
 ## >"a" != "b"<
-{ out:    true,
-  peval:  "(\"a\" != \"b\")" }
+{ out: true }
 
 ## >"a" = "a"<
-{ out:    true }
+{ out: true }
 
 ## >"a" = "b"<
-{ out:    false,
-  peval:  "(\"a\" = \"b\")" }
+{ out: false }
 
 ## >"a" IN { "alpha", "bravo" }<
-{ tree:   ["cmp", "IN", ["str", "a"], ["arr", ["str", "alpha"], ["str", "bravo"]]] }
+{ tree: ["cmp", "IN", ["str", "a"], ["arr", ["str", "alpha"], ["str", "bravo"]]] }
 
 ## >"a" IN { 0, "a", 2 }<
-{ out:    true,
-  peval:  "(\"a\" IN {0,\"a\",2})" }
+{ out: true }
 
 ## >"a" IN { 0, "b", 2 }<
-{ out:    false }
+{ out: false }
 
 ## >"a" IN {}<
-{ out:    false,
-  peval:  "(\"a\" IN {})" }
+{ out: false }
 
 ## >"ab" =~ "[a-z]"<
-{ out:    true,
-  peval:  "(\"ab\" =~ \"[a-z]\")" }
+{ out: true }
 
 ## >"ab\"cd'ef"<
 { out:    "ab\"cd'ef",
-  peval:  "\"ab\\\"cd'ef\"",
   tree:   ["str", "ab\"cd'ef"] }
 
 ## >"b" IN a<
-{ ctx:    {"a"=>["a", "b", "c"]},
-  out:    true,
-  peval:  "(\"b\" IN a:{\"a\",\"b\",\"c\"})" }
+{ ctx: {"a"=>["a", "b", "c"]},
+  out: true }
 
 ## >"d" IN a<
-{ ctx:    {"a"=>["a", "b", "c"]},
-  out:    false }
+{ ctx: {"a"=>["a", "b", "c"]},
+  out: false }
 
 ## >'ab"cd\'ef'<
-{ out:    "ab\"cd'ef",
-  peval:  "\"ab\\\"cd'ef\"",
-  tree:   ["str", "ab\"cd'ef"] }
+{ out:   "ab\"cd'ef",
+  tree:  ["str", "ab\"cd'ef"] }
 
 ## >'ab' =~ '[a-z]'<
 { tree:   ["cmp", "=~", ["str", "ab"], ["str", "[a-z]"]] }
@@ -101,21 +92,18 @@
 { tree:   ["MUL", ["plus", ["num", "10"], ["num", "11"]], ["num", "12"]] }
 
 ## >0.45 * we_c - 0.15 * it_c + 0.15 * sm_c + 0.25 * gp_c<
-{ ctx:    {"we_c"=>1.1, "it_c"=>2.2, "sm_c"=>3.3, "gp_c"=>4.4},
-  out:    1.76,
-  peval:  "((0.45 * we_c:1.10) + (- (0.15 * it_c:2.20)) + (0.15 * sm_c:3.30) + (0.25 * gp_c:4.40))",
-  tree:   ["plus", ["MUL", ["num", "0.45"], ["var", "we_c"]], ["opp", ["MUL", ["num", "0.15"], ["var", "it_c"]]], ["MUL", ["num", "0.15"], ["var", "sm_c"]], ["MUL", ["num", "0.25"], ["var", "gp_c"]]] }
+{ ctx:   {"we_c"=>1.1, "it_c"=>2.2, "sm_c"=>3.3, "gp_c"=>4.4},
+  out:   1.76,
+  tree:  ["plus", ["MUL", ["num", "0.45"], ["var", "we_c"]], ["opp", ["MUL", ["num", "0.15"], ["var", "it_c"]]], ["MUL", ["num", "0.15"], ["var", "sm_c"]], ["MUL", ["num", "0.25"], ["var", "gp_c"]]] }
 
 ## >1 * 2 + 3<
 { tree:   ["plus", ["MUL", ["num", "1"], ["num", "2"]], ["num", "3"]] }
 
 ## >1 + "a"<
-{ out:    "1a",
-  peval:  "(1 + \"a\")" }
+{ out: "1a" }
 
 ## >1 + 2<
-{ out:    3,
-  peval:  "(1 + 2)" }
+{ out: 3 }
 
 ## >1 + 2 * 3<
 { tree:   ["plus", ["num", "1"], ["MUL", ["num", "2"], ["num", "3"]]] }
@@ -127,27 +115,22 @@
 { tree:   ["plus", ["num", "1"], ["var", "a"]] }
 
 ## >1 + a.b.c<
-{ ctx:    {:a=>{:b=>{:c=>66}}},
-  out:    67,
-  peval:  "(1 + a.b.c:66)",
-  tree:   ["plus", ["num", "1"], ["var", "a.b.c"]] }
+{ ctx:   {:a=>{:b=>{:c=>66}}},
+  out:   67,
+  tree:  ["plus", ["num", "1"], ["var", "a.b.c"]] }
 
 ## >1 + v0<
-{ ctx:    {:v0=>70},
-  out:    71,
-  peval:  "(1 + v0:70)" }
+{ ctx: {:v0=>70},
+  out: 71 }
 
 ## >1 - -2<
-{ out:    3,
-  peval:  "(1 + 2)" }
+{ out: 3 }
 
 ## >1 - 2<
-{ out:    -1,
-  peval:  "(1 + (- 2))" }
+{ out: -1 }
 
 ## >1 / 5<
-{ out:    0.2,
-  peval:  "(1 * (1 / 5))" }
+{ out: 0.2 }
 
 ## >"a" & "bc"<
 { out: "abc",
@@ -162,29 +145,23 @@
   out: "abcef" }
 
 ## >1 < 2<
-{ out:    true,
-  peval:  "(1 < 2)" }
+{ out: true }
 
 ## >1 <= 2<
-{ out:    true,
-  peval:  "(1 <= 2)" }
+{ out: true }
 
 ## >1 > 2<
-{ out:    false,
-  peval:  "(1 > 2)" }
+{ out: false }
 
 ## >1 IN a<
-{ ctx:    {"a"=>[0, 1, 2]},
-  out:    true,
-  peval:  "(1 IN a:{0,1,2})" }
+{ ctx:  {"a"=>[0, 1, 2]},
+  out:  true }
 
 ## >1 IN { 0, 1 }<
-{ out:    true,
-  peval:  "(1 IN {0,1})" }
+{ out: true }
 
 ## >1.0 / 5<
-{ out:    0.2,
-  peval:  "(1.0 * (1 / 5))" }
+{ out: 0.2 }
 
 ## >10<
 { tree:   ["num", "10"] }
@@ -211,34 +188,31 @@
 { tree:   ["num", "12.3"] }
 
 ## >2 != 3<
-{ out:    true }
+{ out: true }
 
 ## >2 <= 2<
-{ out:    true }
+{ out: true }
 
 ## >2 = 3<
-{ out:    false,
-  peval:  "(2 = 3)" }
+{ out: false }
 
 ## >2 >= 2<
-{ out:    true,
-  peval:  "(2 >= 2)" }
+{ out: true }
 
 ## >2 >= 3<
-{ out:    false }
+{ out: false }
 
 ## >3 != 3<
-{ out:    false,
-  peval:  "(3 != 3)" }
+{ out: false }
 
 ## >3 <= 2<
-{ out:    false }
+{ out: false }
 
 ## >3 = 3<
-{ out:    true }
+{ out: true }
 
 ## >3 >= 2<
-{ out:    true }
+{ out: true }
 
 ## >AND(
         NOT(apac_currency),
@@ -264,383 +238,323 @@
   out:    true }
 
 ## >AND(FALSE())<
-{ out:    false,
-  peval:  "AND(FALSE())" }
+{ out: false }
 
 ## >AND(TRUE())<
-{ out:    true,
-  peval:  "AND(TRUE())" }
+{ out: true }
 
 ## >AND(TRUE(), FALSE())<
-{ out:    false,
-  peval:  "AND(TRUE(), FALSE())" }
+{ out: false }
 
 ## >AND(TRUE(), TRUE())<
-{ out:    true,
-  peval:  "AND(TRUE(), TRUE())" }
+{ out: true }
 
 ## >CASE(AND(a > 99, 2 > 1), 2, a > 9, 1, -1)<
-{ ctx:    {"a"=>100},
-  out:    2,
-  peval:  "CASE(AND((a:100 > 99), (2 > 1)), 2, (a:100 > 9), 1, -1)" }
+{ ctx: {"a"=>100},
+  out: 2 }
 
 ## >CASE(a > 99, 2, a > 9, 1)<
-{ ctx:    {"a"=>7},
-  out:    nil,
-  peval:  "CASE((a:7 > 99), 2, (a:7 > 9), 1)" }
+{ ctx: {"a"=>7},
+  out: nil }
 
 ## >CASE(a > 99, 2, a > 9, 1, -1)<
-{ ctx:    {"a"=>100},
-  out:    2,
-  peval:  "CASE((a:100 > 99), 2, (a:100 > 9), 1, -1)" }
+{ ctx: {"a"=>100},
+  out: 2 }
 
 ## >CASE(eb, "&", 10, "g", 11, "a", 12)<
-{ ctx:    {"eb"=>"X"},
-  out:    nil }
+{ ctx: {"eb"=>"X"},
+  out: nil }
 
 ## >CASE(eb, "&", 10, "g", 11, "a", 12, 13)<
-{ ctx:    {"eb"=>"nada"},
-  out:    13,
-  peval:  "CASE(eb:\"nada\", \"&\", 10, \"g\", 11, \"a\", 12, 13)" }
+{ ctx: {"eb"=>"nada"},
+  out: 13 }
 
 ## >COUNTA(a)<
-{ ctx:    {"a"=>[]},
-  out:    0,
-  peval:  "COUNTA(a:{})" }
+{ ctx: {"a"=>[]},
+  out: 0 }
 
 ## >COUNTA(a)<
-{ ctx:    {"a"=>[1,2,3]},
-  out:    3,
-  peval:  "COUNTA(a:{1,2,3})" }
+{ ctx: {"a"=>[1,2,3]},
+  out: 3 }
 
 ## >FALSE()<
-{ out:    false,
-  peval:  "FALSE()" }
+{ out: false }
 
 ## >HAS(a, "b")<
-{ ctx:    {"a"=>["a", "b", "c"]},
-  out:    true,
-  peval:  "HAS(a:{\"a\",\"b\",\"c\"}, \"b\")" }
+{ ctx:  {"a"=>["a", "b", "c"]},
+  out:  true }
 
 ## >HAS(a, "d")<
-{ ctx:    {"a"=>["a", "b", "c"]},
-  out:    false }
+{ ctx:  {"a"=>["a", "b", "c"]},
+  out:  false }
 
 ## >HAS(a, 1)<
-{ ctx:    {"a"=>[0, 1, 2]},
-  out:    true,
-  peval:  "HAS(a:{0,1,2}, 1)" }
+{ ctx:  {"a"=>[0, 1, 2]},
+  out:  true }
 
 ## >IF(FALSE(), 1, 2)<
-{ out:    2,
-  peval:  "IF(FALSE(), 1, 2)" }
+{ out: 2 }
 
 ## >IF(TRUE(), 1, 2)<
-{ out:    1,
-  peval:  "IF(TRUE(), 1, 2)" }
+{ out: 1 }
 
 ## >IF(f, 1, 2)<
-{ ctx:    {:f=>false},
-  out:    2,
-  peval:  "IF(f:false, 1, 2)" }
+{ ctx:  {:f=>false},
+  out:  2 }
 
 ## >IF(ntac='no', 10, 0)<
-{ tree:   ["IF", ["cmp", "=", ["var", "ntac"], ["str", "no"]], ["num", "10"], ["num", "0"]] }
+{ tree: ["IF", ["cmp", "=", ["var", "ntac"], ["str", "no"]], ["num", "10"], ["num", "0"]] }
 
 ## >IF(t, 1, 2)<
-{ ctx:    {:t=>true},
-  out:    1,
-  peval:  "IF(t:true, 1, 2)" }
+{ ctx:  {:t=>true},
+  out:  1 }
 
 ## >INDEX(a, -1)<
-{ ctx:    {"a"=>[0, 1, 2, "trois"]},
-  out:    "trois",
-  peval:  "INDEX(a:{0,1,2,\"trois\"}, -1)" }
+{ ctx:  {"a"=>[0, 1, 2, "trois"]},
+  out:  "trois" }
 
 ## >INDEX(a, -2)<
-{ ctx:    {"a"=>[0, 1, 2, "trois"]},
-  out:    2 }
+{ ctx:  {"a"=>[0, 1, 2, "trois"]},
+  out:  2 }
 
 ## >INDEX(a, 1)<
-{ ctx:    {"a"=>[0, 1, 2]},
-  out:    0,
-  peval:  "INDEX(a:{0,1,2}, 1)" }
+{ ctx:  {"a"=>[0, 1, 2]},
+  out:  0 }
 
 ## >INDEX(a, 2)<
-{ ctx:    {"a"=>[0, 1, 2]},
-  out:    1 }
+{ ctx:  {"a"=>[0, 1, 2]},
+  out:  1 }
 
 ## >INDEX(a, COUNTA(a))<
-{ ctx:    {"a"=>[0, "two"]},
-  out:    "two",
-  peval:  "INDEX(a:{0,\"two\"}, COUNTA(a:{0,\"two\"}))" }
+{ ctx:  {"a"=>[0, "two"]},
+  out:  "two" }
 
 ## >ISBLANK(a)<
-{ ctx:    {"a"=>"abc"},
-  out:    false,
-  peval:  "ISBLANK(a:\"abc\")" }
+{ ctx:  {"a"=>"abc"},
+  out:  false }
 
 ## >ISBLANK(a)<
-{ ctx:    {"a"=>""},
-  out:    true }
+{ ctx:  {"a"=>""},
+  out:  true }
 
 ## >ISBLANK(a)<
-{ ctx:    {},
-  out:    true }
+{ ctx:  {},
+  out:  true }
 
 ## >ISNUMBER("nada")<
-{ out:    false,
-  peval:  "ISNUMBER(\"nada\")" }
+{ out:  false }
 
 ## >ISNUMBER(123)<
-{ out:    true,
-  peval:  "ISNUMBER(123)" }
+{ out:  true }
 
 ## >ISNUMBER(123.12)<
-{ out:    true,
-  peval:  "ISNUMBER(123.12)" }
+{ out:  true }
 
 ## >ISNUMBER(FALSE())<
-{ out:    false,
-  peval:  "ISNUMBER(FALSE())" }
+{ out:  false }
 
 ## >ISNUMBER(TRUE())<
-{ out:    false,
-  peval:  "ISNUMBER(TRUE())" }
+{ out:  false }
 
 ## >ISNUMBER(a)<
-{ ctx:    {"a"=>nil},
-  out:    false,
-  peval:  "ISNUMBER(a:-)" }
+{ ctx:  {"a"=>nil},
+  out:  false }
 
 ## >LN(3044.31)<
-{ out:    8.02,
-  peval:  "LN(3044.31)" }
+{ out:  8.02 }
 
 ## >LN(a)<
-{ ctx:    {"a"=>[3044.31, 3047.12]},
-  out:    [8.02, 8.02] }
+{ ctx:  {"a"=>[3044.31, 3047.12]},
+  out:  [8.02, 8.02] }
 
 ## >LN({ 3044.31, 3047.12 })<
-{ out:    [8.02, 8.02] }
+{ out:  [8.02, 8.02] }
 
 ## >MATCH("b", a, 0)<
-{ ctx:    {"a"=>["a", "b", "c"]},
-  out:    1 }
+{ ctx:  {"a"=>["a", "b", "c"]},
+  out:  1 }
 
 ## >MATCH("d", a, 0)<
-{ ctx:    {"a"=>["a", "b"]},
-  out:    -1,
-  peval:  "MATCH(\"d\", a:{\"a\",\"b\"}, 0)" }
+{ ctx:  {"a"=>["a", "b"]},
+  out:  -1 }
 
 ## >MATCH(1, a, 0)<
-{ ctx:    {"a"=>[0, 1, 2]},
-  out:    1,
-  peval:  "MATCH(1, a:{0,1,2}, 0)" }
+{ ctx:  {"a"=>[0, 1, 2]},
+  out:  1 }
 
 ## >MAX(-1, -2, "a", -3)<
-{ out:    -1 }
+{ out:  -1 }
 
 ## >MAX(-1, -2, -3)<
-{ out:    -1 }
+{ out:  -1 }
 
 ## >MAX(1, 2, 3)<
-{ out:    3 }
+{ out:  3 }
 
 ## >MIN(-1, -2, "a", -3)<
-{ out:    -1 }
+{ out:  -1 }
 
 ## >MIN(-1, -2, -3)<
-{ out:    -3 }
+{ out:  -3 }
 
 ## >MIN(1, 2, 3)<
-{ out:    1 }
+{ out:  1 }
 
 ## >NOT(FALSE())<
-{ out:    true,
-  peval:  "NOT(FALSE())" }
+{ out:  true }
 
 ## >NOT(TRUE())<
-{ out:    false,
-  peval:  "NOT(TRUE())" }
+{ out:  false }
 
 ## >OR(1 = 2, 2 = 2)<
-{ out:    true,
-  peval:  "OR((1 = 2), (2 = 2))" }
+{ out:  true }
 
 ## >OR(1 = 2, 2 = 3)<
-{ out:    false,
-  peval:  "OR((1 = 2), (2 = 3))" }
+{ out:  false }
 
 ## >OR(TRUE(), FALSE())<
-{ out:    true,
-  peval:  "OR(TRUE(), FALSE())" }
+{ out:  true }
 
 ## >PRODUCT(2, 3, 4)<
-{ out:    24,
-  peval:  "PRODUCT(2, 3, 4)" }
+{ out:  24 }
 
 ## >PRODUCT({ 2, 3, 4 })<
-{ out:    24,
-  peval:  "PRODUCT({2,3,4})" }
+{ out:  24 }
 
 ## >PRODUCT({ 2, 3, 4 }, 2)<
-{ out:    48,
-  peval:  "PRODUCT({2,3,4}, 2)" }
+{ out:  48 }
 
 ## >PRODUCT({ 2, 3, 4 }, a, 2)<
-{ ctx:    {"a"=>[0.5, 0.5]},
-  out:    12,
-  peval:  "PRODUCT({2,3,4}, a:{0.50,0.50}, 2)" }
+{ ctx:  {"a"=>[0.5, 0.5]},
+  out:  12 }
 
 ## >PROPER("alpha bravo charly")<
-{ out:    "Alpha Bravo Charly",
-  peval:  "PROPER(\"alpha bravo charly\")" }
+{ out: "Alpha Bravo Charly" }
 
 ## >SORT({ 1, "aa", 7, 2 }, 1, -1)<
-{ out:    ["aa", 7, 2, 1],
-  peval:  "SORT({1,\"aa\",7,2}, 1, -1)" }
+{ out: ["aa", 7, 2, 1] }
 
 ## >SORT({ 1, 3, 2 })<
-{ out:    [1, 2, 3],
-  peval:  "SORT({1,3,2})" }
+{ out: [1, 2, 3] }
 
 ## >SORT({ 1, 3, 2 }, 1, -1)<
-{ out:    [3, 2, 1],
-  peval:  "SORT({1,3,2}, 1, -1)" }
+{ out: [3, 2, 1] }
 
 ## >SQRT(260)<
-{ out:    16.1245,
-  peval:  "SQRT(260)" }
+{ out: 16.1245 }
 
 ## >SQRT(a)<
-{ ctx:    {"a"=>[260, 81]},
-  out:    [16.1245, 9] }
+{ ctx:  {"a"=>[260, 81]},
+  out:  [16.1245, 9] }
 
 ## >SQRT({ 260, 81 })<
-{ out:    [16.1245, 9],
-  peval:  "SQRT({260,81})" }
+{ out:  [16.1245, 9] }
 
 ## >STDEV(a)<
-{ ctx:    {"a"=>[10, 11]},
-  out:    0.71,
-  peval:  "STDEV(a:{10,11})" }
+{ ctx:  {"a"=>[10, 11]},
+  out:  0.71 }
 
 ## >SUM(1 + 2, 3, SUM(4, 5))<
 { tree:   ["SUM", ["plus", ["num", "1"], ["num", "2"]], ["num", "3"], ["SUM", ["num", "4"], ["num", "5"]]] }
 
 ## >SUM(2, 3, 4)<
-{ out:    9,
-  peval:  "SUM(2, 3, 4)" }
+{ out:  9 }
 
 ## >SUM(3,000,000, 2)<
-{ tree:   ["SUM", ["num", "3,000,000"], ["num", "2"]] }
+{ tree:  ["SUM", ["num", "3,000,000"], ["num", "2"]] }
 
 ## >SUM({ 2, 3, 4 })<
-{ out:    9,
-  peval:  "SUM({2,3,4})" }
+{ out:  9 }
 
 ## >SUM({ 2, 3, 4 }, 2)<
-{ out:    11,
-  peval:  "SUM({2,3,4}, 2)" }
+{ out:  11 }
 
 ## >SUM({ 2, 3, 4 }, a, 2)<
-{ ctx:    {"a"=>[0.5, 0.5]},
-  out:    12,
-  peval:  "SUM({2,3,4}, a:{0.50,0.50}, 2)" }
+{ ctx:  {"a"=>[0.5, 0.5]},
+  out:  12 }
 
 ## >SWITCH(eb, "&", 10, "g", 11, "a", 12)<
-{ ctx:    {"eb"=>"X"},
-  out:    nil }
+{ ctx:  {"eb"=>"X"},
+  out:  nil }
 
 ## >TRUE()<
-{ out:    true,
-  peval:  "TRUE()" }
+{ out:  true }
 
 ## >UNIQUE(a)<
-{ ctx:    {"a"=>[1, 2, 1, 1, 2, 3]},
-  out:    [1, 2, 3],
-  peval:  "UNIQUE(a:{1,2,1,1,2,3})" }
+{ ctx:  {"a"=>[1, 2, 1, 1, 2, 3]},
+  out:  [1, 2, 3] }
 
 ## >UNIQUE({ 1, 1 })<
-{ out:    [1],
-  peval:  "UNIQUE({1,1})" }
+{ out:  [1] }
 
 ## >UPPER("alpha bravo charly")<
-{ out:    "ALPHA BRAVO CHARLY",
-  peval:  "UPPER(\"alpha bravo charly\")" }
+{ out:  "ALPHA BRAVO CHARLY" }
 
 ## >LOWER("ALPHA BRAVO Charly")<
-{ out:    "alpha bravo charly",
-  peval:  "LOWER(\"ALPHA BRAVO Charly\")" }
+{ out:  "alpha bravo charly" }
 
 ## >a != ""<
-{ ctx:    {"a"=>"abc"},
-  out:    true,
-  peval:  "(a:\"abc\" != \"\")" }
+{ ctx:  {"a"=>"abc"},
+  out:  true }
 
 ## >a = ""<
-{ ctx:    {"a"=>"abc"},
-  out:    false,
-  peval:  "(a:\"abc\" = \"\")" }
+{ ctx:  {"a"=>"abc"},
+  out:  false }
 
 ## >ntac = "yes"<
-{ ctx:    {"ntac"=>"no"},
-  out:    false,
-  peval:  "(ntac:\"no\" = \"yes\")" }
+{ ctx:  {"ntac"=>"no"},
+  out:  false }
 
 ## >ntac = 'no'<
-{ tree:   ["cmp", "=", ["var", "ntac"], ["str", "no"]] }
+{ tree:  ["cmp", "=", ["var", "ntac"], ["str", "no"]] }
 
 ## >{ "a" } != { "a" }<
-{ out:    false }
+{ out:  false }
 
 ## >{ "a" } != { "b" }<
-{ out:    true }
+{ out:  true }
 
 ## >{ "a" } = { "a" }<
-{ out:    true }
+{ out:  true }
 
 ## >{ "a" } = { "b" }<
-{ out:    false }
+{ out:  false }
 
 ## >{ "a", "b" } != { "a" }<
-{ out:    true }
+{ out:  true }
 
 ## >{ "a", "b" } != { "a", "b" }<
-{ out:    false }
+{ out:  false }
 
 ## >{ "a", "b" } = { "a" }<
-{ out:    false }
+{ out:  false }
 
 ## >{ "a", "b" } = { "a", "b" }<
-{ out:    true }
+{ out:  true }
 
 ## >{ 1, "a", "b", "c" } <
-{ out:    [1, "a", "b", "c"],
-  peval:  "{1,\"a\",\"b\",\"c\"}" }
+{ out:  [1, "a", "b", "c"] }
 
 ## >{ 1, 2 } + { "a", "b" }<
-{ out:    [1, 2, "a", "b"],
-  peval:  "({1,2} + {\"a\",\"b\"})" }
+{ out:  [1, 2, "a", "b"] }
 
 ## >{ 1, 2, 3 } + { 3, 4, 5 }<
-{ tree:   ["plus", ["arr", ["num", "1"], ["num", "2"], ["num", "3"]], ["arr", ["num", "3"], ["num", "4"], ["num", "5"]]] }
+{ tree:  ["plus", ["arr", ["num", "1"], ["num", "2"], ["num", "3"]], ["arr", ["num", "3"], ["num", "4"], ["num", "5"]]] }
 
 ## >{ { "a", "b" }, { "c", "de" } }<
-{ out:    [["a", "b"], ["c", "de"]] }
+{ out:  [["a", "b"], ["c", "de"]] }
 
 ## >{ { "a", 1 }, { "c", 2 } }<
-{ out:    [["a", 1], ["c", 2]] }
+{ out:  [["a", 1], ["c", 2]] }
 
 ## >{"a", "b", "c" } <
-{ out:    ["a", "b", "c"] }
+{ out:  ["a", "b", "c"] }
 
 ## >{"a","b"}<
-{ out:    ["a", "b"] }
+{ out:  ["a", "b"] }
 
 ## >{1,"a", "b", 2, 0, "d" }<
-{ tree:   ["arr", ["num", "1"], ["str", "a"], ["str", "b"], ["num", "2"], ["num", "0"], ["str", "d"]] }
+{ tree:  ["arr", ["num", "1"], ["str", "a"], ["str", "b"], ["num", "2"], ["num", "0"], ["str", "d"]] }
 
 ## >LAMBDA(a, b, a + b)<
 { out:  {},
@@ -705,6 +619,5 @@
         ["LAMBDA", ["var", "a"], ["var", "b"],
           ["plus", ["var", "a"], ["var", "b"]]],
       ["l", ["num", "2"], ["num", "3"]]],
-  out: 5,
-  peval: "LET(l:-, LAMBDA(a:-, b:-, (a:- + b:-)), l(2, 3))" }
+  out: 5 }
 
