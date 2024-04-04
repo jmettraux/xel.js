@@ -32,7 +32,7 @@ var XelParser = Jaabro.makeParser(function() {
   function multiplier(i) {
     return rex('multiplier', i, /[*\/]\s*/); }
   function adder(i) {
-    return rex('adder', i, /[+\-]\s*/); }
+    return rex('adder', i, /[-+&]\s*/); }
 
   function par(i) { return seq('par', i, pa, cmp, pz); }
   function exp(i) { return alt('exp', i, par, fun, number, string, arr, vra); }
@@ -65,6 +65,7 @@ var XelParser = Jaabro.makeParser(function() {
 
     var cn = t.children.slice(); // dup array
     var a = [ t.name === 'add' ? 'plus' : 'MUL' ];
+    if (cn[1].strinp() === '&') a = [ 'amp' ]
     var mod = null;
     var c = null;
 
@@ -144,6 +145,10 @@ var Xel = (function() {
   pevals.plus = function(tree, context) {
     var es = tree.slice(1).map(function(t) { return self.peval(t, context); });
     return '(' + es.join(' + ') + ')';
+  };
+  pevals.amp = function(tree, context) {
+    var es = tree.slice(1).map(function(t) { return self.peval(t, context); });
+    return '(' + es.join(' & ') + ')';
   };
   pevals.num = function(tree, context) {
     return '' + tree[1];
@@ -293,6 +298,14 @@ var Xel = (function() {
     if (Array.isArray(elts[0]))
       return elts.reduce(function(r, e) { return r.concat(e); }, []);
     return null;
+  };
+
+  evals.amp = function(tree, context) {
+
+    return(
+      tree.slice(1)
+        .map(function(t) { return '' + self.eval(t, context); })
+        .join(''));
   };
 
   evals.MUL = function(tree, context) {

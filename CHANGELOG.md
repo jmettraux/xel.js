@@ -5,6 +5,7 @@
 ## xel.js 1.3.0  not yet released
 
 * Implement LET()
+* Implement &
 
 
 ## xel.js 1.2.0  released 2024-04-03

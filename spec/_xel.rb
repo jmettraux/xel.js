@@ -149,6 +149,14 @@
 { out:    0.2,
   peval:  "(1 * (1 / 5))" }
 
+## >"a" & "bc"<
+{ out: "abc",
+  tree: ["amp", ["str", "a"], ["str", "bc"]] }
+
+## >1 & 1<
+{ out: "11",
+  tree: ["amp", ["num", "1"], ["num", "1"]] }
+
 ## >1 < 2<
 { out:    true,
   peval:  "(1 < 2)" }
