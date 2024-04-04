@@ -304,7 +304,9 @@ var Xel = (function() {
 
     return(
       tree.slice(1)
-        .map(function(t) { return '' + self.eval(t, context); })
+        .map(function(t) {
+          var v = self.eval(t, context);
+          return (v === undefined || v === null) ? '' : '' + v; })
         .join(''));
   };
 

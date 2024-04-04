@@ -157,6 +157,10 @@
 { out: "11",
   tree: ["amp", ["num", "1"], ["num", "1"]] }
 
+## >"ab" & c & d & "ef"<
+{ ctx: { c: "c" },
+  out: "abcef" }
+
 ## >1 < 2<
 { out:    true,
   peval:  "(1 < 2)" }
