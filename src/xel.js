@@ -560,18 +560,6 @@ var Xel = (function() {
     return self.eval(tree[tl - 1], ctx);
   };
 
-//Math.mround = function(number, multiple) {
-//
-//  if (number * multiple < 0) return NaN;
-//
-//  return Math.round(number / multiple) * multiple;
-//};
-//
-//Math.mround2 = function(number, multiple) {
-//
-//  var r = Math.mround(number, multiple) * 100;
-//  return (r - r % 1) / 100;
-//};
   evals.MROUND = function(tree, context) {
 
     var n = self.eval(tree[1], context);
@@ -579,6 +567,19 @@ var Xel = (function() {
 
     if (n * m < 0) return NaN;
     return Math.round(n / m) * m;
+  };
+
+  evals.MROUND2 = function(tree, context) {
+
+    var n = self.eval(tree[1], context);
+    var m = self.eval(tree[2], context);
+
+    if (n * m < 0) return NaN;
+
+    var r = Math.round(n / m) * m;
+    r = r * 100;
+
+    return (r - r % 1) / 100;
   };
 
   //

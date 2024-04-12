@@ -657,3 +657,45 @@
 ## >MROUND(4, 3)<
 { out: 3 }
 
+## >MROUND(10.5678, 0.05)<
+{ out: 10.55 }
+
+## >MROUND2(51, 3)<
+{ out: 51 }
+
+## >MROUND2(50, 7)<
+{ out: 49 }
+
+## >MROUND2(50, 3)<
+{ out: 51 }
+
+## >MROUND2(10, 3)<
+{ out: 9 }
+
+## >MROUND2(10, -3)<
+{ out: nil } # NaN
+
+## >MROUND2(-10, 3)<
+{ out: nil } # NaN
+
+## >MROUND2(-10, -3)<
+{ out: -9 }
+
+## >MROUND2(0, 3)<
+{ out: 0 }
+
+## >MROUND2(10, 0)<
+{ out: nil } # #DIV/0!
+
+## >MROUND2(10.5, 0.3)<
+{ out: 10.5 }
+
+## >MROUND2(5, 3)<
+{ out: 6 }
+
+## >MROUND2(4, 3)<
+{ out: 3 }
+
+## >MROUND2(10.5678, 0.05)<
+{ out: 10.55 }
+
