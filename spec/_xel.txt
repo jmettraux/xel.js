@@ -18,6 +18,7 @@ LET(price, 100, count, 3, count * price) ⟶   300
 LET(price, 95, count, 3, 12, count * price) ⟶   285
 LET(price, 13, LOWER("COUNT"), 3, count * price) ⟶   39
 LET(l, LAMBDA(a, b, a + b), l(2, 3)) ⟶   5
+LET(_l, LAMBDA(a, b, a * b), _l(2, 3)) ⟶   6
 
 MROUND(51, 3) ⟶   51
 MROUND(50, 7) ⟶   49

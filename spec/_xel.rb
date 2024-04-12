@@ -198,4 +198,6 @@
 
 { c: "LET(l, LAMBDA(a, b, a + b), l(2, 3))",
   t: ["LET",["var","l"],["LAMBDA",["var","a"],["var","b"],["plus",["var","a"],["var","b"]]],["l",["num","2"],["num","3"]]] },
+{ c: "LET(_l, LAMBDA(a, b, a + b), _l(2, 3))",
+  t: ["LET",["var","_l"],["LAMBDA",["var","a"],["var","b"],["plus",["var","a"],["var","b"]]],["_l",["num","2"],["num","3"]]] },
 ]

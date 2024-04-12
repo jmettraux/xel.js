@@ -24,7 +24,7 @@ var XelParser = Jaabro.makeParser(function() {
   function string(i) { return alt('string', i, dqstring, qstring); }
 
   function funargs(i) { return eseq('funargs', i, pa, cmp, com, pz); }
-  function funname(i) { return rex('funname', i, /[a-zA-Z][_a-zA-Z0-9]*/); }
+  function funname(i) { return rex('funname', i, /[_a-zA-Z][_a-zA-Z0-9]*/); }
   function fun(i) { return seq('fun', i, funname, funargs); }
 
   function comparator(i) {
