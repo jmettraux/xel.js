@@ -1,701 +1,246 @@
 
-## >987<
-{ tree:   ["num", "987"],
-  out:    987 }
-
-## >3,000,000<
-{ tree:   ["num", "3,000,000"],
-  out:    3_000_000 }
-
-## >123.45<
-{ tree:   ["num", "123.45"],
-  out:    123.45 }
-
-## >9,090.10<
-{ tree:   ["num", "9,090.10"],
-  out:    9_090.1 }
-
-## >.123<
-{ tree:   ["num", ".123"],
-  out:    0.123 }
-
-## >-987<
-{ tree:   ["num", "-987"],
-  out:    -987 }
-
-## >-3,000,000<
-{ tree:   ["num", "-3,000,000"],
-  out:    -3_000_000 }
-
-## >-123.45<
-{ tree:   ["num", "-123.45"],
-  out:    -123.45 }
-
-## >-9,090.10<
-{ tree:   ["num", "-9,090.10"],
-  out:    -9_090.1 }
-
-## >-.123<
-{ tree:   ["num", "-.123"],
-  out:    -0.123 }
-
-## >"12" =~ "[a-z]"<
-{ out: false }
-
-## >"a" != "a"<
-{ out: false }
-
-## >"a" != "b"<
-{ out: true }
-
-## >"a" = "a"<
-{ out: true }
-
-## >"a" = "b"<
-{ out: false }
-
-## >"a" IN { "alpha", "bravo" }<
-{ tree: ["cmp", "IN", ["str", "a"], ["arr", ["str", "alpha"], ["str", "bravo"]]] }
-
-## >"a" IN { 0, "a", 2 }<
-{ out: true }
-
-## >"a" IN { 0, "b", 2 }<
-{ out: false }
-
-## >"a" IN {}<
-{ out: false }
-
-## >"ab" =~ "[a-z]"<
-{ out: true }
-
-## >"ab\"cd'ef"<
-{ out:    "ab\"cd'ef",
-  tree:   ["str", "ab\"cd'ef"] }
-
-## >"b" IN a<
-{ ctx: {"a"=>["a", "b", "c"]},
-  out: true }
-
-## >"d" IN a<
-{ ctx: {"a"=>["a", "b", "c"]},
-  out: false }
-
-## >'ab"cd\'ef'<
-{ out:   "ab\"cd'ef",
-  tree:  ["str", "ab\"cd'ef"] }
-
-## >'ab' =~ '[a-z]'<
-{ tree:   ["cmp", "=~", ["str", "ab"], ["str", "[a-z]"]] }
-
-## >(10 + 11) * 12<
-{ tree:   ["MUL", ["plus", ["num", "10"], ["num", "11"]], ["num", "12"]] }
-
-## >0.45 * we_c - 0.15 * it_c + 0.15 * sm_c + 0.25 * gp_c<
-{ ctx:   {"we_c"=>1.1, "it_c"=>2.2, "sm_c"=>3.3, "gp_c"=>4.4},
-  out:   1.76,
-  tree:  ["plus", ["MUL", ["num", "0.45"], ["var", "we_c"]], ["opp", ["MUL", ["num", "0.15"], ["var", "it_c"]]], ["MUL", ["num", "0.15"], ["var", "sm_c"]], ["MUL", ["num", "0.25"], ["var", "gp_c"]]] }
-
-## >1 * 2 + 3<
-{ tree:   ["plus", ["MUL", ["num", "1"], ["num", "2"]], ["num", "3"]] }
-
-## >1 + "a"<
-{ out: "1a" }
-
-## >1 + 2<
-{ out: 3 }
-
-## >1 + 2 * 3<
-{ tree:   ["plus", ["num", "1"], ["MUL", ["num", "2"], ["num", "3"]]] }
-
-## >1 + 2 < 3<
-{ tree:   ["cmp", "<", ["plus", ["num", "1"], ["num", "2"]], ["num", "3"]] }
-
-## >1 + a<
-{ tree:   ["plus", ["num", "1"], ["var", "a"]] }
-
-## >1 + a.b.c<
-{ ctx:   {:a=>{:b=>{:c=>66}}},
-  out:   67,
-  tree:  ["plus", ["num", "1"], ["var", "a.b.c"]] }
-
-## >1 + v0<
-{ ctx: {:v0=>70},
-  out: 71 }
-
-## >1 - -2<
-{ out: 3 }
-
-## >1 - 2<
-{ out: -1 }
-
-## >1 / 5<
-{ out: 0.2 }
-
-## >"a" & "bc"<
-{ out: "abc",
-  tree: ["amp", ["str", "a"], ["str", "bc"]] }
-
-## >1 & 1<
-{ out: "11",
-  tree: ["amp", ["num", "1"], ["num", "1"]] }
-
-## >"ab" & c & d & "ef"<
-{ ctx: { c: "c" },
-  out: "abcef" }
-
-## >1 < 2<
-{ out: true }
-
-## >1 <= 2<
-{ out: true }
-
-## >1 > 2<
-{ out: false }
-
-## >1 IN a<
-{ ctx:  {"a"=>[0, 1, 2]},
-  out:  true }
-
-## >1 IN { 0, 1 }<
-{ out: true }
-
-## >1.0 / 5<
-{ out: 0.2 }
-
-## >10<
-{ tree:   ["num", "10"] }
-
-## >10 + 11<
-{ tree:   ["plus", ["num", "10"], ["num", "11"]] }
-
-## >10 + 11 * 12<
-{ tree:   ["plus", ["num", "10"], ["MUL", ["num", "11"], ["num", "12"]]] }
-
-## >10 + IF(ntac='no', 10, 0)<
-{ tree:   ["plus", ["num", "10"], ["IF", ["cmp", "=", ["var", "ntac"], ["str", "no"]], ["num", "10"], ["num", "0"]]] }
-
-## >10 + SUM(1, 2)<
-{ tree:   ["plus", ["num", "10"], ["SUM", ["num", "1"], ["num", "2"]]] }
-
-## >10 - -11<
-{ tree:   ["plus", ["num", "10"], ["opp", ["num", "-11"]]] }
-
-## >10 / -11<
-{ tree:   ["MUL", ["num", "10"], ["inv", ["num", "-11"]]] }
-
-## >12.3<
-{ tree:   ["num", "12.3"] }
-
-## >2 != 3<
-{ out: true }
-
-## >2 <= 2<
-{ out: true }
-
-## >2 = 3<
-{ out: false }
-
-## >2 >= 2<
-{ out: true }
-
-## >2 >= 3<
-{ out: false }
-
-## >3 != 3<
-{ out: false }
-
-## >3 <= 2<
-{ out: false }
-
-## >3 = 3<
-{ out: true }
-
-## >3 >= 2<
-{ out: true }
-
-## >AND(
-        NOT(apac_currency),
-        OR(cm_rating_top_out_or_sector, jpm_overweight_or_neutral),
-        moat_narrow_or_wide)<
-{ ctx:    {"apac_currency"=>true, "cm_rating_top_out_or_sector"=>true, "jpm_overweight_or_neutral"=>false, "moat_narrow_or_wide"=>false},
-  out:    false }
-
-## >AND(
-        NOT(meta.apac_currency),
-        OR(meta.cm_rating_top_out_or_sector, meta.jpm_overweight_or_neutral),
-        meta.moat_narrow_or_wide)<
-{ ctx:    {"meta"=>{"apac_currency"=>false, "cm_rating_top_out_or_sector"=>true, "jpm_overweight_or_neutral"=>false, "moat_narrow_or_wide"=>true}},
-  out:    true }
-
-## >AND(
-        meta.apac_currency,
-        OR(meta.ms_rating_overall_543, meta.jpm_overweight_or_neutral),
-        meta.moat_narrow_or_wide,
-        meta.esg_risk_low_medium_or_negligible,
-        NOT(AND(meta.ms_rating_overall_3, meta.jpm_neutral)))<
-{ ctx:    {"meta"=>{"apac_currency"=>true, "ms_rating_overall_3"=>false, "ms_rating_overall_543"=>true, "moat_narrow_or_wide"=>true, "esg_risk_low_medium_or_negligible"=>true}},
-  out:    true }
-
-## >AND(FALSE())<
-{ out: false }
-
-## >AND(TRUE())<
-{ out: true }
-
-## >AND(TRUE(), FALSE())<
-{ out: false }
-
-## >AND(TRUE(), TRUE())<
-{ out: true }
-
-## >CASE(AND(a > 99, 2 > 1), 2, a > 9, 1, -1)<
-{ ctx: {"a"=>100},
-  out: 2 }
-
-## >CASE(a > 99, 2, a > 9, 1)<
-{ ctx: {"a"=>7},
-  out: nil }
-
-## >CASE(a > 99, 2, a > 9, 1, -1)<
-{ ctx: {"a"=>100},
-  out: 2 }
-
-## >CASE(eb, "&", 10, "g", 11, "a", 12)<
-{ ctx: {"eb"=>"X"},
-  out: nil }
-
-## >CASE(eb, "&", 10, "g", 11, "a", 12, 13)<
-{ ctx: {"eb"=>"nada"},
-  out: 13 }
-
-## >COUNTA(a)<
-{ ctx: {"a"=>[]},
-  out: 0 }
-
-## >COUNTA(a)<
-{ ctx: {"a"=>[1,2,3]},
-  out: 3 }
-
-## >FALSE()<
-{ out: false }
-
-## >HAS(a, "b")<
-{ ctx:  {"a"=>["a", "b", "c"]},
-  out:  true }
-
-## >HAS(a, "d")<
-{ ctx:  {"a"=>["a", "b", "c"]},
-  out:  false }
-
-## >HAS(a, 1)<
-{ ctx:  {"a"=>[0, 1, 2]},
-  out:  true }
-
-## >IF(FALSE(), 1, 2)<
-{ out: 2 }
-
-## >IF(TRUE(), 1, 2)<
-{ out: 1 }
-
-## >IF(f, 1, 2)<
-{ ctx:  {:f=>false},
-  out:  2 }
-
-## >IF(ntac='no', 10, 0)<
-{ tree: ["IF", ["cmp", "=", ["var", "ntac"], ["str", "no"]], ["num", "10"], ["num", "0"]] }
-
-## >IF(t, 1, 2)<
-{ ctx:  {:t=>true},
-  out:  1 }
-
-## >INDEX(a, -1)<
-{ ctx:  {"a"=>[0, 1, 2, "trois"]},
-  out:  "trois" }
-
-## >INDEX(a, -2)<
-{ ctx:  {"a"=>[0, 1, 2, "trois"]},
-  out:  2 }
-
-## >INDEX(a, 1)<
-{ ctx:  {"a"=>[0, 1, 2]},
-  out:  0 }
-
-## >INDEX(a, 2)<
-{ ctx:  {"a"=>[0, 1, 2]},
-  out:  1 }
-
-## >INDEX(a, COUNTA(a))<
-{ ctx:  {"a"=>[0, "two"]},
-  out:  "two" }
-
-## >ISBLANK(a)<
-{ ctx:  {"a"=>"abc"},
-  out:  false }
-
-## >ISBLANK(a)<
-{ ctx:  {"a"=>""},
-  out:  true }
-
-## >ISBLANK(a)<
-{ ctx:  {},
-  out:  true }
-
-## >ISNUMBER("nada")<
-{ out:  false }
-
-## >ISNUMBER(123)<
-{ out:  true }
-
-## >ISNUMBER(123.12)<
-{ out:  true }
-
-## >ISNUMBER(FALSE())<
-{ out:  false }
-
-## >ISNUMBER(TRUE())<
-{ out:  false }
-
-## >ISNUMBER(a)<
-{ ctx:  {"a"=>nil},
-  out:  false }
-
-## >LN(3044.31)<
-{ out:  8.02 }
-
-## >LN(a)<
-{ ctx:  {"a"=>[3044.31, 3047.12]},
-  out:  [8.02, 8.02] }
-
-## >LN({ 3044.31, 3047.12 })<
-{ out:  [8.02, 8.02] }
-
-## >MATCH("b", a, 0)<
-{ ctx:  {"a"=>["a", "b", "c"]},
-  out:  1 }
-
-## >MATCH("d", a, 0)<
-{ ctx:  {"a"=>["a", "b"]},
-  out:  -1 }
-
-## >MATCH(1, a, 0)<
-{ ctx:  {"a"=>[0, 1, 2]},
-  out:  1 }
-
-## >MAX(-1, -2, "a", -3)<
-{ out:  -1 }
-
-## >MAX(-1, -2, -3)<
-{ out:  -1 }
-
-## >MAX(1, 2, 3)<
-{ out:  3 }
-
-## >MIN(-1, -2, "a", -3)<
-{ out:  -1 }
-
-## >MIN(-1, -2, -3)<
-{ out:  -3 }
-
-## >MIN(1, 2, 3)<
-{ out:  1 }
-
-## >NOT(FALSE())<
-{ out:  true }
-
-## >NOT(TRUE())<
-{ out:  false }
-
-## >OR(1 = 2, 2 = 2)<
-{ out:  true }
-
-## >OR(1 = 2, 2 = 3)<
-{ out:  false }
-
-## >OR(TRUE(), FALSE())<
-{ out:  true }
-
-## >PRODUCT(2, 3, 4)<
-{ out:  24 }
-
-## >PRODUCT({ 2, 3, 4 })<
-{ out:  24 }
-
-## >PRODUCT({ 2, 3, 4 }, 2)<
-{ out:  48 }
-
-## >PRODUCT({ 2, 3, 4 }, a, 2)<
-{ ctx:  {"a"=>[0.5, 0.5]},
-  out:  12 }
-
-## >PROPER("alpha bravo charly")<
-{ out: "Alpha Bravo Charly" }
-
-## >SORT({ 1, "aa", 7, 2 }, 1, -1)<
-{ out: ["aa", 7, 2, 1] }
-
-## >SORT({ 1, 3, 2 })<
-{ out: [1, 2, 3] }
-
-## >SORT({ 1, 3, 2 }, 1, -1)<
-{ out: [3, 2, 1] }
-
-## >SQRT(260)<
-{ out: 16.1245 }
-
-## >SQRT(a)<
-{ ctx:  {"a"=>[260, 81]},
-  out:  [16.1245, 9] }
-
-## >SQRT({ 260, 81 })<
-{ out:  [16.1245, 9] }
-
-## >STDEV(a)<
-{ ctx:  {"a"=>[10, 11]},
-  out:  0.71 }
-
-## >SUM(1 + 2, 3, SUM(4, 5))<
-{ tree:   ["SUM", ["plus", ["num", "1"], ["num", "2"]], ["num", "3"], ["SUM", ["num", "4"], ["num", "5"]]] }
-
-## >SUM(2, 3, 4)<
-{ out:  9 }
-
-## >SUM(3,000,000, 2)<
-{ tree:  ["SUM", ["num", "3,000,000"], ["num", "2"]] }
-
-## >SUM({ 2, 3, 4 })<
-{ out:  9 }
-
-## >SUM({ 2, 3, 4 }, 2)<
-{ out:  11 }
-
-## >SUM({ 2, 3, 4 }, a, 2)<
-{ ctx:  {"a"=>[0.5, 0.5]},
-  out:  12 }
-
-## >SWITCH(eb, "&", 10, "g", 11, "a", 12)<
-{ ctx:  {"eb"=>"X"},
-  out:  nil }
-
-## >TRUE()<
-{ out:  true }
-
-## >UNIQUE(a)<
-{ ctx:  {"a"=>[1, 2, 1, 1, 2, 3]},
-  out:  [1, 2, 3] }
-
-## >UNIQUE({ 1, 1 })<
-{ out:  [1] }
-
-## >UPPER("alpha bravo charly")<
-{ out:  "ALPHA BRAVO CHARLY" }
-
-## >LOWER("ALPHA BRAVO Charly")<
-{ out:  "alpha bravo charly" }
-
-## >a != ""<
-{ ctx:  {"a"=>"abc"},
-  out:  true }
-
-## >a = ""<
-{ ctx:  {"a"=>"abc"},
-  out:  false }
-
-## >ntac = "yes"<
-{ ctx:  {"ntac"=>"no"},
-  out:  false }
-
-## >ntac = 'no'<
-{ tree:  ["cmp", "=", ["var", "ntac"], ["str", "no"]] }
-
-## >{ "a" } != { "a" }<
-{ out:  false }
-
-## >{ "a" } != { "b" }<
-{ out:  true }
-
-## >{ "a" } = { "a" }<
-{ out:  true }
-
-## >{ "a" } = { "b" }<
-{ out:  false }
-
-## >{ "a", "b" } != { "a" }<
-{ out:  true }
-
-## >{ "a", "b" } != { "a", "b" }<
-{ out:  false }
-
-## >{ "a", "b" } = { "a" }<
-{ out:  false }
-
-## >{ "a", "b" } = { "a", "b" }<
-{ out:  true }
-
-## >{ 1, "a", "b", "c" } <
-{ out:  [1, "a", "b", "c"] }
-
-## >{ 1, 2 } + { "a", "b" }<
-{ out:  [1, 2, "a", "b"] }
-
-## >{ 1, 2, 3 } + { 3, 4, 5 }<
-{ tree:  ["plus", ["arr", ["num", "1"], ["num", "2"], ["num", "3"]], ["arr", ["num", "3"], ["num", "4"], ["num", "5"]]] }
-
-## >{ { "a", "b" }, { "c", "de" } }<
-{ out:  [["a", "b"], ["c", "de"]] }
-
-## >{ { "a", 1 }, { "c", 2 } }<
-{ out:  [["a", 1], ["c", 2]] }
-
-## >{"a", "b", "c" } <
-{ out:  ["a", "b", "c"] }
-
-## >{"a","b"}<
-{ out:  ["a", "b"] }
-
-## >{1,"a", "b", 2, 0, "d" }<
-{ tree:  ["arr", ["num", "1"], ["str", "a"], ["str", "b"], ["num", "2"], ["num", "0"], ["str", "d"]] }
-
-## >LAMBDA(a, b, a + b)<
-{ out:  {},
-  tree: ["LAMBDA",
-    ["var", "a"], ["var", "b"],
-    ["plus", ["var", "a"], ["var", "b"]]] }
-
-## >KALL(LAMBDA(a, b, a + b), 7, -3)<
-{ out: 4 }
-
-## >KALL(LAMBDA(a, b, a + b), 7, -2, 1)<
-{ out: 5 }
-
-## >MAP({ 2, 3, 4 }, LAMBDA(a, 2 * a))<
-{ out: [ 4, 6, 8 ] }
-
-## >REDUCE(0, { 2, 3, 4 }, LAMBDA(a, e, a + e))<
-{ out: 9 }
-
-## >REDUCE({ 2, 3, 5 }, LAMBDA(a, e, a + e))<
-{ out: 10 }
-
-## >ORV('', '', 1)<
-{ out: 1 }
-
-## >ORV('', b, a, 3)<
-{ ctx: { a: 2 },
-  out: 2 }
-
-## >ORV('', a, b, c)<
-{ ctx: {},
-  out: nil }
-
-## >TEXTJOIN("/", TRUE(), "a", "b")<
-{ out: 'a/b' }
-
-## >TEXTJOIN(", ", TRUE(), a, "zz")<
-{ ctx: { a: [ 'ab', 'cd', 'ef1' ] },
-  out: 'ab, cd, ef1, zz' }
-
-## >TEXTJOIN(", ", TRUE(), a, "zz")<
-{ ctx: { a: [ 'ab', '', 'ef1' ] },
-  out: 'ab, ef1, zz' }
-
-## >TEXTJOIN(", ", FALSE(), a, "zz")<
-{ ctx: { a: [ 'ab', '', 'ef1' ] },
-  out: 'ab, , ef1, zz' }
-
-## >LET(price, 100, count, 3, count * price)<
-{ out: 300 }
-
-## >LET(price, 95, count, 3, 12, count * price)<
-{ out: 285 } # fluff is discarded
-
-## >LET(price, 13, LOWER("COUNT"), 3, count * price)<
-{ out: 39 }
-
-## >LET(l, LAMBDA(a, b, a + b), l(2, 3))<
-{ tree:
-    ["LET",
-      ["var", "l"],
-        ["LAMBDA", ["var", "a"], ["var", "b"],
-          ["plus", ["var", "a"], ["var", "b"]]],
-      ["l", ["num", "2"], ["num", "3"]]],
-  out: 5 }
-
-## >MROUND(51, 3)<
-{ out: 51 }
-
-## >MROUND(50, 7)<
-{ out: 49 }
-
-## >MROUND(50, 3)<
-{ out: 51 }
-
-## >MROUND(10, 3)<
-{ out: 9 }
-
-## >MROUND(10, -3)<
-{ out: nil } # NaN
-
-## >MROUND(-10, 3)<
-{ out: nil } # NaN
-
-## >MROUND(-10, -3)<
-{ out: -9 }
-
-## >MROUND(0, 3)<
-{ out: 0 }
-
-## >MROUND(10, 0)<
-{ out: nil } # #DIV/0!
-
-## >MROUND(10.5, 0.3)<
-{ out: 10.5 }
-
-## >MROUND(5, 3)<
-{ out: 6 }
-
-## >MROUND(4, 3)<
-{ out: 3 }
-
-## >MROUND(10.5678, 0.05)<
-{ out: 10.55 }
-
-## >MROUND2(51, 3)<
-{ out: 51 }
-
-## >MROUND2(50, 7)<
-{ out: 49 }
-
-## >MROUND2(50, 3)<
-{ out: 51 }
-
-## >MROUND2(10, 3)<
-{ out: 9 }
-
-## >MROUND2(10, -3)<
-{ out: nil } # NaN
-
-## >MROUND2(-10, 3)<
-{ out: nil } # NaN
-
-## >MROUND2(-10, -3)<
-{ out: -9 }
-
-## >MROUND2(0, 3)<
-{ out: 0 }
-
-## >MROUND2(10, 0)<
-{ out: nil } # #DIV/0!
-
-## >MROUND2(10.5, 0.3)<
-{ out: 10.5 }
-
-## >MROUND2(5, 3)<
-{ out: 6 }
-
-## >MROUND2(4, 3)<
-{ out: 3 }
-
-## >MROUND2(10.5678, 0.05)<
-{ out: 10.55 }
-
+#
+# spec/_xel.rb
+
+[
+{ c: "987",
+  t: ["num","987"], o: 987 },
+{ c: "3,000,000",
+  t: ["num","3,000,000"], o: 3000000 },
+{ c: "123.45",
+  t: ["num","123.45"], o: 123.45 },
+{ c: "9,090.10",
+  t: ["num","9,090.10"], o: 9090.1 },
+{ c: ".123",
+  t: ["num",".123"], o: 0.123 },
+{ c: "-987",
+  t: ["num","-987"], o: -987 },
+{ c: "-3,000,000",
+  t: ["num","-3,000,000"], o: -3000000 },
+{ c: "-123.45",
+  t: ["num","-123.45"], o: -123.45 },
+{ c: "-9,090.10",
+  t: ["num","-9,090.10"], o: -9090.1 },
+{ c: "-.123",
+  t: ["num","-.123"], o: -0.123 },
+{ c: "\"12\" =~ \"[a-z]\"", o: false },
+{ c: "\"a\" != \"a\"", o: false },
+{ c: "\"a\" != \"b\"", o: true },
+{ c: "\"a\" = \"a\"", o: true },
+{ c: "\"a\" = \"b\"", o: false },
+{ c: "\"a\" IN { \"alpha\", \"bravo\" }",
+  t: ["cmp","IN",["str","a"],["arr",["str","alpha"],["str","bravo"]]] },
+{ c: "\"a\" IN { 0, \"a\", 2 }", o: true },
+{ c: "\"a\" IN { 0, \"b\", 2 }", o: false },
+{ c: "\"a\" IN {}", o: false },
+{ c: "\"ab\" =~ \"[a-z]\"", o: true },
+{ c: "\"ab\\\"cd'ef\"", o: "ab\"cd'ef",t: ["str","ab\"cd'ef"] },
+{ c: "\"b\" IN a", ctx: {"a":["a","b","c"]}, o: true },
+{ c: "\"d\" IN a", ctx: {"a":["a","b","c"]}, o: false },
+{ c: "'ab\"cd\\'ef'", o: "ab\"cd'ef",t: ["str","ab\"cd'ef"] },
+{ c: "'ab' =~ '[a-z]'",
+  t: ["cmp","=~",["str","ab"],["str","[a-z]"]] },
+{ c: "(10 + 11) * 12",
+  t: ["MUL",["plus",["num","10"],["num","11"]],["num","12"]] },
+{ c: "0.45 * we_c - 0.15 * it_c + 0.15 * sm_c + 0.25 * gp_c", ctx: {"we_c":1.1,"it_c":2.2,"sm_c":3.3,"gp_c":4.4}, o: 1.76,t: ["plus",["MUL",["num","0.45"],["var","we_c"]],["opp",["MUL",["num","0.15"],["var","it_c"]]],["MUL",["num","0.15"],["var","sm_c"]],["MUL",["num","0.25"],["var","gp_c"]]] },
+{ c: "1 * 2 + 3",
+  t: ["plus",["MUL",["num","1"],["num","2"]],["num","3"]] },
+{ c: "1 + \"a\"", o: "1a" },
+{ c: "1 + 2", o: 3 },
+{ c: "1 + 2 * 3",
+  t: ["plus",["num","1"],["MUL",["num","2"],["num","3"]]] },
+{ c: "1 + 2 < 3",
+  t: ["cmp","<",["plus",["num","1"],["num","2"]],["num","3"]] },
+{ c: "1 + a",
+  t: ["plus",["num","1"],["var","a"]] },
+{ c: "1 + a.b.c", ctx: {"a":{"b":{"c":66}}}, o: 67,t: ["plus",["num","1"],["var","a.b.c"]] },
+{ c: "1 + v0", ctx: {"v0":70}, o: 71 },
+{ c: "1 - -2", o: 3 },
+{ c: "1 - 2", o: -1 },
+{ c: "1 / 5", o: 0.2 },
+{ c: "\"a\" & \"bc\"", o: "abc",t: ["amp",["str","a"],["str","bc"]] },
+{ c: "1 & 1", o: "11",t: ["amp",["num","1"],["num","1"]] },
+{ c: "\"ab\" & c & d & \"ef\"", ctx: {"c":"c"}, o: "abcef" },
+{ c: "1 < 2", o: true },
+{ c: "1 <= 2", o: true },
+{ c: "1 > 2", o: false },
+{ c: "1 IN a", ctx: {"a":[0,1,2]}, o: true },
+{ c: "1 IN { 0, 1 }", o: true },
+{ c: "1.0 / 5", o: 0.2 },
+{ c: "10",
+  t: ["num","10"] },
+{ c: "10 + 11",
+  t: ["plus",["num","10"],["num","11"]] },
+{ c: "10 + 11 * 12",
+  t: ["plus",["num","10"],["MUL",["num","11"],["num","12"]]] },
+{ c: "10 + IF(ntac='no', 10, 0)",
+  t: ["plus",["num","10"],["IF",["cmp","=",["var","ntac"],["str","no"]],["num","10"],["num","0"]]] },
+{ c: "10 + SUM(1, 2)",
+  t: ["plus",["num","10"],["SUM",["num","1"],["num","2"]]] },
+{ c: "10 - -11",
+  t: ["plus",["num","10"],["opp",["num","-11"]]] },
+{ c: "10 / -11",
+  t: ["MUL",["num","10"],["inv",["num","-11"]]] },
+{ c: "12.3",
+  t: ["num","12.3"] },
+{ c: "2 != 3", o: true },
+{ c: "2 <= 2", o: true },
+{ c: "2 = 3", o: false },
+{ c: "2 >= 2", o: true },
+{ c: "2 >= 3", o: false },
+{ c: "3 != 3", o: false },
+{ c: "3 <= 2", o: false },
+{ c: "3 = 3", o: true },
+{ c: "3 >= 2", o: true },
+{ c: "AND(\n        NOT(apac_currency),\n        OR(cm_rating_top_out_or_sector, jpm_overweight_or_neutral),\n        moat_narrow_or_wide)", ctx: {"apac_currency":true,"cm_rating_top_out_or_sector":true,"jpm_overweight_or_neutral":false,"moat_narrow_or_wide":false}, o: false },
+{ c: "AND(\n        NOT(meta.apac_currency),\n        OR(meta.cm_rating_top_out_or_sector, meta.jpm_overweight_or_neutral),\n        meta.moat_narrow_or_wide)", ctx: {"meta":{"apac_currency":false,"cm_rating_top_out_or_sector":true,"jpm_overweight_or_neutral":false,"moat_narrow_or_wide":true}}, o: true },
+{ c: "AND(\n        meta.apac_currency,\n        OR(meta.ms_rating_overall_543, meta.jpm_overweight_or_neutral),\n        meta.moat_narrow_or_wide,\n        meta.esg_risk_low_medium_or_negligible,\n        NOT(AND(meta.ms_rating_overall_3, meta.jpm_neutral)))", ctx: {"meta":{"apac_currency":true,"ms_rating_overall_3":false,"ms_rating_overall_543":true,"moat_narrow_or_wide":true,"esg_risk_low_medium_or_negligible":true}}, o: true },
+{ c: "AND(FALSE())", o: false },
+{ c: "AND(TRUE())", o: true },
+{ c: "AND(TRUE(), FALSE())", o: false },
+{ c: "AND(TRUE(), TRUE())", o: true },
+{ c: "CASE(AND(a > 99, 2 > 1), 2, a > 9, 1, -1)", ctx: {"a":100}, o: 2 },
+{ c: "CASE(a > 99, 2, a > 9, 1)", ctx: {"a":7}, o: nil },
+{ c: "CASE(a > 99, 2, a > 9, 1, -1)", ctx: {"a":100}, o: 2 },
+{ c: "CASE(eb, \"&\", 10, \"g\", 11, \"a\", 12)", ctx: {"eb":"X"}, o: nil },
+{ c: "CASE(eb, \"&\", 10, \"g\", 11, \"a\", 12, 13)", ctx: {"eb":"nada"}, o: 13 },
+{ c: "COUNTA(a)", ctx: {"a":[]}, o: 0 },
+{ c: "COUNTA(a)", ctx: {"a":[1,2,3]}, o: 3 },
+{ c: "FALSE()", o: false },
+{ c: "HAS(a, \"b\")", ctx: {"a":["a","b","c"]}, o: true },
+{ c: "HAS(a, \"d\")", ctx: {"a":["a","b","c"]}, o: false },
+{ c: "HAS(a, 1)", ctx: {"a":[0,1,2]}, o: true },
+{ c: "IF(FALSE(), 1, 2)", o: 2 },
+{ c: "IF(TRUE(), 1, 2)", o: 1 },
+{ c: "IF(f, 1, 2)", ctx: {"f":false}, o: 2 },
+{ c: "IF(ntac='no', 10, 0)",
+  t: ["IF",["cmp","=",["var","ntac"],["str","no"]],["num","10"],["num","0"]] },
+{ c: "IF(t, 1, 2)", ctx: {"t":true}, o: 1 },
+{ c: "INDEX(a, -1)", ctx: {"a":[0,1,2,"trois"]}, o: "trois" },
+{ c: "INDEX(a, -2)", ctx: {"a":[0,1,2,"trois"]}, o: 2 },
+{ c: "INDEX(a, 1)", ctx: {"a":[0,1,2]}, o: 0 },
+{ c: "INDEX(a, 2)", ctx: {"a":[0,1,2]}, o: 1 },
+{ c: "INDEX(a, COUNTA(a))", ctx: {"a":[0,"two"]}, o: "two" },
+{ c: "ISBLANK(a)", ctx: {"a":"abc"}, o: false },
+{ c: "ISBLANK(a)", ctx: {"a":""}, o: true },
+{ c: "ISBLANK(a)", ctx: {}, o: true },
+{ c: "ISNUMBER(\"nada\")", o: false },
+{ c: "ISNUMBER(123)", o: true },
+{ c: "ISNUMBER(123.12)", o: true },
+{ c: "ISNUMBER(FALSE())", o: false },
+{ c: "ISNUMBER(TRUE())", o: false },
+{ c: "ISNUMBER(a)", ctx: {"a":nil}, o: false },
+{ c: "LN(3044.31)", o: 8.02 },
+{ c: "LN(a)", ctx: {"a":[3044.31,3047.12]}, o: [8.02,8.02] },
+{ c: "LN({ 3044.31, 3047.12 })", o: [8.02,8.02] },
+{ c: "MATCH(\"b\", a, 0)", ctx: {"a":["a","b","c"]}, o: 1 },
+{ c: "MATCH(\"d\", a, 0)", ctx: {"a":["a","b"]}, o: -1 },
+{ c: "MATCH(1, a, 0)", ctx: {"a":[0,1,2]}, o: 1 },
+{ c: "MAX(-1, -2, \"a\", -3)", o: -1 },
+{ c: "MAX(-1, -2, -3)", o: -1 },
+{ c: "MAX(1, 2, 3)", o: 3 },
+{ c: "MIN(-1, -2, \"a\", -3)", o: -1 },
+{ c: "MIN(-1, -2, -3)", o: -3 },
+{ c: "MIN(1, 2, 3)", o: 1 },
+{ c: "NOT(FALSE())", o: true },
+{ c: "NOT(TRUE())", o: false },
+{ c: "OR(1 = 2, 2 = 2)", o: true },
+{ c: "OR(1 = 2, 2 = 3)", o: false },
+{ c: "OR(TRUE(), FALSE())", o: true },
+{ c: "PRODUCT(2, 3, 4)", o: 24 },
+{ c: "PRODUCT({ 2, 3, 4 })", o: 24 },
+{ c: "PRODUCT({ 2, 3, 4 }, 2)", o: 48 },
+{ c: "PRODUCT({ 2, 3, 4 }, a, 2)", ctx: {"a":[0.5,0.5]}, o: 12 },
+{ c: "PROPER(\"alpha bravo charly\")", o: "Alpha Bravo Charly" },
+{ c: "SORT({ 1, \"aa\", 7, 2 }, 1, -1)", o: ["aa",7,2,1] },
+{ c: "SORT({ 1, 3, 2 })", o: [1,2,3] },
+{ c: "SORT({ 1, 3, 2 }, 1, -1)", o: [3,2,1] },
+{ c: "SQRT(260)", o: 16.1245 },
+{ c: "SQRT(a)", ctx: {"a":[260,81]}, o: [16.1245,9] },
+{ c: "SQRT({ 260, 81 })", o: [16.1245,9] },
+{ c: "STDEV(a)", ctx: {"a":[10,11]}, o: 0.71 },
+{ c: "SUM(1 + 2, 3, SUM(4, 5))",
+  t: ["SUM",["plus",["num","1"],["num","2"]],["num","3"],["SUM",["num","4"],["num","5"]]] },
+{ c: "SUM(2, 3, 4)", o: 9 },
+{ c: "SUM(3,000,000, 2)",
+  t: ["SUM",["num","3,000,000"],["num","2"]] },
+{ c: "SUM({ 2, 3, 4 })", o: 9 },
+{ c: "SUM({ 2, 3, 4 }, 2)", o: 11 },
+{ c: "SUM({ 2, 3, 4 }, a, 2)", ctx: {"a":[0.5,0.5]}, o: 12 },
+{ c: "SWITCH(eb, \"&\", 10, \"g\", 11, \"a\", 12)", ctx: {"eb":"X"}, o: nil },
+{ c: "TRUE()", o: true },
+{ c: "UNIQUE(a)", ctx: {"a":[1,2,1,1,2,3]}, o: [1,2,3] },
+{ c: "UNIQUE({ 1, 1 })", o: [1] },
+{ c: "UPPER(\"alpha bravo charly\")", o: "ALPHA BRAVO CHARLY" },
+{ c: "LOWER(\"ALPHA BRAVO Charly\")", o: "alpha bravo charly" },
+{ c: "a != \"\"", ctx: {"a":"abc"}, o: true },
+{ c: "a = \"\"", ctx: {"a":"abc"}, o: false },
+{ c: "ntac = \"yes\"", ctx: {"ntac":"no"}, o: false },
+{ c: "ntac = 'no'",
+  t: ["cmp","=",["var","ntac"],["str","no"]] },
+{ c: "{ \"a\" } != { \"a\" }", o: false },
+{ c: "{ \"a\" } != { \"b\" }", o: true },
+{ c: "{ \"a\" } = { \"a\" }", o: true },
+{ c: "{ \"a\" } = { \"b\" }", o: false },
+{ c: "{ \"a\", \"b\" } != { \"a\" }", o: true },
+{ c: "{ \"a\", \"b\" } != { \"a\", \"b\" }", o: false },
+{ c: "{ \"a\", \"b\" } = { \"a\" }", o: false },
+{ c: "{ \"a\", \"b\" } = { \"a\", \"b\" }", o: true },
+{ c: "{ 1, \"a\", \"b\", \"c\" } ", o: [1,"a","b","c"] },
+{ c: "{ 1, 2 } + { \"a\", \"b\" }", o: [1,2,"a","b"] },
+{ c: "{ 1, 2, 3 } + { 3, 4, 5 }",
+  t: ["plus",["arr",["num","1"],["num","2"],["num","3"]],["arr",["num","3"],["num","4"],["num","5"]]] },
+{ c: "{ { \"a\", \"b\" }, { \"c\", \"de\" } }", o: [["a","b"],["c","de"]] },
+{ c: "{ { \"a\", 1 }, { \"c\", 2 } }", o: [["a",1],["c",2]] },
+{ c: "{\"a\", \"b\", \"c\" } ", o: ["a","b","c"] },
+{ c: "{\"a\",\"b\"}", o: ["a","b"] },
+{ c: "{1,\"a\", \"b\", 2, 0, \"d\" }",
+  t: ["arr",["num","1"],["str","a"],["str","b"],["num","2"],["num","0"],["str","d"]] },
+{ c: "LAMBDA(a, b, a + b)", o: {},t: ["LAMBDA",["var","a"],["var","b"],["plus",["var","a"],["var","b"]]] },
+{ c: "KALL(LAMBDA(a, b, a + b), 7, -3)", o: 4 },
+{ c: "KALL(LAMBDA(a, b, a + b), 7, -2, 1)", o: 5 },
+{ c: "MAP({ 2, 3, 4 }, LAMBDA(a, 2 * a))", o: [4,6,8] },
+{ c: "REDUCE(0, { 2, 3, 4 }, LAMBDA(a, e, a + e))", o: 9 },
+{ c: "REDUCE({ 2, 3, 5 }, LAMBDA(a, e, a + e))", o: 10 },
+{ c: "ORV('', '', 1)", o: 1 },
+{ c: "ORV('', b, a, 3)", ctx: {"a":2}, o: 2 },
+{ c: "ORV('', a, b, c)", ctx: {}, o: nil },
+{ c: "TEXTJOIN(\"/\", TRUE(), \"a\", \"b\")", o: "a/b" },
+{ c: "TEXTJOIN(\", \", TRUE(), a, \"zz\")", ctx: {"a":["ab","cd","ef1"]}, o: "ab, cd, ef1, zz" },
+{ c: "TEXTJOIN(\", \", TRUE(), a, \"zz\")", ctx: {"a":["ab","","ef1"]}, o: "ab, ef1, zz" },
+{ c: "TEXTJOIN(\", \", FALSE(), a, \"zz\")", ctx: {"a":["ab","","ef1"]}, o: "ab, , ef1, zz" },
+
+{ c: "LET(price, 100, count, 3, count * price)", o: 300 },
+{ c: "LET(price, 95, count, 3, 12, count * price)", o: 285 },
+{ c: "LET(price, 13, LOWER(\"COUNT\"), 3, count * price)", o: 39 },
+{ c: "LET(l, LAMBDA(a, b, a + b), l(2, 3))",
+  t: ["LET",["var","l"],["LAMBDA",["var","a"],["var","b"],["plus",["var","a"],["var","b"]]],["l",["num","2"],["num","3"]]], o: 5 },
+
+{ c: "MROUND(51, 3)", o: 51 },
+{ c: "MROUND(50, 7)", o: 49 },
+{ c: "MROUND(50, 3)", o: 51 },
+{ c: "MROUND(10, 3)", o: 9 },
+{ c: "MROUND(10, -3)", o: nil },
+{ c: "MROUND(-10, 3)", o: nil },
+{ c: "MROUND(-10, -3)", o: -9 },
+{ c: "MROUND(0, 3)", o: 0 },
+{ c: "MROUND(10, 0)", o: nil },
+{ c: "MROUND(10.5, 0.3)", o: 10.5 },
+{ c: "MROUND(5, 3)", o: 6 },
+{ c: "MROUND(4, 3)", o: 3 },
+{ c: "MROUND(10.5678, 0.05)", o: 10.55 },
+
+{ c: "MROUND2(51, 3)", o: 51 },
+{ c: "MROUND2(50, 7)", o: 49 },
+{ c: "MROUND2(50, 3)", o: 51 },
+{ c: "MROUND2(10, 3)", o: 9 },
+{ c: "MROUND2(10, -3)", o: nil },
+{ c: "MROUND2(-10, 3)", o: nil },
+{ c: "MROUND2(-10, -3)", o: -9 },
+{ c: "MROUND2(0, 3)", o: 0 },
+{ c: "MROUND2(10, 0)", o: nil },
+{ c: "MROUND2(10.5, 0.3)", o: 10.5 },
+{ c: "MROUND2(5, 3)", o: 6 },
+{ c: "MROUND2(4, 3)", o: 3 },
+{ c: "MROUND2(10.5678, 0.05)", o: 10.55 },
+]

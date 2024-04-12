@@ -8,16 +8,7 @@
 require 'spec/spec_helper'
 
 
-XEL_CASES = File.read('spec/_xel.rb')
-  .split("\n## ")
-  .reject { |e|
-    e == '' }
-  .collect { |s|
-    c, h = s.split("<\n{")
-    c = c[1..-1]
-    h = Kernel.eval('{' + h)
-    h[:code] = c
-    h }
+XEL_CASES = eval(File.read('spec/_xel.rb'))
 
 def trunc(s, max); s[0..max] + (s.length > max ? '…' : ''); end
 
@@ -38,8 +29,8 @@ describe 'xel_js' do
 
       XEL_CASES.each do |k|
 
-        code = k[:code]
-        tree = k[:tree]; next unless tree
+        code = k[:c]
+        tree = k[:t]; next unless tree
 
         it "parses successfully #{JSON.dump(code)}" do
 
@@ -59,9 +50,9 @@ describe 'xel_js' do
       XEL_CASES.each do |k|
 
         next unless k.has_key?(:out)
-        code = k[:code]
+        code = k[:c]
         ctx = k[:ctx] || {}
-        out = k[:out]
+        out = k[:o]
 
         l =
           ctx.any? ? 29 : 56
