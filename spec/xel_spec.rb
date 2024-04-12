@@ -8,7 +8,14 @@
 require 'spec/spec_helper'
 
 
-XEL_CASES = eval(File.read('spec/_xel.rb'))
+XEL_CASES =
+  eval(File.read('spec/_xel.rb')) +
+  File.read('spec/_xel.txt')
+    .split("\n")
+    .inject([]) { |a, l|
+      ss = l.strip.split('⟶')
+      a << { c: ss[0].strip, o: eval(ss[1].strip) } if ss.length > 1
+      a }
 
 def trunc(s, max); s[0..max] + (s.length > max ? '…' : ''); end
 
@@ -49,7 +56,7 @@ describe 'xel_js' do
 
       XEL_CASES.each do |k|
 
-        next unless k.has_key?(:out)
+        next unless k.has_key?(:o)
         code = k[:c]
         ctx = k[:ctx] || {}
         out = k[:o]
