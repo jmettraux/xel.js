@@ -64,7 +64,7 @@ describe 'xel_js' do
         l =
           ctx.any? ? 29 : 56
         t =
-          "evals #{trunc(code.inspect, l)} to #{trunc(out.inspect, l)}" +
+          "evals #{trunc(code, l)} to #{trunc(out.inspect, l)}" +
           (ctx.any? ? ' when ' + trunc(ctx.inspect, l) : '')
 
         it(t) do

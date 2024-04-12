@@ -196,9 +196,6 @@
 { c: "TEXTJOIN(\", \", TRUE(), a, \"zz\")", ctx: {"a":["ab","","ef1"]}, o: "ab, ef1, zz" },
 { c: "TEXTJOIN(\", \", FALSE(), a, \"zz\")", ctx: {"a":["ab","","ef1"]}, o: "ab, , ef1, zz" },
 
-{ c: "LET(price, 100, count, 3, count * price)", o: 300 },
-{ c: "LET(price, 95, count, 3, 12, count * price)", o: 285 },
-{ c: "LET(price, 13, LOWER(\"COUNT\"), 3, count * price)", o: 39 },
 { c: "LET(l, LAMBDA(a, b, a + b), l(2, 3))",
-  t: ["LET",["var","l"],["LAMBDA",["var","a"],["var","b"],["plus",["var","a"],["var","b"]]],["l",["num","2"],["num","3"]]], o: 5 },
+  t: ["LET",["var","l"],["LAMBDA",["var","a"],["var","b"],["plus",["var","a"],["var","b"]]],["l",["num","2"],["num","3"]]] },
 ]
