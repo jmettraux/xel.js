@@ -621,3 +621,39 @@
       ["l", ["num", "2"], ["num", "3"]]],
   out: 5 }
 
+## >MROUND(51, 3)<
+{ out: 51 }
+
+## >MROUND(50, 7)<
+{ out: 49 }
+
+## >MROUND(50, 3)<
+{ out: 51 }
+
+## >MROUND(10, 3)<
+{ out: 9 }
+
+## >MROUND(10, -3)<
+{ out: nil } # NaN
+
+## >MROUND(-10, 3)<
+{ out: nil } # NaN
+
+## >MROUND(-10, -3)<
+{ out: -9 }
+
+## >MROUND(0, 3)<
+{ out: 0 }
+
+## >MROUND(10, 0)<
+{ out: nil } # #DIV/0!
+
+## >MROUND(10.5, 0.3)<
+{ out: 10.5 }
+
+## >MROUND(5, 3)<
+{ out: 6 }
+
+## >MROUND(4, 3)<
+{ out: 3 }
+
