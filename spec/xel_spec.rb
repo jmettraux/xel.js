@@ -11,6 +11,7 @@ require 'spec/spec_helper'
 XEL_CASES =
   eval(File.read('spec/_xel.rb')) +
   File.read('spec/_xel_eval.txt')
+    .gsub(/\\\n/, '')
     .split("\n")
     .inject([]) { |a, l|
       ss = l.strip.split(/[→⟶]/)
