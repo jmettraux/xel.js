@@ -582,7 +582,16 @@ var Xel = (function() {
     var n = as[0], m = as[1];
 
     var r = (n % m);
-    return r === 0 ? n : n - (n % m) + m;
+    return r === 0 ? n : n - r + m;
+  };
+
+  evals.FLOOR = function(tree, context) {
+
+    var as = evalArgs(tree, context);
+    if (as.length < 2) as.push(1);
+    var n = as[0], m = as[1];
+
+    return n - (n % m);
   };
 
   //

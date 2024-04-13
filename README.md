@@ -102,6 +102,12 @@ CEILING(501, 100) ⟶   600
 CEILING(550, 100) ⟶   600
 CEILING(10.1, 0.25) ⟶   10.25
 
+FLOOR(7, 5) ⟶   5
+FLOOR(49.25) ⟶   49
+FLOOR(49.25, 1) ⟶   49
+FLOOR(550, 100) ⟶   500
+FLOOR(10.1, 0.25) ⟶   10
+
 "ab\"cd'ef" ⟶   "ab\"cd'ef"
 'ab"cd\'ef' ⟶   "ab\"cd'ef"
 

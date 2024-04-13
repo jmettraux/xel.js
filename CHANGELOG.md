@@ -7,7 +7,8 @@
 * Implement MROUND(n, m)
 * Implement MROUND2(n, m)
 * Allow for fun names starting with _ (for lambdas mostly)
-* Implement CEILING(n, m)
+* Implement CEILING(n, m=1)
+* Implement FLOOR(n, m=1)
 
 
 ## xel.js 1.3.0  released 2024-04-05
