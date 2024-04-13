@@ -14,6 +14,8 @@ Xel.seval("CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45)", { a: 5_100_000 })
 // --> 0.55
 ```
 
+Here are the eval tests, in the format `code [ ⟶   context] ⟶   result`
+
 ```
 987 ⟶   987
 3,000,000 ⟶   3_000_000
