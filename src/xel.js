@@ -530,8 +530,7 @@ var Xel = (function() {
       else { acc.push(JSON.stringify(x)); }
       return acc; };
 
-    var del = self.eval(tree[1], context);
-    var ign = self.eval(tree[2], context);
+    var as = evalArgs(tree, context); var del = as[0], ign = as[1];
 
     var txs = [];
     tree.slice(3).forEach(function(tt) { agg(txs, self.eval(tt, context)); });
