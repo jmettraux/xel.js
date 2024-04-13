@@ -15,9 +15,9 @@ XEL_CASES =
     .inject([]) { |a, l|
       ss = l.strip.split(/[→⟶]/)
       if ss.length == 2
-        a << { c: ss[0].strip, o: eval(ss[1].strip) }
-      elsif ss.length > 3
-        a << { c: ss[0].strip, ctx: eval(ss[1]), o: eval(ss[2]) }
+        a << { c: ss[0], o: eval(ss[1].strip) }
+      elsif ss.length >= 3
+        a << { c: ss[0], ctx: eval(ss[1]), o: eval(ss[2]) }
       end
       a } +
   File.read('spec/_xel_tree.txt')
@@ -26,11 +26,14 @@ XEL_CASES =
       (ll + ']').strip.split("\n").reject { |s| s.match(/^\s*#/) }.join('') }
     .inject([]) { |a, l|
       ss = l.strip.split(/[→⟶]/)
-      a << { c: ss[0].strip, t: eval(ss[1].strip) } if ss.length > 1
+      a << { c: ss[0], t: eval(ss[1].strip) } if ss.length > 1
       a }
-#pp XEL_CASES
+#pp XEL_CASES; p XEL_CASES.length
 
-def trunc(s, max); s[0..max] + (s.length > max ? '…' : ''); end
+def trunc(s, max)
+  s = s.gsub(/\s*\n\s*/, '↩  ')
+  s[0..max] + (s.length > max ? '…' : '')
+end
 
 
 describe 'xel_js' do
