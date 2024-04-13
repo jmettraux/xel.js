@@ -334,8 +334,7 @@ var Xel = (function() {
 
   evals.MATCH = function(tree, context) {
 
-    var elt = self.eval(tree[1], context);
-    var arr = self.eval(tree[2], context);
+    var as = evalArgs(tree, context); var elt = as[0], arr = as[1];
 
     if ( ! Array.isArray(arr)) return -1;
     return arr.indexOf(elt);
@@ -343,8 +342,7 @@ var Xel = (function() {
 
   evals.HAS = function(tree, context) {
 
-    var col = self.eval(tree[1], context);
-    var elt = self.eval(tree[2], context);
+    var as = evalArgs(tree, context); var col = as[0], elt = as[1];
 
     if (Array.isArray(col)) return col.indexOf(elt) > -1;
     if (typeof col == 'object') return col.hasOwnProperty(elt);
@@ -449,9 +447,7 @@ var Xel = (function() {
 
   evals.VLOOKUP = function(tree, context) {
 
-    var k = self.eval(tree[1], context);
-    var t = self.eval(tree[2], context);
-    var i = self.eval(tree[3], context);
+    var as = evalArgs(tree, context); var k = as[0], t = as[1], i = as[2];
 
     if (typeof i != 'number') throw new Error(
       `VLOOKUP() arg 3 '${tree[3]}' is not a number`);
@@ -470,8 +466,7 @@ var Xel = (function() {
 
   evals.LAMBDA = function(tree, context) {
 
-    var args = []; for (var i = 1, l = tree.length - 1; i < l; i++) {
-      args.push(tree[i][1]); }
+    var args = tree.slice(1).map(function(t) { return t[1]; });
 
     var code = tree[tree.length - 1];
 
@@ -492,19 +487,17 @@ var Xel = (function() {
 
   evals.KALL = function(tree, context) {
 
-    var args = []; for (var i = 1, l = tree.length; i < l; i++) {
-      args.push(self.eval(tree[i], context)); }
-    args.push(context);
+    var as = evalArgs(tree, context);
+    as.push(context);
 
-    var fun = args.shift();
+    var fun = as.shift();
 
-    return fun.apply(null, args);
+    return fun.apply(null, as);
   };
 
   evals.MAP = function(tree, context) {
 
-    var arr = self.eval(tree[1], context);
-    var fun = self.eval(tree[2], context);
+    var as = evalArgs(tree, context); var arr = as[0], fun = as[1];
 
     return arr.map(function(e) { return fun.apply(null, [ e, context ]); });
   };
@@ -565,8 +558,7 @@ var Xel = (function() {
 
   evals.MROUND = function(tree, context) {
 
-    var n = self.eval(tree[1], context);
-    var m = self.eval(tree[2], context);
+    var as = evalArgs(tree, context); var n = as[0], m = as[1];
 
     if (n * m < 0) return NaN;
     return Math.round(n / m) * m;
@@ -574,8 +566,7 @@ var Xel = (function() {
 
   evals.MROUND2 = function(tree, context) {
 
-    var n = self.eval(tree[1], context);
-    var m = self.eval(tree[2], context);
+    var as = evalArgs(tree, context); var n = as[0], m = as[1];
 
     if (n * m < 0) return NaN;
 
