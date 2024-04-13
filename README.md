@@ -62,6 +62,12 @@ LET(price, 13, LOWER("COUNT"), 3, count * price) ⟶   39
 LET(l, LAMBDA(a, b, a + b), l(2, 3)) ⟶   5
 LET(_l, LAMBDA(a, b, a * b), _l(2, 3)) ⟶   6
 
+ROUND(3.14159) ⟶   3
+ROUND(3.14159, 0) ⟶   3
+ROUND(3.14159, 2) ⟶   3.14
+ROUND(157, -1) ⟶   160
+ROUND(157, -2) ⟶   200
+
 MROUND(51, 3) ⟶   51
 MROUND(50, 7) ⟶   49
 MROUND(50, 3) ⟶   51

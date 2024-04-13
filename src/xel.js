@@ -594,6 +594,16 @@ var Xel = (function() {
     return n - (n % m);
   };
 
+  evals.ROUND = function(tree, context) {
+
+    var as = evalArgs(tree, context);
+    if (as.length < 2) as.push(0);
+    var n = as[0], m = as[1];
+
+    var t = 10 ** m;
+    return Math.round(n * t) / t;
+  };
+
   //
   // public functions
 
