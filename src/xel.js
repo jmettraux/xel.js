@@ -139,6 +139,9 @@ var Xel = (function() {
       (typeof x));
   };
 
+  var evalArgs = function(tree, context) {
+    return tree.slice(1).map(function(t) { return self.eval(t, context); }); };
+
   var evals = {};
 
   evals.var = function(tree, context) {
@@ -580,6 +583,16 @@ var Xel = (function() {
     r = r * 100;
 
     return (r - r % 1) / 100;
+  };
+
+  evals.CEILING = function(tree, context) {
+
+    var as = evalArgs(tree, context);
+    if (as.length < 2) as.push(1);
+    var n = as[0], m = as[1];
+
+    var r = (n % m);
+    return r === 0 ? n : n - (n % m) + m;
   };
 
   //

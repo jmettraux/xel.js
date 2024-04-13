@@ -92,6 +92,15 @@ MROUND2(5, 3) ⟶   6
 MROUND2(4, 3) ⟶   3
 MROUND2(10.5678, 0.05) ⟶   10.55
 
+CEILING(7, 1) ⟶   7
+CEILING(7) ⟶   7
+CEILING(7.05, 1) ⟶   8
+CEILING(7.05) ⟶   8
+CEILING(7, 5) ⟶   10
+CEILING(49.25, 5) ⟶   50
+CEILING(501, 100) ⟶   600
+CEILING(550, 100) ⟶   600
+CEILING(10.1, 0.25) ⟶   10.25
 
 "ab\"cd'ef" ⟶   "ab\"cd'ef"
 'ab"cd\'ef' ⟶   "ab\"cd'ef"
