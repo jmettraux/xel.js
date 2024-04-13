@@ -10,14 +10,28 @@ require 'spec/spec_helper'
 
 XEL_CASES =
   eval(File.read('spec/_xel.rb')) +
-  File.read('spec/_xel.txt')
+  File.read('spec/_xel_eval.txt')
     .split("\n")
     .inject([]) { |a, l|
-      ss = l.strip.split('⟶')
-      a << { c: ss[0].strip, o: eval(ss[1].strip) } if ss.length > 1
+      ss = l.strip.split(/[→⟶]/)
+      if ss.length == 2
+        a << { c: ss[0].strip, o: eval(ss[1].strip) }
+      elsif ss.length > 3
+        a << { c: ss[0].strip, ctx: eval(ss[1]), o: eval(ss[2]) }
+      end
+      a } +
+  File.read('spec/_xel_tree.txt')
+    .split(/]$/)
+    .map { |ll|
+      (ll + ']').strip.split("\n").reject { |s| s.match(/^\s*#/) }.join('') }
+    .inject([]) { |a, l|
+      ss = l.strip.split(/[→⟶]/)
+      a << { c: ss[0].strip, t: eval(ss[1].strip) } if ss.length > 1
       a }
+#pp XEL_CASES
 
 def trunc(s, max); s[0..max] + (s.length > max ? '…' : ''); end
+
 
 describe 'xel_js' do
 
