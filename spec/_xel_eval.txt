@@ -152,6 +152,7 @@ INDEX(a, -2) ⟶   {:a=>[0, 1, 2, "trois"]} ⟶   2
 INDEX(a, 1) ⟶   {:a=>[0, 1, 2]} ⟶   0
 INDEX(a, 2) ⟶   {:a=>[0, 1, 2]} ⟶   1
 INDEX(a, COUNTA(a)) ⟶   {:a=>[0, "two"]} ⟶   "two"
+INDEX({ 'ab', 'cd', 'ef' }, -2) ⟶   "cd"
 
 ISBLANK(a) ⟶   {:a=>""} ⟶   true
 ISBLANK(a) ⟶   {} ⟶   true
