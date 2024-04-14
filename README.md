@@ -67,6 +67,7 @@ ROUND(3.14159, 0) ⟶   3
 ROUND(3.14159, 2) ⟶   3.14
 ROUND(157, -1) ⟶   160
 ROUND(157, -2) ⟶   200
+ROUND(2.678, 1) ⟶   2.7
 
 MROUND(51, 3) ⟶   51
 MROUND(50, 7) ⟶   49
@@ -113,6 +114,11 @@ FLOOR(49.25) ⟶   49
 FLOOR(49.25, 1) ⟶   49
 FLOOR(550, 100) ⟶   500
 FLOOR(10.1, 0.25) ⟶   10
+
+TRUNC(8.9) ⟶   8
+TRUNC(8.9, 0) ⟶   8
+TRUNC(3.14159, 2) ⟶   3.14
+TRUNC(2.678, 1) ⟶   2.6
 
 "ab\"cd'ef" ⟶   "ab\"cd'ef"
 'ab"cd\'ef' ⟶   "ab\"cd'ef"
@@ -242,6 +248,7 @@ TEXTJOIN(", ", FALSE(), a, "zz") ⟶   {:a=>["ab", "", "ef1"]} ⟶   "ab, , ef1,
 ```
 
 See core spec at [spec/_xel.rb](spec/_xel.rb).
+
 
 ## License
 

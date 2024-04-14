@@ -603,6 +603,16 @@ var Xel = (function() {
     return Math.round(n * t) / t;
   };
 
+  evals.TRUNC = function(tree, context) {
+
+    var as = evalArgs(tree, context);
+    if (as.length < 2) as.push(0);
+
+    var n = as[0], m = 10 ** as[1];
+
+    return Math.floor(n * m) / m;
+  };
+
   //
   // public functions
 
