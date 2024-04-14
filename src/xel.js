@@ -569,8 +569,7 @@ var Xel = (function() {
 
     if (n * m < 0) return NaN;
 
-    var r = Math.round(n / m) * m;
-    r = r * 100;
+    var r = Math.round(n / m) * m * 100;
 
     return (r - r % 1) / 100;
   };
