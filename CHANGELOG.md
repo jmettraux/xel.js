@@ -11,6 +11,7 @@
 * Implement FLOOR(n, m=1)
 * Implement ROUND(n, m=0)
 * Implement TRUNC(n, m=0)
+* Introduce context._callbacks
 
 
 ## xel.js 1.3.0  released 2024-04-05

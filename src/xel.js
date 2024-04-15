@@ -620,7 +620,8 @@ var Xel = (function() {
 
   this.eval = function(tree, context) {
 
-    self.callbacks.forEach(function(f) { f(tree, context); });
+    var cbs = self.callbacks.concat(context._callbacks || []);
+    cbs.forEach(function(f) { f(tree, context); });
 
     if ( ! Array.isArray(tree) || (typeof tree[0] != 'string')) return tree;
 
@@ -648,7 +649,7 @@ var Xel = (function() {
       ret = e(tree, context);
     }
 
-    self.callbacks.forEach(function(f) { f(tree, context, ret); });
+    cbs.forEach(function(f) { f(tree, context, ret); });
 
     return ret;
   };

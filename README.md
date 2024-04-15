@@ -251,6 +251,51 @@ TEXTJOIN(", ", FALSE(), a, "zz") ⟶   {:a=>["ab", "", "ef1"]} ⟶   "ab, , ef1,
 See core spec at [spec/_xel.rb](spec/_xel.rb).
 
 
+## callbacks
+
+Callback methods can be added to `Xel.callbacks` directly:
+
+```js
+var a = [];
+Xel.callbacks.push(function(tree, context, ret) {
+  a.push([ tree, context, ret ]);
+});
+Xel.seval("12 + a", { a: 34 });
+Xel.callbacks.pop(); // remove last callback ;-)
+
+// a -->
+
+[
+  [["plus", ["num", "12"], ["var", "a"]],  {"a"=>34}],
+  [["num", "12"],                          {"a"=>34}],
+  [["num", "12"],                          {"a"=>34},   12],
+  [["var", "a"],                           {"a"=>34}],
+  [["var", "a"],                           {"a"=>34},   34],
+  [["plus", ["num", "12"], ["var", "a"]],  {"a"=>34},   46]
+]
+```
+
+Callbacks may also be added more transiently by providing a `_callbacks` array in the eval context:
+
+```js
+var a = [];
+var cb = function(tree, context, ret) { a.push([ tree, ret ]); };
+var ctx = { a: 35, _callbacks: [ cb ] };
+Xel.seval("12 + a", ctx);
+
+// a -->
+
+[
+  [["plus", ["num", "12"], ["var", "a"]]],
+  [["num", "12"]],
+  [["num", "12"],                           12],
+  [["var", "a"]],
+  [["var", "a"], 35],
+  [["plus", ["num", "12"], ["var", "a"]],   47]
+]
+```
+
+
 ## License
 
 MIT, see [LICENSE.txt](LICENSE.txt)

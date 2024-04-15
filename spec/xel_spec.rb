@@ -208,7 +208,6 @@ describe 'xel_js' do
               return a;
             }()); })
 
-#pp r
           expect(
             r
           ).to eq([
@@ -218,6 +217,37 @@ describe 'xel_js' do
             [["var", "a"], {"a"=>34}],
             [["var", "a"], {"a"=>34}, 34],
             [["plus", ["num", "12"], ["var", "a"]], {"a"=>34}, 46]
+          ])
+        end
+      end
+
+      context 'ctx._callbacks' do
+
+        they 'are called twice per each `eval` step' do
+
+          r = @bro.eval(%{
+            (function() {
+              var a =
+                [];
+              var cb =
+                function(tree, context, ret) {
+                  a.push([ tree, ret ]);
+                };
+              var ctx =
+                { a: 35, _callbacks: [ cb ] };
+              Xel.seval("12 + a", ctx);
+              return a;
+            }()); })
+
+          expect(
+            r
+          ).to eq([
+            [["plus", ["num", "12"], ["var", "a"]]],
+            [["num", "12"]],
+            [["num", "12"], 12],
+            [["var", "a"]],
+            [["var", "a"], 35],
+            [["plus", ["num", "12"], ["var", "a"]], 47]
           ])
         end
       end
