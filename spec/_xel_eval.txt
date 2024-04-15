@@ -229,3 +229,5 @@ TEXTJOIN(", ", TRUE(), a, "zz") ⟶   {:a=>["ab", "cd", "ef1"]} ⟶   "ab, cd, e
 TEXTJOIN(", ", TRUE(), a, "zz") ⟶   {:a=>["ab", "", "ef1"]} ⟶   "ab, ef1, zz"
 TEXTJOIN(", ", FALSE(), a, "zz") ⟶   {:a=>["ab", "", "ef1"]} ⟶   "ab, , ef1, zz"
 
+# vim: syntax=xel_eval
+
