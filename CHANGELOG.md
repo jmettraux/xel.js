@@ -2,7 +2,7 @@
 # xel.js
 
 
-## xel.js 1.4.0  not yet released
+## xel.js 1.4.0  released 2024-04-15
 
 * Implement MROUND(n, m)
 * Implement MROUND2(n, m)
