@@ -10,6 +10,10 @@
 -9,090.10 ⟶   [ "num", "-9,090.10" ]
 -.123 ⟶   [ "num", "-.123" ]
 
+a ⟶   [ "var", "a" ]
+ab ⟶   [ "var", "ab" ]
+ab.cd ⟶   [ "var", "ab.cd" ]
+
 "a" IN { "alpha", "bravo" } ⟶   [
   "cmp","IN",["str","a"],["arr",["str","alpha"],["str","bravo"]]]
 
@@ -128,4 +132,7 @@ LET(_l, LAMBDA(a, b, a + b), _l(2, 3)) ⟶   [
    ["var", "_l"],
    ["LAMBDA", ["var", "a"], ["var", "b"], ["plus", ["var", "a"], ["var", "b"]]],
    ["_l", ["num", "2"], ["num", "3"]]]
+
+
+# vim: syntax=xel_tree
 
