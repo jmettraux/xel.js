@@ -323,7 +323,7 @@ var Xel = (function() {
 
   evals.AND = function(tree, context) {
 
-    for (var i = 1, l = tree.length; i < l; i++) {
+    for (let i = 1, l = tree.length; i < l; i++) {
       if ( ! self.eval(tree[i], context)) return false;
     }
     return true;
@@ -331,7 +331,7 @@ var Xel = (function() {
 
   evals.OR = function(tree, context) {
 
-    for (var i = 1, l = tree.length; i < l; i++) {
+    for (let i = 1, l = tree.length; i < l; i++) {
       if (self.eval(tree[i], context)) return true;
     }
     return false;
@@ -341,8 +341,8 @@ var Xel = (function() {
 
   evals.ORV = function(tree, context) {
 
-    for (var i = 1, l = tree.length; i < l; i++) {
-      var v = self.eval(tree[i], context);
+    for (let i = 1, l = tree.length; i < l; i++) {
+      let v = self.eval(tree[i], context);
       if (v !== '' && v !== undefined && v !== null) return v;
     }
     return undefined;
@@ -491,7 +491,7 @@ var Xel = (function() {
       var as = Array.from(arguments);
 
       var ctx1 = Object.assign({}, context, as.pop());
-      for (var i = 0, l = args.length; i < l; i++) { ctx1[args[i]] = as[i]; }
+      for (let i = 0, l = args.length; i < l; i++) { ctx1[args[i]] = as[i]; }
 
       return self.eval(code, ctx1);
     };
@@ -558,12 +558,12 @@ var Xel = (function() {
 
   evals.LET = function(tree, context) {
 
-    var ctx = Object.assign({}, context);
-    var tl = tree.length;
+    let ctx = Object.assign({}, context);
+    let tl = tree.length;
 
-    var key = null;
-    for (var i = 1, l = tl - 1; i < l; i++) {
-      var t = tree[i];
+    let key = null;
+    for (let i = 1, l = tl - 1; i < l; i++) {
+      let t = tree[i];
       if (i % 2 === 1) { key = t[0] === 'var' ? t[1] : '' + self.eval(t, ctx); }
       else { ctx[key] = self.eval(t, ctx); }
     }
