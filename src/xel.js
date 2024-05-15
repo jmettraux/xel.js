@@ -43,7 +43,7 @@ var XelParser = Jaabro.makeParser(function() {
   function rcmp(i) { return seq('rcmp', i, comparator, add); }
   function cmp(i) { return seq('cmp', i, add, rcmp, '?'); }
 
-  var root = cmp;
+  let root = cmp;
 
   // rewrite
 
@@ -65,14 +65,14 @@ var XelParser = Jaabro.makeParser(function() {
 
     if (t.children.length === 1) return rewrite(t.children[0]);
 
-    var cn = t.children.slice(); // dup array
-    var a = [ t.name === 'add' ? 'plus' : 'MUL' ];
+    let cn = t.children.slice(); // dup array
+    let a = [ t.name === 'add' ? 'plus' : 'MUL' ];
     if (cn[1] && cn[1].strinp() === '&') a = [ 'amp' ]
-    var mod = null;
-    var c = null;
+    let mod = null;
+    let c = null;
 
     while (c = cn.shift()) {
-      var v = rewrite(c);
+      let v = rewrite(c);
       if (mod) v = [ mod, v ];
       a.push(v);
       c = cn.shift();
@@ -82,11 +82,11 @@ var XelParser = Jaabro.makeParser(function() {
 
     return a;
   }
-  var rewrite_mul = rewrite_add;
+  let rewrite_mul = rewrite_add;
 
   function rewrite_fun(t) {
 
-    var a = [ t.children[0].strinp() ];
+    let a = [ t.children[0].strinp() ];
     t.children[1].children.forEach(function(c) {
       if (c.name) a.push(rewrite(c));
     });
@@ -101,8 +101,9 @@ var XelParser = Jaabro.makeParser(function() {
   function rewrite_par(t) { return rewrite(t.children[1]); }
 
   function rewrite_arr(t) {
-    var a = [ 'arr' ];
-    t.children.forEach(function(c) { if (c.name) a.push(rewrite(c)); });
+    let a = [ 'arr' ];
+    for (let i = 0, l = t.children.length; i < l; i++) { let c = t.children[i];
+      if (c.name) a.push(rewrite(c)); }
     return a; }
 
   function rewrite_var(t) { return [ 'var', t.strinp() ]; }
@@ -110,9 +111,9 @@ var XelParser = Jaabro.makeParser(function() {
 
   function rewrite_string(t) {
 
-    var s = t.children[0].strinp();
-    var q = s[0];
-    var s = s.slice(1, -1);
+    let s = t.children[0].strinp();
+    let q = s[0];
+    s = s.slice(1, -1);
 
     return [
       'str', q === '"' ? s.replace(/\\\"/g, '"') : s.replace(/\\'/g, "'") ];
@@ -126,12 +127,12 @@ var Xel = (function() {
 
   this.VERSION = '1.4.1';
 
-  var self = this;
+  let self = this;
 
   //
   // protected functions
 
-  var xtype = function(x) {
+  let xtype = function(x) {
 
     return(
       x === null ? 'null' :
@@ -158,11 +159,11 @@ var Xel = (function() {
     return a;
   };
 
-  var evals = {};
+  let evals = {};
 
   evals.var = function(tree, context) {
 
-    var v = context;
+    let v = context;
 
     tree[1].split('.')
       .forEach(function(k) {
@@ -186,10 +187,10 @@ var Xel = (function() {
 
   evals.num = function(tree, context) {
 
-    var n = tree[1].replace(/,/g, '');
+    let n = tree[1].replace(/,/g, '');
     n = n.indexOf('.') > -1 ? parseFloat(n) : parseInt(n, 10);
 
-    var a = tree.slice(2);
+    let a = tree.slice(2);
     if (a.includes('inv')) n = 1.0 / n;
     if (a.includes('opp')) n = -n;
 
@@ -203,7 +204,7 @@ var Xel = (function() {
 
   evals.plus = function(tree, context) {
 
-    var elts = tree.slice(1).map(function(t) { return self.eval(t, context); });
+    let elts = tree.slice(1).map(function(t) { return self.eval(t, context); });
 
     if (typeof elts[0] == 'number')
       return elts.reduce(function(r, e) { return r + e; }, 0);
@@ -217,7 +218,7 @@ var Xel = (function() {
     return(
       tree.slice(1)
         .map(function(t) {
-          var v = self.eval(t, context);
+          let v = self.eval(t, context);
           return (v === undefined || v === null) ? '' : '' + v; })
         .join(''));
   };
@@ -230,7 +231,7 @@ var Xel = (function() {
 
   evals.SUM = function(tree, context) {
 
-    var f = function(r, e) {
+    let f = function(r, e) {
       if (typeof e == 'number') return r + e;
       if (Array.isArray(e)) return e.reduce(f, r);
       return r; };
@@ -242,7 +243,7 @@ var Xel = (function() {
 
   evals.PRODUCT = function(tree, context) {
 
-    var f = function(r, e) {
+    let f = function(r, e) {
       if (typeof e == 'number') return r * e;
       if (Array.isArray(e)) return e.reduce(f, r);
       return r; };
@@ -254,7 +255,7 @@ var Xel = (function() {
 
   evals.MIN = function(tree, context) {
 
-    var es = tree.slice(1).map(function(t) { return self.eval(t, context); });
+    let es = tree.slice(1).map(function(t) { return self.eval(t, context); });
 
     if (es.find(function(e) { return (typeof e != 'number'); })) return es[0];
     return Math.min.apply(null, es);
@@ -262,7 +263,7 @@ var Xel = (function() {
 
   evals.MAX = function(tree, context) {
 
-    var es = tree.slice(1).map(function(t) { return self.eval(t, context); });
+    let es = tree.slice(1).map(function(t) { return self.eval(t, context); });
 
     if (es.find(function(e) { return (typeof e != 'number'); })) return es[0];
     return Math.max.apply(null, es);
@@ -270,13 +271,13 @@ var Xel = (function() {
 
   evals.cmp = function(tree, context) {
 
-    var cmp = tree[1];
-    var a = self.eval(tree[2], context);
-    var b = self.eval(tree[3], context);
+    let cmp = tree[1];
+    let a = self.eval(tree[2], context);
+    let b = self.eval(tree[3], context);
 
     if (cmp === '=' || cmp === '!=') {
 
-      var f = function(x) {
+      let f = function(x) {
         if (x === null || x === undefined) return '';
         if (typeof x == 'string') return x;
         return JSON.stringify(x); };
@@ -296,7 +297,7 @@ var Xel = (function() {
 
   evals.IF = function(tree, context) {
 
-    var c = self.eval(tree[1], context);
+    let c = self.eval(tree[1], context);
 
     if (c) return self.eval(tree[2], context);
     return self.eval(tree[3], context);
@@ -304,15 +305,15 @@ var Xel = (function() {
 
   evals.CASE = function(tree, context) {
 
-    var ctl = self.eval(tree[1], context);
-    var args = tree.slice(2);
+    let ctl = self.eval(tree[1], context);
+    let args = tree.slice(2);
 
     if (typeof ctl == 'boolean') { args.unshift(ctl); ctl = true; }
 
-    var def = args.length % 2 == 1 ? args.pop() : null;
+    let def = args.length % 2 == 1 ? args.pop() : null;
 
     while (true) {
-      var a = args.shift(); var b = args.shift();
+      let a = args.shift(); let b = args.shift();
       if (a === undefined && b === undefined) break;
       if (ctl === self.eval(a, context)) return self.eval(b, context);
     }
@@ -368,8 +369,8 @@ var Xel = (function() {
 
   evals.INDEX = function(tree, context) {
 
-    var col = self.eval(tree[1], context);
-    var i = self.eval(tree[2], context);
+    let col = self.eval(tree[1], context);
+    let i = self.eval(tree[2], context);
 
     if ( ! Array.isArray(col)) return 0;
     if (typeof i != 'number') return 0;
@@ -381,14 +382,14 @@ var Xel = (function() {
 
   evals.COUNTA = function(tree, context) {
 
-    var col = self.eval(tree[1], context);
+    let col = self.eval(tree[1], context);
 
     return Array.isArray(col) ? col.length : 0;
   };
 
   evals.UNIQUE = function(tree, context) {
 
-    var arr = self.eval(tree[1], context);
+    let arr = self.eval(tree[1], context);
 
     if ( ! Array.isArray(arr)) throw new Error(
       "UNIQUE() expects array not " + xtype(arr));
@@ -402,9 +403,9 @@ var Xel = (function() {
   //
   evals.SORT = function(tree, context) {
 
-    var arr = self.eval(tree[1], context);
+    let arr = self.eval(tree[1], context);
     //var col = self.eval(tree[2], context);
-    var dir = self.eval(tree[3], context);
+    let dir = self.eval(tree[3], context);
 
     if ( ! Array.isArray(arr)) throw new Error(
       "UNIQUE() expects array not " + xtype(arr));
@@ -414,7 +415,7 @@ var Xel = (function() {
 
   evals.ISBLANK = function(tree, context) {
 
-    var val = self.eval(tree[1], context);
+    let val = self.eval(tree[1], context);
 
     return val === '' || val === undefined || val === null;
   };
@@ -438,25 +439,25 @@ var Xel = (function() {
   };
 
   evals.LN = function(tree, context) {
-    var a = self.eval(tree[1], context);
+    let a = self.eval(tree[1], context);
     if (Array.isArray(a)) return a.map(Math.log);
     return Math.log(a);
   };
   evals.SQRT = function(tree, context) {
-    var a = self.eval(tree[1], context);
+    let a = self.eval(tree[1], context);
     if (Array.isArray(a)) return a.map(Math.sqrt);
     return Math.sqrt(a);
   };
 
-  var p2 = function(n) { return n * n; };
+  let p2 = function(n) { return n * n; };
 
   evals.STDEV = function(tree, context) {
 
-    var a = self.eval(tree[1], context);
-    var s = a.reduce(function(acc, e) { return acc + e; }, 0);
-    var m = s / a.length;
+    let a = self.eval(tree[1], context);
+    let s = a.reduce(function(acc, e) { return acc + e; }, 0);
+    let m = s / a.length;
     s = a.reduce(function(acc, e) { return acc + p2(e - m); }, 0);
-    var v = s / (a.length - 1);
+    let v = s / (a.length - 1);
 
     return Math.sqrt(v);
   };
@@ -482,15 +483,15 @@ var Xel = (function() {
 
   evals.LAMBDA = function(tree, context) {
 
-    var args = tree.slice(1).map(function(t) { return t[1]; });
+    let args = tree.slice(1).map(function(t) { return t[1]; });
 
-    var code = tree[tree.length - 1];
+    let code = tree[tree.length - 1];
 
-    var l = function() {
+    let l = function() {
 
-      var as = Array.from(arguments);
+      let as = Array.from(arguments);
 
-      var ctx1 = Object.assign({}, context, as.pop());
+      let ctx1 = Object.assign({}, context, as.pop());
       for (let i = 0, l = args.length; i < l; i++) { ctx1[args[i]] = as[i]; }
 
       return self.eval(code, ctx1);
@@ -520,11 +521,11 @@ var Xel = (function() {
 
   evals.REDUCE = function(tree, context) {
 
-    var t = tree.slice(1);
+    let t = tree.slice(1);
 
-    var fun = self.eval(t.pop(), context);
+    let fun = self.eval(t.pop(), context);
 
-    var acc, arr;
+    let acc, arr;
       if (t.length === 1) {
         arr = self.eval(t[0], context);
         acc = arr.shift();
@@ -636,16 +637,16 @@ var Xel = (function() {
 
   this.eval = function(tree, context) {
 
-    var cbs = self.callbacks.concat(context._callbacks || []);
+    let cbs = self.callbacks.concat(context._callbacks || []);
     cbs.forEach(function(f) { f(tree, context); });
 
     if ( ! Array.isArray(tree) || (typeof tree[0] != 'string')) return tree;
 
-    var t0 = tree[0];
-    var e = evals[t0];
-    var v = context[t0];
+    let t0 = tree[0];
+    let e = evals[t0];
+    let v = context[t0];
 
-    var ret = undefined;
+    let ret = undefined;
 
     if ( ! e && context._custom_functions) {
       context._eval = self.eval;
@@ -653,7 +654,7 @@ var Xel = (function() {
     }
 
     if ( ! e && (typeof v === 'function')) {
-      var args = tree.slice(1)
+      let args = tree.slice(1)
         .map(function(t) { return self.eval(t, context); });
       args.push(context);
       ret = v.apply(null, args);
@@ -691,17 +692,17 @@ var Xel = (function() {
 
     if (typeof x != 'string') return x;
 
-    var s = x.trim(); if (s.match(/^=/)) s = s.slice(1).trim();
+    let s = x.trim(); if (s.match(/^=/)) s = s.slice(1).trim();
 
     return self.eval(self.parse(s), context);
   };
 
   //this.keval = function(o, key, context, force) {
-  //  var ukey = '_' + key;
+  //  let ukey = '_' + key;
   //  if (force) delete o[ukey];
-  //  var t = o[ukey];
+  //  let t = o[ukey];
   //  if (t) return self.eval(t, context);
-  //  var v = o[key];
+  //  let v = o[key];
   //  if ((typeof v == 'string') && v.trim()[0] === '=') {
   //    o[ukey] = self.parse(v.trim().slice(1).trim());
   //    return self.eval(o[ukey], context);
