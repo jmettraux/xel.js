@@ -252,6 +252,30 @@ describe 'xel_js' do
         end
       end
     end
+
+    describe '.sash' do
+
+      { '' =>
+          '|||0|0',
+        'foo' =>
+          'foo|o|foo|3|849955110',
+        'bar' =>
+          'bar|a|bar|3|815990707',
+        'The quick brown fox jumps over the lazy dog.' =>
+          'The qui|m|zy dog.|44|8835820411',
+        'Lorem ipsum dolor sit amet, consectetur adip' =>
+          'Lorem i|a|ur adip|44|-6470139925',
+      }.each do |k, v|
+
+        it "returns #{v} for '#{k}'" do
+
+#puts @bro.eval(%{ Xel.sash(#{k.inspect}); }.strip)
+          expect(@bro.eval(%{
+            Xel.sash(#{k.inspect});
+          }.strip)).to eq(v)
+        end
+      end
+    end
   end
 end
 

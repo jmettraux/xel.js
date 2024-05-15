@@ -710,6 +710,16 @@ var Xel = (function() {
   //  return v;
   //};
 
+  this.sash = function(s) {
+
+    let l = s.length;
+    let h = 0;
+
+    for (let i = 0; i < l; i++) h = s.charCodeAt(i) + (h << 6) + (h << 16) - h;
+
+    return `${s.slice(0, 7)}|${s.charAt(l / 2)}|${s.slice(l - 7, l)}|${l}|${h}`;
+  };
+
   //
   // done.
 
