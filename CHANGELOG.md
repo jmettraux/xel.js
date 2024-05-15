@@ -4,6 +4,7 @@
 
 ## xel.js 1.4.1  not yet released
 
+* Cache parsed trees
 * Explore making evalArgs() faster
 
 
