@@ -140,16 +140,23 @@ var Xel = (function() {
   };
 
   let evalArgs = function(tree, context) {
-    //return tree.slice(1).map(function(t) { return self.eval(t, context); }); };
-  //  let a = [];
-  //  for (var i = 1, l = tree.length; i < l; i++) {
-  //    a.push(self.eval(tree[i], context));
-  //  }
-  //  return a;
-  //};
-    return tree
-      .slice(1, 1 + (arguments[2] || 1024))
-      .map(function(t) { return self.eval(t, context); }); };
+    //return tree.slice(1).map(function(t) { return self.eval(t, context); });};
+
+    let a = [];
+    let max = arguments[2];
+
+    for (let i = 1, l = tree.length; i < l; i++) {
+
+      let t = tree[i];
+
+      if ( ! t) break;
+      if (max && a.length === max) break;
+
+      a.push(self.eval(t, context));
+    }
+
+    return a;
+  };
 
   var evals = {};
 
