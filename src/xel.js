@@ -630,7 +630,7 @@ var Xel = (function() {
     return Math.floor(n * m) / m;
   };
 
-  const forest = {};
+  const treeCache = {};
 
   //
   // public functions
@@ -673,12 +673,12 @@ var Xel = (function() {
     return ret;
   };
 
-  this.listTrees = function() { return forest; };
+  this.listCachedTrees = function() { return treeCache; };
 
   this.parse = function(s) {
 
     let h = self.sash(s);
-    let t = forest[h]; if ( ! t) t = forest[h] = XelParser.parse(s);
+    let t = treeCache[h]; if ( ! t) t = treeCache[h] = XelParser.parse(s);
 
     return t;
   };
