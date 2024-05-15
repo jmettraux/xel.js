@@ -2,6 +2,11 @@
 # xel.js
 
 
+## xel.js 1.4.1  not yet released
+
+* Explore making evalArgs() faster
+
+
 ## xel.js 1.4.0  released 2024-04-15
 
 * Implement MROUND(n, m)

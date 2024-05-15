@@ -124,7 +124,7 @@ var Xel = (function() {
 
   "use strict";
 
-  this.VERSION = '1.4.0';
+  this.VERSION = '1.4.1';
 
   var self = this;
 
@@ -139,8 +139,17 @@ var Xel = (function() {
       (typeof x));
   };
 
-  var evalArgs = function(tree, context) {
-    return tree.slice(1).map(function(t) { return self.eval(t, context); }); };
+  let evalArgs = function(tree, context) {
+    //return tree.slice(1).map(function(t) { return self.eval(t, context); }); };
+  //  let a = [];
+  //  for (var i = 1, l = tree.length; i < l; i++) {
+  //    a.push(self.eval(tree[i], context));
+  //  }
+  //  return a;
+  //};
+    return tree
+      .slice(1, 1 + (arguments[2] || 1024))
+      .map(function(t) { return self.eval(t, context); }); };
 
   var evals = {};
 
@@ -334,7 +343,7 @@ var Xel = (function() {
 
   evals.MATCH = function(tree, context) {
 
-    var as = evalArgs(tree, context); var elt = as[0], arr = as[1];
+    let [ elt, arr ] = evalArgs(tree, context, 2);
 
     if ( ! Array.isArray(arr)) return -1;
     return arr.indexOf(elt);
@@ -342,7 +351,7 @@ var Xel = (function() {
 
   evals.HAS = function(tree, context) {
 
-    var as = evalArgs(tree, context); var col = as[0], elt = as[1];
+    let [ col, elt ] = evalArgs(tree, context, 2);
 
     if (Array.isArray(col)) return col.indexOf(elt) > -1;
     if (typeof col == 'object') return col.hasOwnProperty(elt);
@@ -447,15 +456,15 @@ var Xel = (function() {
 
   evals.VLOOKUP = function(tree, context) {
 
-    var as = evalArgs(tree, context); var k = as[0], t = as[1], i = as[2];
+    let [ k, t, i ] = evalArgs(tree, context, 3);
 
     if (typeof i != 'number') throw new Error(
       `VLOOKUP() arg 3 '${tree[3]}' is not a number`);
     if ( ! Array.isArray(t)) throw new Error(
       `VLOOKUP() arg 2 '${tree[2]}' does not point to an array of array`);
 
-    for (var j = 0, l = t.length; j < l; j++) {
-      var r = t[j];
+    for (let j = 0, l = t.length; j < l; j++) {
+      let r = t[j];
       if ( ! Array.isArray(r)) throw new Error(
         `VLOOKUP() arg 2 row ${j + 1} of table is not an array`);
       if (r[0] === k) return r[i - 1]; // found :-)
@@ -487,17 +496,17 @@ var Xel = (function() {
 
   evals.KALL = function(tree, context) {
 
-    var as = evalArgs(tree, context);
+    let as = evalArgs(tree, context);
     as.push(context);
 
-    var fun = as.shift();
+    let fun = as.shift();
 
     return fun.apply(null, as);
   };
 
   evals.MAP = function(tree, context) {
 
-    var as = evalArgs(tree, context); var arr = as[0], fun = as[1];
+    let [ arr, fun ] = evalArgs(tree, context, 2);
 
     return arr.map(function(e) { return fun.apply(null, [ e, context ]); });
   };
@@ -523,16 +532,16 @@ var Xel = (function() {
 
   evals.TEXTJOIN = function(tree, context) {
 
-    var agg = function(acc, x) {
+    let agg = function(acc, x) {
       if (typeof x === 'string') { acc.push(x.trim()); }
       else if (Array.isArray(x)) { x.forEach(function(xx) { agg(acc, xx); }); }
       else if (x === null || x === undefined) { acc.push(''); }
       else { acc.push(JSON.stringify(x)); }
       return acc; };
 
-    var as = evalArgs(tree, context); var del = as[0], ign = as[1];
+    let [ del, ign ] = evalArgs(tree, context, 2);
 
-    var txs = [];
+    let txs = [];
     tree.slice(3).forEach(function(tt) { agg(txs, self.eval(tt, context)); });
 
     if (ign) txs = txs.filter(function(t) { return t.length > 0; });
@@ -557,7 +566,7 @@ var Xel = (function() {
 
   evals.MROUND = function(tree, context) {
 
-    var as = evalArgs(tree, context); var n = as[0], m = as[1];
+    let [ n, m ] = evalArgs(tree, context, 2);
 
     if (n * m < 0) return NaN;
     return Math.round(n / m) * m;
@@ -565,50 +574,50 @@ var Xel = (function() {
 
   evals.MROUND2 = function(tree, context) {
 
-    var as = evalArgs(tree, context); var n = as[0], m = as[1];
+    let [ n, m ] = evalArgs(tree, context, 2);
 
     if (n * m < 0) return NaN;
 
-    var r = Math.round(n / m) * m * 100;
+    let r = Math.round(n / m) * m * 100;
 
     return (r - r % 1) / 100;
   };
 
   evals.CEILING = function(tree, context) {
 
-    var as = evalArgs(tree, context);
+    let as = evalArgs(tree, context);
     if (as.length < 2) as.push(1);
-    var n = as[0], m = as[1];
+    let n = as[0], m = as[1];
 
-    var r = (n % m);
+    let r = (n % m);
     return r === 0 ? n : n - r + m;
   };
 
   evals.FLOOR = function(tree, context) {
 
-    var as = evalArgs(tree, context);
+    let as = evalArgs(tree, context);
     if (as.length < 2) as.push(1);
-    var n = as[0], m = as[1];
+    let n = as[0], m = as[1];
 
     return n - (n % m);
   };
 
   evals.ROUND = function(tree, context) {
 
-    var as = evalArgs(tree, context);
+    let as = evalArgs(tree, context);
     if (as.length < 2) as.push(0);
-    var n = as[0], m = as[1];
+    let n = as[0], m = as[1];
 
-    var t = 10 ** m;
+    let t = 10 ** m;
     return Math.round(n * t) / t;
   };
 
   evals.TRUNC = function(tree, context) {
 
-    var as = evalArgs(tree, context);
+    let as = evalArgs(tree, context);
     if (as.length < 2) as.push(0);
 
-    var n = as[0], m = 10 ** as[1];
+    let n = as[0], m = 10 ** as[1];
 
     return Math.floor(n * m) / m;
   };
