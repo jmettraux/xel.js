@@ -8,6 +8,8 @@
 require 'spec/spec_helper'
 
 
+def _eval(s); JSON.parse(JSON.dump(eval(s))); end
+
 XEL_CASES =
   eval(File.read('spec/_xel.rb')) +
   File.read('spec/_xel_eval.txt')
@@ -16,9 +18,9 @@ XEL_CASES =
     .inject([]) { |a, l|
       ss = l.strip.split(/[→⟶]/)
       if ss.length == 2
-        a << { c: ss[0], o: eval(ss[1].strip) }
+        a << { c: ss[0], o: _eval(ss[1].strip) }
       elsif ss.length >= 3
-        a << { c: ss[0], ctx: eval(ss[1]), o: eval(ss[2]) }
+        a << { c: ss[0], ctx: _eval(ss[1]), o: _eval(ss[2]) }
       end
       a } +
   File.read('spec/_xel_tree.txt')
