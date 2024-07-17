@@ -2,7 +2,7 @@
 # xel.js
 
 
-## xel.js 1.5.1  not yet released
+## xel.js 1.5.1  released 2024-07-17
 
 * Introduce D(k0, v0, k1, v1, ...)
 
