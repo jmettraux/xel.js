@@ -246,6 +246,15 @@ TEXTJOIN("/", TRUE(), "a", "b") ⟶   "a/b"
 TEXTJOIN(", ", TRUE(), a, "zz") ⟶   {:a=>["ab", "cd", "ef1"]} ⟶   "ab, cd, ef1, zz"
 TEXTJOIN(", ", TRUE(), a, "zz") ⟶   {:a=>["ab", "", "ef1"]} ⟶   "ab, ef1, zz"
 TEXTJOIN(", ", FALSE(), a, "zz") ⟶   {:a=>["ab", "", "ef1"]} ⟶   "ab, , ef1, zz"
+
+D() ⟶   \
+  {}
+D('alpha') ⟶   \
+  { alpha: nil }
+D('alpha', 'bravo') ⟶   \
+  { alpha: 'bravo' }
+D('a', 1, 'b', 'deux', 'charly', { 1, 'deux' }) ⟶   \
+  { a: 1, b: 'deux', charly: [ 1, 'deux' ] }
 ```
 
 See core spec at [spec/_xel.rb](spec/_xel.rb).
