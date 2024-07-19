@@ -469,7 +469,7 @@ var Xel = (function() {
     if (typeof i != 'number') throw new Error(
       `VLOOKUP() arg 3 '${tree[3]}' is not a number`);
     if ( ! Array.isArray(t)) throw new Error(
-      `VLOOKUP() arg 2 '${tree[2]}' does not point to an array of array`);
+      `VLOOKUP() arg 2 '${tree[2]}' does not point to an array of arrays`);
 
     for (let j = 0, l = t.length; j < l; j++) {
       let r = t[j];
