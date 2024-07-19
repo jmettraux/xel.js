@@ -125,7 +125,7 @@ var Xel = (function() {
 
   "use strict";
 
-  this.VERSION = '1.5.1';
+  this.VERSION = '1.6.0';
 
   let self = this;
 
