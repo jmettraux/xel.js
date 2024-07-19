@@ -3,6 +3,8 @@
 
 Interpreting expressions built out of a subset of spreadsheet functions.
 
+Has a little Ruby twin, [xel.rb](https://github.com/jmettraux/xel.rb).
+
 ```js
 // Xel.seval(code, context)
 //   where context is a mapping var_name -> var_value
