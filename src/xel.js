@@ -408,7 +408,7 @@ var Xel = (function() {
     let dir = self.eval(tree[3], context);
 
     if ( ! Array.isArray(arr)) throw new Error(
-      "UNIQUE() expects array not " + xtype(arr));
+      "SORT() expects array not " + xtype(arr));
 
     return dir === -1 ? arr.sort().reverse() : arr.sort();
   };
