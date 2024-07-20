@@ -4,6 +4,8 @@
 
 ## xel.js 1.6.0  not yet released
 
+* Trim "=" prefix from parser itself
+
 
 ## xel.js 1.5.1  released 2024-07-17
 

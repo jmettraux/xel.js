@@ -38,6 +38,18 @@ def trunc(s, max)
   s[0..max] + (s.length > max ? '…' : '')
 end
 
+def debug_tree(dt, level=0)
+  return unless dt
+  #pp dt
+  indent = '  ' * level
+  nam = dt['name']; nam = nam ? nam.inspect : 'null'
+  txt = dt['input']['string']
+  off, len = dt['offset'], dt['length']
+  tx = txt[off, len]
+  puts "#{indent}| #{nam} #{dt['result']} #{off},#{len} #{tx.inspect}"
+  dt['children'].each { |c| debug_tree(c, level + 1) }
+end
+
 
 describe 'xel_js' do
 
@@ -45,7 +57,7 @@ describe 'xel_js' do
 
     @bro =
       make_browser(%w[
-        spec/www/jaabro-1.4.0.js
+        spec/www/jaabro-1.4.1.js
         src/xel.js
       ])
   end
@@ -63,6 +75,23 @@ describe 'xel_js' do
 
           expect(@bro.eval(%{ XelParser.parse(#{JSON.dump(code)}); })
             ).to eq(tree)
+        end
+      end
+
+      XEL_CASES.each do |k|
+
+        code = k[:c]
+        tree = k[:t]; next if tree
+
+        it "parses successfully #{JSON.dump(code)}" do
+
+          t = @bro.eval(%{ XelParser.parse(#{JSON.dump(code)}); })
+
+          debug_tree(
+            t ? nil :
+            @bro.eval(%{ XelParser.parse(#{JSON.dump(code)}, { debug: 2 }); }))
+
+          expect(t.class).to eq(Array)
         end
       end
 
@@ -93,6 +122,7 @@ describe 'xel_js' do
             Xel.eval(
               XelParser.parse(#{JSON.dump(code)}),
               #{JSON.dump(ctx)}); })
+
           if out.is_a?(Float)
             expect('%0.2f' % r).to eq('%0.2f' % out)
           elsif out.is_a?(Array)

@@ -43,7 +43,9 @@ var XelParser = Jaabro.makeParser(function() {
   function rcmp(i) { return seq('rcmp', i, comparator, add); }
   function cmp(i) { return seq('cmp', i, add, rcmp, '?'); }
 
-  let root = cmp;
+  function prequal(i) { return rex(null, i, /(\s*=\s*|\s+)/); }
+  function root(i) { return seq(null, i, prequal, '?', cmp); }
+
 
   // rewrite
 
@@ -695,8 +697,6 @@ var Xel = (function() {
 
   this.seval = function(s, context) {
 
-    s = s.trim(); if (s.match(/^=/)) s = s.slice(1).trim();
-
     return self.eval(self.parse(s), context);
   };
 
@@ -709,9 +709,7 @@ var Xel = (function() {
 
     if (typeof x != 'string') return x;
 
-    let s = x.trim(); if (s.match(/^=/)) s = s.slice(1).trim();
-
-    return self.eval(self.parse(s), context);
+    return self.eval(self.parse(x), context);
   };
 
   //this.keval = function(o, key, context, force) {

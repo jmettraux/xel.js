@@ -313,8 +313,8 @@ Xel.seval("12 + a", ctx);
 ## cdn
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/jmettraux/xel.js@1.4.0/spec/www/jaabro-1.4.0.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/jmettraux/xel.js@1.4.0/src/xel.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/jmettraux/xel.js@1.5.1/spec/www/jaabro-1.4.1.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/jmettraux/xel.js@1.5.1/src/xel.js"></script>
 ```
 
 
