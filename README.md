@@ -9,13 +9,13 @@ Has a little Ruby twin, [xel.rb](https://github.com/jmettraux/xel.rb).
 // Xel.seval(code, context)
 //   where context is a mapping var_name -> var_value, and defaults to {}
 
-Xel.seval("1 + 2")
+Xel.eval("1 + 2")
   // --> 3
 
-Xel.seval("	= CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45)", { a: 10000 })
+Xel.eval("	= CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45)", { a: 10000 })
   // --> 0.6
 
-Xel.seval("CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45)", { a: 5_100_000 })
+Xel.eval("CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45)", { a: 5_100_000 })
   // --> 0.55
 ```
 
@@ -274,7 +274,7 @@ var a = [];
 Xel.callbacks.push(function(tree, context, ret) {
   a.push([ tree, context, ret ]);
 });
-Xel.seval("12 + a", { a: 34 });
+Xel.eval("12 + a", { a: 34 });
 Xel.callbacks.pop(); // remove last callback ;-)
 
 // a -->
@@ -295,7 +295,7 @@ Callbacks may also be added more transiently by providing a `_callbacks` array i
 var a = [];
 var cb = function(tree, context, ret) { a.push([ tree, ret ]); };
 var ctx = { a: 35, _callbacks: [ cb ] };
-Xel.seval("12 + a", ctx);
+Xel.eval("12 + a", ctx);
 
 // a -->
 
@@ -313,8 +313,8 @@ Xel.seval("12 + a", ctx);
 ## cdn
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/jmettraux/xel.js@1.5.1/spec/www/jaabro-1.4.1.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/jmettraux/xel.js@1.5.1/src/xel.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/jmettraux/xel.js@1.6.0/spec/www/jaabro-1.4.1.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/jmettraux/xel.js@1.6.0/src/xel.js"></script>
 ```
 
 
