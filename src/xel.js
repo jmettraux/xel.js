@@ -649,7 +649,29 @@ var Xel = (function() {
 
   this.callbacks = [];
 
-  this.eval = function(tree, context) {
+  this.listCachedTrees = function() { return treeCache; };
+
+  this.parse = function(s) {
+
+    let h = self.sash(s);
+    let t = treeCache[h]; if ( ! t) t = treeCache[h] = XelParser.parse(s);
+
+    return t;
+  };
+
+  this.sash = function(s) {
+
+    let l = s.length;
+    let h = 0;
+
+    for (let i = 0; i < l; i++) h = s.charCodeAt(i) + (h << 6) + (h << 16) - h;
+
+    return `${s.slice(0, 7)}|${s.charAt(l / 2)}|${s.slice(l - 7, l)}|${l}|${h}`;
+  };
+
+  // Accepts a tree and a context
+  //
+  this.do_eval = function(tree, context) {
 
     let cbs = self.callbacks.concat(context._callbacks || []);
     cbs.forEach(function(f) { f(tree, context); });
@@ -685,41 +707,21 @@ var Xel = (function() {
     return ret;
   };
 
-  this.listCachedTrees = function() { return treeCache; };
+  // If x is a String, parses it to a tree, then do_eval
+  //
+  this.eval = function(x, context) {
 
-  this.parse = function(s) {
-
-    let h = self.sash(s);
-    let t = treeCache[h]; if ( ! t) t = treeCache[h] = XelParser.parse(s);
-
-    return t;
+    return self.do_eval(
+      (typeof x == 'string') ? self.parse(x) : x,
+      context);
   };
 
-  this.seval = function(s, context) {
+  // If x is a String, parse and eval, else returns x immediately
+  //
+  this.s_eval = function(x, context) {
 
-    return self.eval(self.parse(s), context);
-  };
-
-  this.s_eval = function(s, context) {
-
-    return (typeof s == 'string') ? self.seval(s, context) : s;
-  };
-
-  this.neval = function(x, context) {
-
-    if (typeof x != 'string') return x;
-
-    return self.eval(self.parse(x), context);
-  };
-
-  this.sash = function(s) {
-
-    let l = s.length;
-    let h = 0;
-
-    for (let i = 0; i < l; i++) h = s.charCodeAt(i) + (h << 6) + (h << 16) - h;
-
-    return `${s.slice(0, 7)}|${s.charAt(l / 2)}|${s.slice(l - 7, l)}|${l}|${h}`;
+    if (typeof x == 'string') return self.eval(self.parse(x), context);
+    return s;
   };
 
   //

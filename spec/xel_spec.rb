@@ -146,7 +146,7 @@ describe 'xel_js' do
         they 'work' do
 
           r = @bro.eval(%{
-            Xel.seval(
+            Xel.eval(
               'Plus(1, 1)',
               ctx = { a: 0, _custom_functions: {
                 Plus: function(tree, context) {
@@ -171,7 +171,7 @@ describe 'xel_js' do
         it 'looks up and finds' do
 
           r = @bro.eval(%{
-            Xel.seval(
+            Xel.eval(
               "VLOOKUP('finds - income', table0, 2)",
               #{JSON.dump(@ctx)}); })
 
@@ -181,7 +181,7 @@ describe 'xel_js' do
         it 'looks up and finds, or not' do
 
           r = @bro.eval(%{
-            Xel.seval(
+            Xel.eval(
               `{ VLOOKUP('finds - income', table0, 2),
                  VLOOKUP('mac g - income', table0, 2),
                  VLOOKUP('fubar', table0, 2),
@@ -194,7 +194,7 @@ describe 'xel_js' do
         it 'looks up and finds not' do
 
           r = @bro.eval(%{
-            Xel.seval(
+            Xel.eval(
               "VLOOKUP('fubar', table0, 2)",
               #{JSON.dump(@ctx)}); })
 
@@ -205,7 +205,7 @@ describe 'xel_js' do
 
           expect {
             @bro.eval(%{
-              Xel.seval(
+              Xel.eval(
                 "VLOOKUP('fubar', table0, 'abc')",
                 #{JSON.dump(@ctx)}); })
           }.to raise_error(
@@ -219,7 +219,7 @@ describe 'xel_js' do
 
         they 'have a _source' do
 
-          r = @bro.eval(%{ Xel.seval("LAMBDA(a, b, a + b)", {})._source })
+          r = @bro.eval(%{ Xel.eval("LAMBDA(a, b, a + b)", {})._source })
 
           expect(r).to eq('LAMBDA(a, b, a + b)')
         end
@@ -235,7 +235,7 @@ describe 'xel_js' do
               Xel.callbacks.push(function(tree, context, ret) {
                 a.push([ tree, context, ret ]);
               });
-              Xel.seval("12 + a", { a: 34 });
+              Xel.eval("12 + a", { a: 34 });
               Xel.callbacks.pop();
               return a;
             }()); })
@@ -267,7 +267,7 @@ describe 'xel_js' do
                 };
               var ctx =
                 { a: 35, _callbacks: [ cb ] };
-              Xel.seval("12 + a", ctx);
+              Xel.eval("12 + a", ctx);
               return a;
             }()); })
 
