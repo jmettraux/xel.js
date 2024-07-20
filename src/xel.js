@@ -712,19 +712,6 @@ var Xel = (function() {
     return self.eval(self.parse(x), context);
   };
 
-  //this.keval = function(o, key, context, force) {
-  //  let ukey = '_' + key;
-  //  if (force) delete o[ukey];
-  //  let t = o[ukey];
-  //  if (t) return self.eval(t, context);
-  //  let v = o[key];
-  //  if ((typeof v == 'string') && v.trim()[0] === '=') {
-  //    o[ukey] = self.parse(v.trim().slice(1).trim());
-  //    return self.eval(o[ukey], context);
-  //  }
-  //  return v;
-  //};
-
   this.sash = function(s) {
 
     let l = s.length;
