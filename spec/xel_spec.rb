@@ -148,13 +148,14 @@ describe 'xel_js' do
           r = @bro.eval(%{
             Xel.eval(
               'Plus(1, 1)',
-              ctx = { a: 0, _custom_functions: {
+              ctx = {
+                a: 0,
                 Plus: function(tree, context) {
                   return [ tree[0], Object.keys(context) ];
                 }
-              } }); })
+              }); })
 
-          expect(r).to eq([ 'Plus', %w[ a _custom_functions _eval ] ])
+          expect(r).to eq([ 'Plus', %w[ a Plus ] ])
         end
       end
 

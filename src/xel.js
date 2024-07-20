@@ -499,6 +499,7 @@ var Xel = (function() {
       return self.eval(code, ctx1);
     };
 
+    l._lambda = true; // to differentiate from a custom function
     l._source = tree._source;
 
     return l;
@@ -684,16 +685,16 @@ var Xel = (function() {
 
     let ret = undefined;
 
-    if ( ! e && context._custom_functions) {
-      context._eval = self.eval;
-      e = context._custom_functions[t0];
-    }
-
     if ( ! e && (typeof v === 'function')) {
-      let args = tree.slice(1)
-        .map(function(t) { return self.eval(t, context); });
-      args.push(context);
-      ret = v.apply(null, args);
+      if (v._lambda) {
+        let args = tree.slice(1)
+          .map(function(t) { return self.eval(t, context); });
+        args.push(context);
+        ret = v.apply(null, args);
+      }
+      else {
+        ret = v.apply(null, [ tree, context ]);
+      }
     }
     else if ( ! e) {
       throw new Error("no evals." + tree[0] + " method");

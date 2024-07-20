@@ -4,6 +4,7 @@
 
 ## xel.js 1.6.0  not yet released
 
+* stop using `_custom_functions` sub-context, go direct
 * Rationalize do_eval, eval, s_eval
 * Trim "=" prefix from parser itself
 
