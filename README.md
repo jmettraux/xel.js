@@ -7,13 +7,16 @@ Has a little Ruby twin, [xel.rb](https://github.com/jmettraux/xel.rb).
 
 ```js
 // Xel.seval(code, context)
-//   where context is a mapping var_name -> var_value
+//   where context is a mapping var_name -> var_value, and defaults to {}
+
+Xel.seval("1 + 2")
+  // --> 3
 
 Xel.seval("	= CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45)", { a: 10000 })
-// --> 0.6
+  // --> 0.6
 
 Xel.seval("CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45)", { a: 5_100_000 })
-// --> 0.55
+  // --> 0.55
 ```
 
 Here are the eval tests, in the format `code [ ⟶   context] ⟶   result`
