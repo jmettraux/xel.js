@@ -314,6 +314,19 @@ describe 'xel_js' do
       end
     end
 
+    describe '.s_eval' do
+
+      it 'evals if the input is a string' do
+
+        expect(@bro.eval(%{ Xel.s_eval('12 * 12'); })).to eq(144)
+      end
+
+      it 'returns the input immediately if it is not a a string' do
+
+        expect(@bro.eval(%{ Xel.s_eval(true); })).to eq(true)
+      end
+    end
+
     describe '.sash' do
 
       { '' =>
