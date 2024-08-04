@@ -24,6 +24,9 @@ pkg_mini:
 
 pkg: pkg_plain pkg_mini
 
+serve:
+	ruby -run -ehttpd spec/www/ -p8000
+s: serve
 
-.PHONY: name spec pkg
+.PHONY: name spec pkg serve
 
