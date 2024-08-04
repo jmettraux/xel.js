@@ -712,6 +712,8 @@ var Xel = (function() {
   //
   this.eval = function(x, context) {
 
+    context = context || {};
+
     return self.do_eval(
       (typeof x == 'string') ? self.parse(x) : x,
       context);

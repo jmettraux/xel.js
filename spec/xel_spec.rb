@@ -95,7 +95,23 @@ describe 'xel_js' do
         end
       end
 
-      it 'returns null when it cannot parse'
+      it 'parses successfully something prefixed with =' do
+
+        expect(@bro.eval(%{ XelParser.parse('123') })
+          ).to eq([ 'num', '123' ])
+        expect(@bro.eval(%{ XelParser.parse(' = 123') })
+          ).to eq([ 'num', '123' ])
+
+        expect(@bro.eval(%{ Xel.parse('123') })
+          ).to eq([ 'num', '123' ])
+        expect(@bro.eval(%{ Xel.parse(' = 123') })
+          ).to eq([ 'num', '123' ])
+      end
+
+      it 'returns null when it cannot parse' do
+
+        expect(@bro.eval(%{ XelParser.parse('(') })).to eq(nil)
+      end
     end
   end
 
@@ -139,6 +155,18 @@ describe 'xel_js' do
             expect(r).to eq(out)
           end
         end
+      end
+
+      it "does not mind a prefix =" do
+
+        expect(@bro.eval(%{ Xel.eval("123"); })).to eq(123)
+        expect(@bro.eval(%{ Xel.eval("= 123"); })).to eq(123)
+        expect(@bro.eval(%{ Xel.eval("  = 123"); })).to eq(123)
+        expect(@bro.eval(%{ Xel.eval("	= 123"); })).to eq(123)
+        expect(@bro.eval(%q{ Xel.eval("\n = MAX(123, 234)"); })).to eq(234)
+        expect(@bro.eval(%{ Xel.eval("0"); })).to eq(0)
+        expect(@bro.eval(%{ Xel.eval("= 0"); })).to eq(0)
+        expect(@bro.eval(%{ Xel.eval(" = 0"); })).to eq(0)
       end
 
       context 'custom functions' do
