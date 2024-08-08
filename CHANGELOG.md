@@ -4,6 +4,7 @@
 
 ## xel.js 1.6.0  not yet released
 
+* Let D accept D({ k0, v0, k1, v1, ... })
 * Allow for Xel.eval('123'), default empty context
 * stop using `_custom_functions` sub-context, go direct
 * Rationalize do_eval, eval, s_eval

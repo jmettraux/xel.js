@@ -636,6 +636,7 @@ var Xel = (function() {
   evals.D = function(tree, context) {
 
     let as = evalArgs(tree, context);
+    if (as.length === 1 && Array.isArray(as[0])) as = as[0];
 
     let h = {}; for (let i = 0, l = as.length; i < l; i = i + 2) {
       h['' + as[i]] = as[i + 1]; }
