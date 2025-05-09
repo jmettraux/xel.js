@@ -29,7 +29,11 @@ XEL_CASES =
       (ll + ']').strip.split("\n").reject { |s| s.match(/^\s*#/) }.join('') }
     .inject([]) { |a, l|
       ss = l.strip.split(/[→⟶]/)
-      a << { c: ss[0], t: eval(ss[1].strip) } if ss.length > 1
+      if ss.length > 1
+        ss1 = ss[1].strip
+        t = ss1[0, 1] == '∅' ? nil : eval(ss1)
+        a << { c: ss[0], t: t, ss1: ss1 }
+      end
       a }
 #pp XEL_CASES; p XEL_CASES.length
 
@@ -82,16 +86,25 @@ describe 'xel_js' do
 
         code = k[:c]
         tree = k[:t]; next if tree
+        ss1 = k[:ss1]
 
         it "parses successfully #{JSON.dump(code)}" do
 
           t = @bro.eval(%{ XelParser.parse(#{JSON.dump(code)}); })
 
-          debug_tree(
-            t ? nil :
-            @bro.eval(%{ XelParser.parse(#{JSON.dump(code)}, { debug: 2 }); }))
+          if ss1 && ss1[0, 1] == '∅'
 
-          expect(t.class).to eq(Array)
+            expect(t).to eq(nil)
+
+          else
+
+            debug_tree(
+              t ? nil :
+              @bro.eval(
+                %{ XelParser.parse(#{JSON.dump(code)}, { debug: 2 }); }))
+
+            expect(t.class).to eq(Array)
+          end
         end
       end
 

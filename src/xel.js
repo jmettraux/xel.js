@@ -13,7 +13,7 @@ var XelParser = Jaabro.makeParser(function() {
 
   function number(i) {
     return rex('number', i,
-      /-?(\.[0-9]+|([0-9][,0-9]*[0-9]|[0-9]+)(\.[0-9]+)?)\s*/); }
+      /-?(\.[0-9]+|([0-9]{1,3}(,[0-9]{3})+|[0-9]+)(\.[0-9]+)?)\s*/); }
 
   function vra(i) { return rex('var', i, /[a-z_][A-Za-z0-9_.]*\s*/); }
 
@@ -109,6 +109,7 @@ var XelParser = Jaabro.makeParser(function() {
     return a; }
 
   function rewrite_var(t) { return [ 'var', t.strinp() ]; }
+
   function rewrite_number(t) { return [ 'num', t.strinp() ]; }
 
   function rewrite_string(t) {
