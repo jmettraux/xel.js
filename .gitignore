@@ -1,7 +1,8 @@
 
 # .gitignore
 
-.vim*
+#.vim*
+.viminfo
 
 .todo.md
 
@@ -12,6 +13,9 @@
 
 .chat.md
 .openai*
+
+.deep.md
+.deepseek*
 
 pkg/*.js
 spec/www/
