@@ -3,6 +3,7 @@
 
 #.vim*
 .viminfo
+.vimgrep
 
 .todo.md
 
