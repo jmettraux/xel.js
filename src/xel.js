@@ -383,6 +383,20 @@ var Xel = (function() {
       col[parseInt(i) - 1];
   };
 
+  // Counts only numeric values
+  // (including dates and times, since they are stored as numbers)
+  //
+  evals.COUNT = function(tree, context) {
+
+    let col = self.eval(tree[1], context);
+
+    return Array.isArray(col) ?
+      col.filter(e => (typeof e === 'number')).length :
+      0;
+  };
+
+  // Counts all non-empty cells**, regardless of data type.
+  //
   evals.COUNTA = function(tree, context) {
 
     let col = self.eval(tree[1], context);
