@@ -19,7 +19,7 @@ hi! xeOutcome cterm=NONE ctermfg=darkgreen ctermbg=16
 hi! xeContext cterm=NONE ctermfg=darkgrey ctermbg=16
 
 syn match xeComment '\v^ *#[^\n]*\n'
-syn match xeCode '\v^[^\U27f6]+(%U27f6)@='
+syn match xeCode '\v^[^\U27f6#]+(%U27f6)@='
 syn match xeArrow '\v%U27f6'
 syn match xeContext '\v(%U27f6)@<=[^\U27f6]+(%U27f6)@='
 syn match xeOutcome '\v(%U27f6)@<=[^\U27f6]+$'

@@ -19,7 +19,7 @@ hi! xtArrow cterm=NONE ctermfg=blue ctermbg=16
 "hi! xtContext cterm=NONE ctermfg=darkgrey ctermbg=16
 
 syn match xtComment '\v^ *#[^\n]*\n'
-syn match xtCode '\v^[^\U27f6]+(%U27f6)@='
+syn match xtCode '\v^[^\U27f6#]+(%U27f6)@='
 syn match xtArrow '\v%U27f6'
 "syn match xtContext '\v(%U27f6)@<=[^\U27f6]+(%U27f6)@='
 "syn match xtOutcome '\v(%U27f6)@<=[^\U27f6]+$'
