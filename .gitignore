@@ -4,6 +4,8 @@
 #.vim*
 .viminfo
 .vimgrep
+.vimmarks
+.vimspec
 
 .todo.md
 

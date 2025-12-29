@@ -139,5 +139,5 @@ SUM( 2,000 ,3,000,4) ⟶   [
   "SUM",
   ["num", "2,000"], ["num", "3,000"], ["num", "4"]]
 
-# vim: syntax=xel_tree
+# vim: syntax=arrowy
 
