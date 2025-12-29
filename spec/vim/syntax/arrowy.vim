@@ -13,6 +13,7 @@
   " <match>(<pattern>)@!   ~~~ negative lookahead
 
 hi! default link aroComment Comment
+hi! default link aroEndComment Comment
 hi! aroCode cterm=NONE ctermfg=green ctermbg=16
 hi! aroArrow cterm=NONE ctermfg=blue ctermbg=16
 hi! aroOutcome cterm=NONE ctermfg=darkgreen ctermbg=16
@@ -22,7 +23,8 @@ syn match aroComment '\v^ *#[^\n]*\n'
 syn match aroCode '\v^[^\U27f6#]+(%U27f6)@='
 syn match aroArrow '\v%U27f6'
 syn match aroContext '\v(%U27f6)@<=[^\U27f6]+(%U27f6)@='
-syn match aroOutcome '\v(%U27f6)@<=[^\U27f6]+$'
+syn match aroEndComment '\v#[^\n]*\n' contained
+syn match aroOutcome '\v(%U27f6)@<=[^\U27f6]+$' contains=aroEndComment
 
 let b:current_syntax = "arrowy"
 
