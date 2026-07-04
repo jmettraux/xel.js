@@ -4,6 +4,7 @@
 
 ## xel.js 1.6.0  not yet released
 
+* Let PRODUCT() return undefined on zero or non-number factors
 * Implement COUNT(a)
 * Let D accept D({ k0, v0, k1, v1, ... })
 * Allow for Xel.eval('123'), default empty context

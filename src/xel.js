@@ -246,14 +246,15 @@ var Xel = (function() {
 
   evals.PRODUCT = function(tree, context) {
 
-    let f = function(r, e) {
+    let fun = function(r, e) {
       if (typeof e == 'number') return r * e;
-      if (Array.isArray(e)) return e.reduce(f, r);
-      return r; };
+      if (Array.isArray(e)) return e.reduce(fun, r);
+      return undefined; };
 
-    return(
-      tree.slice(1).map(function(t) { return self.eval(t, context); })
-        .reduce(f, 1));
+    let facs =
+      tree.slice(1).map(function(t) { return self.eval(t, context); });
+
+    return facs.length > 0 ? facs.reduce(fun, 1) : undefined;
   };
 
   evals.MIN = function(tree, context) {

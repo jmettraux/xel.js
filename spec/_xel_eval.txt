@@ -191,6 +191,8 @@ NOT(FALSE()) ⟶   true
 OR(1 = 2, 2 = 2) ⟶   true
 OR(TRUE(), FALSE()) ⟶   true
 
+PRODUCT() ⟶   nil
+PRODUCT(TRUE()) ⟶   nil
 PRODUCT(2, 3, 4) ⟶   24
 PRODUCT({ 2, 3, 4 }) ⟶   24
 PRODUCT({ 2, 3, 4 }, 2) ⟶   48
