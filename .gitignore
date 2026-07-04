@@ -16,6 +16,8 @@
 
 .chat.md
 .openai*
+.claude.md
+.klaude.*
 
 .deep.md
 .deepseek*
