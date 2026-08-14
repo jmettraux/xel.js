@@ -132,6 +132,7 @@ TRUNC(2.678, 1) ⟶   2.6
 2 >= 2 ⟶   true
 3 = 3 ⟶   true
 3 >= 2 ⟶   true
+"abc" & "def" ⟶   "abcdef"
 
 AND(TRUE()) ⟶   true
 AND(TRUE(), TRUE()) ⟶   true
