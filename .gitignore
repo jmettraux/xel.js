@@ -9,9 +9,8 @@
 
 .todo.md
 
-.bxsinfo.yaml
-.errors
-.rspec.out
+.probatio-*
+.test-point
 .ruby-version
 
 .chat.md
@@ -23,7 +22,7 @@
 .deepseek*
 
 pkg/*.js
-spec/www/
+test/www/
 
 chrome.core
 

@@ -11,7 +11,7 @@ require 'webrick'
 require 'ferrum'
 
 
-module Helpers
+class Probatio::Group
 
   TEST_WEB_PORT= 9091
 
@@ -19,11 +19,11 @@ module Helpers
 
     re_start_web_server
 
-    system('rm spec/www/*.html')
+    system('rm test/www/*.html')
 
     ts = Time.now.strftime('%Y%m%dT%H%M%S')
     test_file = "xel_test_#{ts}.html"
-    test_path = File.join(Dir.pwd, 'spec/www', test_file)
+    test_path = File.join(Dir.pwd, 'test/www', test_file)
 
     File.open(test_path, 'wb') do |f|
       f.puts %{
@@ -32,7 +32,7 @@ module Helpers
             <title>test #{ts}</title> }
       js_files.each do |path|
         next if path.match?(/^#/)
-        system("cp #{path} spec/www/#{File.basename(path)}")
+        system("cp #{path} test/www/#{File.basename(path)}")
         f.puts("<script src='#{File.basename(path)}'></script>")
       end
       f.puts %{
@@ -95,14 +95,13 @@ module Helpers
 
   protected
 
-
   def re_start_web_server
 
     $test_web_server ||=
       begin
 
         server = WEBrick::HTTPServer.new(
-          Port: TEST_WEB_PORT, DocumentRoot: File.join(Dir.pwd, 'spec/www'),
+          Port: TEST_WEB_PORT, DocumentRoot: File.join(Dir.pwd, 'test/www'),
           Logger: WEBrick::Log.new('/dev/null'), AccessLog: [])
             #
         Thread.new do
@@ -112,7 +111,7 @@ module Helpers
         end
             #
         14.times do
-          u = URI.parse("http://127.0.0.1:#{TEST_WEB_PORT}/spec/test.htm")
+          u = URI.parse("http://127.0.0.1:#{TEST_WEB_PORT}/test/test.htm")
           r = Net::HTTP.start(u.host, u.port) { |http| http.get(u.path) }
           break if r.code == '200'
         end
@@ -153,17 +152,30 @@ module Helpers
 #  end
 end
 
-RSpec.configure do |c|
 
-  #
-  # it, they, so, ...
+class Probatio::Group
 
-  c.alias_example_to(:they)
-  c.alias_example_to(:so)
+  def trunc(s, max)
 
-  #
-  # helpers
+    s = s.gsub(/\s*\n\s*/, '↩  ')
+    s[0..max] + (s.length > max ? '…' : '')
+  end
+end
 
-  c.include(Helpers)
+class Probatio::Context
+
+  def debug_tree(dt, level=0)
+
+    return unless dt
+
+    #pp dt
+    indent = '  ' * level
+    nam = dt['name']; nam = nam ? nam.inspect : 'null'
+    txt = dt['input']['string']
+    off, len = dt['offset'], dt['length']
+    tx = txt[off, len]
+    puts "#{indent}| #{nam} #{dt['result']} #{off},#{len} #{tx.inspect}"
+    dt['children'].each { |c| debug_tree(c, level + 1) }
+  end
 end
 

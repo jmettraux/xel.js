@@ -1,6 +1,6 @@
 
 #
-# spec/_xel.rb
+# test/_xel.rb
 
 [
 
