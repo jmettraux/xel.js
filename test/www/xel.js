@@ -420,12 +420,17 @@ var Xel = (function() {
 
     let arr = self.eval(tree[1], context);
     let rows = self.eval(tree[2], context);
-    //let cols = self.eval(tree[3], context);
+    let cols = self.eval(tree[3], context);
 
     let slice = function(a, x) {
+      if ( ! Array.isArray(a)) return a; // TODO string?
+      if ( ! Number.isInteger(x)) return a;
       return (x < 0) ? a.slice(x) : a.slice(0, x); };
 
-    return slice(arr, rows);
+    let r = slice(arr, rows);
+    if (cols) r = r.map(function(e) { return slice(e, cols); });
+
+    return r;
   };
 
   // SORT({ 1, 3, 2 })         --> [ 1, 2, 3 ]
