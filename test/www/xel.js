@@ -416,6 +416,15 @@ var Xel = (function() {
     return Array.from(new Set(arr));
   };
 
+  evals.TAKE = function(tree, context) {
+
+    let arr = self.eval(tree[1], context);
+    let rows = self.eval(tree[2], context);
+    //let cols = self.eval(tree[3], context);
+
+    return arr.slice(0, rows);
+  };
+
   // SORT({ 1, 3, 2 })         --> [ 1, 2, 3 ]
   // SORT({ 1, 3, 2 }, 1, -1)  --> [ 3, 2, 1 ]
   //
