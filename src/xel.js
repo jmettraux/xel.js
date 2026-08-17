@@ -422,7 +422,10 @@ var Xel = (function() {
     let rows = self.eval(tree[2], context);
     //let cols = self.eval(tree[3], context);
 
-    return arr.slice(0, rows);
+    let slice = function(a, x) {
+      return (x < 0) ? a.slice(x) : a.slice(0, x); };
+
+    return slice(arr, rows);
   };
 
   // SORT({ 1, 3, 2 })         --> [ 1, 2, 3 ]
