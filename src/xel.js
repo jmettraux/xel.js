@@ -392,7 +392,7 @@ var Xel = (function() {
     let col = self.eval(tree[1], context);
 
     return Array.isArray(col) ?
-      col.filter(e => (typeof e === 'number')).length :
+      col.filter(e => (typeof e == 'number')).length :
       0;
   };
 
@@ -423,7 +423,7 @@ var Xel = (function() {
     let cols = self.eval(tree[3], context);
 
     let slice = function(a, x) {
-      if ( ! Array.isArray(a)) return a; // TODO string?
+      if ( ! (Array.isArray(a) || (typeof a == 'string'))) return a;
       if ( ! Number.isInteger(x)) return a;
       return (x < 0) ? a.slice(x) : a.slice(0, x); };
 
@@ -577,7 +577,7 @@ var Xel = (function() {
   evals.TEXTJOIN = function(tree, context) {
 
     let agg = function(acc, x) {
-      if (typeof x === 'string') { acc.push(x.trim()); }
+      if (typeof x == 'string') { acc.push(x.trim()); }
       else if (Array.isArray(x)) { x.forEach(function(xx) { agg(acc, xx); }); }
       else if (x === null || x === undefined) { acc.push(''); }
       else { acc.push(JSON.stringify(x)); }
@@ -721,7 +721,7 @@ var Xel = (function() {
 
     let ret = undefined;
 
-    if ( ! e && (typeof v === 'function')) {
+    if ( ! e && (typeof v == 'function')) {
       if (v._lambda) {
         let args = tree.slice(1)
           .map(function(t) { return self.eval(t, context); });
