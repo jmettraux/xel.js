@@ -416,21 +416,34 @@ var Xel = (function() {
     return Array.from(new Set(arr));
   };
 
+  let slice = function(t, a, n) {
+
+    if ( ! (Array.isArray(a) || (typeof a == 'string'))) return a;
+    if ( ! Number.isInteger(n)) return a;
+
+    if (t === 'take') return (n < 0) ? a.slice(n) : a.slice(0, n);
+    return (n < 0) ? a.slice(0, n) : a.slice(n);
+  };
+
   evals.TAKE = function(tree, context) {
 
     let arr = self.eval(tree[1], context);
     let rows = self.eval(tree[2], context);
     let cols = self.eval(tree[3], context);
 
-    let slice = function(a, x) {
-      if ( ! (Array.isArray(a) || (typeof a == 'string'))) return a;
-      if ( ! Number.isInteger(x)) return a;
-      return (x < 0) ? a.slice(x) : a.slice(0, x); };
-
-    let r = slice(arr, rows);
-    if (cols) r = r.map(function(e) { return slice(e, cols); });
+    let r = slice('take', arr, rows);
+    if (cols) r = r.map(function(e) { return slice('take', e, cols); });
 
     return r;
+  };
+
+  evals.DROP = function(tree, context) {
+
+    let arr = self.eval(tree[1], context);
+    let rows = self.eval(tree[2], context);
+    let cols = self.eval(tree[3], context);
+
+    return slice('drop', arr, rows);
   };
 
   // SORT({ 1, 3, 2 })         --> [ 1, 2, 3 ]
