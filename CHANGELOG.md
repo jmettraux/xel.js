@@ -4,6 +4,7 @@
 
 ## xel.js 1.6.0  not yet released
 
+* Implement TAKE(a, rows, cols) and DROP(a, rows, cols)
 * Let PRODUCT() return undefined on zero or non-number factors
 * Implement COUNT(a)
 * Let D accept D({ k0, v0, k1, v1, ... })
