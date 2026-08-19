@@ -238,7 +238,10 @@ TAKE("fubarbaz", -3) ⟶   "baz"
 
 DROP(a, 3) ⟶   { a: [ 1, 2, 3, 4, 5, 6 ] } ⟶   [ 4, 5, 6 ]
 DROP(a, -3) ⟶   { a: [ 1, 2, 3, 4, 5, 6 ] } ⟶   [ 1, 2, 3 ]
+DROP(a, 1) ⟶   { a: [ [0,1], [2,3], [4,5] ] } ⟶   [ [2,3], [4, 5] ]
+DROP(a, 1, 1) ⟶   { a: [ [0,1], [2,3], [4,5] ] } ⟶   [ [3], [5] ]
 DROP("fubarbaz", 3) ⟶   "arbaz"
+DROP("fubarbaz", -3) ⟶   "fubar"
 
 UPPER("alpha bravo charly") ⟶   "ALPHA BRAVO CHARLY"
 LOWER("ALPHA BRAVO Charly") ⟶   "alpha bravo charly"
