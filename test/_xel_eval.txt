@@ -42,6 +42,8 @@ ab.cd ⟶   {"ab":{"cd":456}} ⟶   456
 { "a", "b", "c" } ⟶   [ "a", "b", "c" ]
 { "a","b" } ⟶   [ "a", "b" ]
 
+LET(3) ⟶   3
+LET(price, 4.5) ⟶   4.5
 LET(price, 100, count, 3, count * price) ⟶   300
 LET(price, 95, count, 3, 12, count * price) ⟶   285
 LET(price, 13, LOWER("COUNT"), 3, count * price) ⟶   39
