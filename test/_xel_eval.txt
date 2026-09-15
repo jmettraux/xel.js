@@ -14,7 +14,11 @@ a ⟶   {"a":123} ⟶   123
 ab ⟶   {"ab":124} ⟶   124
 ab.cd ⟶   {"ab":{"cd":456}} ⟶   456
 ab.de ⟶   {"ab":{"cd":456}} ⟶   nil
-ab.2.cd ⟶   {"ab": [ { 'cd': -1 }, {}, { cd: 'cd' } ]} ⟶   'cd'
+ab.2.cd ⟶   {"ab": [ { 'cd': 'A' }, {}, { cd: 'C' } ]} ⟶   'C'
+ab.-1.cd ⟶   {"ab": [ { 'cd': 'A' }, {}, { cd: 'C' } ]} ⟶   'C'
+ab.-3.cd ⟶   {"ab": [ { 'cd': 'A' }, {}, { cd: 'C' } ]} ⟶   'A'
+ab.cd.ef ⟶   {"ab":{}} ⟶   nil
+ab.3.ef ⟶   {"ab":{}} ⟶   nil
 
 "12" =~ "[a-z]" ⟶   false
 "a" != "a" ⟶    false
