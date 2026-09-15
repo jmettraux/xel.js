@@ -167,19 +167,23 @@ var Xel = (function() {
     return a;
   };
 
-  let evals = {};
+  let dig = function(start, path) {
 
-  evals.var = function(tree, context) {
+    let v = start;
 
-    let v = context;
+    for (let k of path) {
 
-    for (let k of tree[1].split('.')) {
       if (v === undefined || v == null) break;
       if (Array.isArray(v) && k.match(/^-\d+/)) k = v.length + parseInt(k, 10);
       v = v[k];
     }
-
     return v;
+  };
+
+  let evals = {};
+
+  evals.var = function(tree, context) {
+    return dig(context, tree[1].split('.'));
   };
 
   evals.inv = function(tree, context) {
@@ -704,6 +708,21 @@ var Xel = (function() {
       h['' + as[i]] = as[i + 1]; }
 
     return h;
+  };
+
+  evals.DSET = function(tree, context) {
+
+    let con = self.eval(tree[1], context);
+    let pat = self.eval(tree[2], context);
+    let val = tree[3] && self.eval(tree[3], context);
+
+    pat = pat.split('.');
+    let nam = pat.pop();
+
+    let con1 = dig(con, pat);
+    con1[nam] = val;
+
+    return con;
   };
 
   const treeCache = {};

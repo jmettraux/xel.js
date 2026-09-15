@@ -295,9 +295,16 @@ D('a', 1, 'b', 'deux', 'charly', { 1, 'deux' }) ⟶   \
 D({ 'alpha', 'bravo', 'charly', { 'd', 'ee' } }) ⟶   \
   { alpha: 'bravo', charly: [ 'd', 'ee' ] }
 
+DSET(d, 'name', 'toto') ⟶   \
+  { d: { name: 'bob' } } ⟶   { name: 'toto' }
+DSET(a, '1.name', 'toto') ⟶   \
+  { a: [ { name: 'alice' }, { name: 'bob' } ] } ⟶   \
+  [ { name: 'alice' }, { name: 'toto' } ]
+
 	= CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45) ⟶   { a: 10000 } ⟶    0.6
 = CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45) ⟶   { a: 10000 } ⟶    0.6
 CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45) ⟶   { a: 5_100_000 } ⟶   0.55
+
 
 # https://github.com/jmettraux/dotvim/blob/master/syntax/arrowy.vim
 # vim: syntax=arrowy
