@@ -55,6 +55,9 @@ LET(price, 95, count, 3, 12, count * price) ⟶   285
 LET(price, 13, LOWER("COUNT"), 3, count * price) ⟶   39
 LET(l, LAMBDA(a, b, a + b), l(2, 3)) ⟶   5
 LET(_l, LAMBDA(a, b, a * b), _l(2, 3)) ⟶   6
+  #
+  # NOTE that unlike a Lisp LET, the Xel let only expects a single final
+  #      expression (not to bind to any let-local var name)
 
 SEQ() ⟶   nil
 SEQ("a") ⟶   'a'
