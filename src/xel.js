@@ -598,23 +598,27 @@ var Xel = (function() {
   evals.LET = function(tree, context) {
 
     let ctx = Object.assign({}, context);
-    let v = null;
 
-    for (let i = 1, tl = tree.length; i < tl; i++) {
+    let cn = tree.slice(1);
+    let r = null;
 
-      let t = tree[i];
+    while (true) {
 
-      if (i % 2 === 1) {
-        v = (t[0] === 'var') ? t[1] : self.eval(t, ctx);
+      let k = cn.shift();
+      let v = cn.shift();
+
+      if (k && v) {
+        k = k[0] === 'var' ? k[1] : self.eval(k, ctx);
+        r = ctx[k] = self.eval(v, ctx);
+        continue;
       }
-      else {
-        let k = '' + v;
-        ctx[k] = self.eval(t, ctx);
-        v = ctx[k];
-      }
+
+      if (k) r = self.eval(k, ctx);
+
+      break;
     }
 
-    return v;
+    return r;
   };
 
   evals.MROUND = function(tree, context) {
