@@ -10,12 +10,17 @@ var XelParser = Jaabro.makeParser(function() {
   function pa(i) { return rex(null, i, /\(\s*/); }
   function pz(i) { return rex(null, i, /\)\s*/); }
   function com(i) { return rex(null, i, /,\s*/); }
+  function dot(i) { return str(null, i, '.'); }
 
   function number(i) {
     return rex('number', i,
       /-?(\.[0-9]+|([0-9]{1,3}(,[0-9]{3})+|[0-9]+)(\.[0-9]+)?)\s*/); }
 
-  function vra(i) { return rex('var', i, /[a-z_][A-Za-z0-9_.]*\s*/); }
+  function _ivar(i) { return rex(null, i, /-?\d+\s*/); }
+  function _avar(i) { return rex(null, i, /[a-z_][A-Za-z0-9_]*\s*/); }
+  function _aivar(i) { return alt(null, i, _avar, _ivar); }
+  function _var(i) { return seq(null, i, dot, _aivar); }
+  function vra(i) { return seq('var', i, _avar, _var, '*'); }
 
   function arr(i) { return eseq('arr', i, aa, cmp, com, az); }
 
@@ -168,10 +173,11 @@ var Xel = (function() {
 
     let v = context;
 
-    tree[1].split('.')
-      .forEach(function(k) {
-        if (v === undefined || v === null) return;
-        v = v[k]; });
+    for (let k of tree[1].split('.')) {
+      if (v === undefined || v == null) break;
+      if (Array.isArray(v) && k.match(/^-\d+/)) k = v.length + parseInt(k, 10);
+      v = v[k];
+    }
 
     return v;
   };
