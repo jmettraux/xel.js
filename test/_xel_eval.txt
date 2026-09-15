@@ -300,6 +300,9 @@ DSET(d, 'name', 'toto') ⟶   \
 DSET(a, '1.name', 'toto') ⟶   \
   { a: [ { name: 'alice' }, { name: 'bob' } ] } ⟶   \
   [ { name: 'alice' }, { name: 'toto' } ]
+DSET(a, '1.age') ⟶   \
+  { a: [ { name: 'alice', age: 1 }, { name: 'bob', age: 2 } ] } ⟶   \
+  [ { name: 'alice', age: 1 }, { name: 'bob' } ]
 
 	= CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45) ⟶   { a: 10000 } ⟶    0.6
 = CASE(a<5000000, 0.6, a<10000000, 0.55, 0.45) ⟶   { a: 10000 } ⟶    0.6

@@ -720,7 +720,8 @@ var Xel = (function() {
     let nam = pat.pop();
     let con1 = dig(con, pat);
 
-    con1[nam] = val;
+    if (tree[3]) con1[nam] = val;
+    else delete(con1[nam]);
 
     return con;
   };
