@@ -52,6 +52,10 @@ LET(price, 13, LOWER("COUNT"), 3, count * price) ⟶   39
 LET(l, LAMBDA(a, b, a + b), l(2, 3)) ⟶   5
 LET(_l, LAMBDA(a, b, a * b), _l(2, 3)) ⟶   6
 
+SEQ() ⟶   nil
+SEQ("a") ⟶   'a'
+SEQ(1, 2, 3) ⟶   3
+
 ROUND(3.14159) ⟶   3
 ROUND(3.14159, 0) ⟶   3
 ROUND(3.14159, 2) ⟶   3.14

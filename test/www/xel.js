@@ -621,6 +621,16 @@ var Xel = (function() {
     return r;
   };
 
+  evals.SEQ = function(tree, context) {
+
+    let r = null;
+    for (let i = 1, l = tree.length; i < l; i++) {
+      r = self.eval(tree[i], context);
+    }
+
+    return r;
+  };
+
   evals.MROUND = function(tree, context) {
 
     let [ n, m ] = evalArgs(tree, context, 2);
