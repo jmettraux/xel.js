@@ -782,7 +782,7 @@ var Xel = (function() {
       }
     }
     else if ( ! e) {
-      throw new Error("no evals." + tree[0] + " method");
+      throw new Error(`no evals. ${tree[0]} method`);
     }
     else {
       ret = e(tree, context);
@@ -808,6 +808,11 @@ var Xel = (function() {
 
     return (typeof x == 'string') ? self.do_eval(self.parse(x), context) : x;
   };
+
+  // Simply flag a function for binding into ctx and call with args
+  // already prepared...
+  //
+  this.makeLambda = function(f) { f._lambda = true; return f; }
 
   //
   // done.
