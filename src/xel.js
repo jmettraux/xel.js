@@ -174,9 +174,15 @@ var Xel = (function() {
     for (let k of path) {
 
       if (v === undefined || v == null) break;
-      if (Array.isArray(v) && k.match(/^-\d+/)) k = v.length + parseInt(k, 10);
+
+      if (Array.isArray(v)) {
+        if ((typeof k === 'string') && k.match(/^-?\d+/)) k = parseInt(k, 10);
+        if (k < 0) k = v.length + k;
+      }
+
       v = v[k];
     }
+
     return v;
   };
 
@@ -724,6 +730,13 @@ var Xel = (function() {
     else delete(con1[nam]);
 
     return con;
+  };
+
+  evals.DIG = function(tree, context) {
+
+    let as = evalArgs(tree, context);
+
+    return dig(as.shift(), as);
   };
 
   const treeCache = {};
